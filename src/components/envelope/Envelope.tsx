@@ -40,9 +40,9 @@ export const Envelope = forwardRef<HTMLDivElement, EnvelopeProps>(
     return (
       <div
         ref={ref}
-        className="relative w-[clamp(320px,90vw,420px)] sm:w-[clamp(440px,74vw,620px)] md:w-[clamp(600px,62vw,820px)] aspect-[460/310] select-none"
+        className="relative w-[clamp(310px,86vw,380px)] sm:w-[clamp(440px,56vw,540px)] md:w-[clamp(480px,50vw,640px)] aspect-[460/310] select-none mx-auto"
         style={{
-          perspective: "1600px",
+          perspective: "1400px",
         }}
       >
         {/* =========================================================================
@@ -63,7 +63,7 @@ export const Envelope = forwardRef<HTMLDivElement, EnvelopeProps>(
            ========================================================================= */}
         <div className="absolute inset-1 rounded-sm bg-gradient-to-b from-[#350812] via-[#1f0308] to-[#100104] z-[11] overflow-hidden border border-[#caa24d]/20">
           <div
-            className="absolute inset-0 opacity-20"
+            className="absolute inset-0 opacity-25"
             style={{
               backgroundImage: `radial-gradient(circle at 50% 30%, rgba(212,175,55,0.45) 0%, transparent 65%), radial-gradient(#d4af37 0.75px, transparent 0.75px)`,
               backgroundSize: "100% 100%, 18px 18px",
@@ -72,21 +72,22 @@ export const Envelope = forwardRef<HTMLDivElement, EnvelopeProps>(
         </div>
 
         {/* =========================================================================
-            LAYER 3: INVITATION CARD (Starts seated inside pocket at z-20)
-            In CLOSED state: 100% hidden (visibility: hidden, opacity: 0).
-            When emerging: rises out from inside the pocket, clears pocket rim,
-            and settles forward in front of the pocket (z-40).
+            LAYER 3: INVITATION CARD (Direct child of Envelope for authentic stacking)
+            - Proportional sizing: strictly 74% width on desktop, 80% on mobile.
+            - In CLOSED state: seated at bottom: 20px, y: 0, visibility: hidden, opacity: 0, z-20.
+            - When emerging: rises vertically from inside the pocket (z-20 behind pocket z-30).
+            - When clearing: transitions forward to z-40 in front of pocket.
+            - When settled: rests at y: -70px with rich stationery drop shadow.
            ========================================================================= */}
         <div
           ref={cardRef}
-          className="absolute left-1/2 -translate-x-1/2 pointer-events-auto"
+          className="absolute left-1/2 -translate-x-1/2 w-[80%] sm:w-[74%] aspect-[320/430] pointer-events-auto"
           style={{
-            bottom: "8px",
+            bottom: "16px",
             zIndex: isClosed ? 20 : 40,
             opacity: isClosed ? 0 : 1,
             visibility: isClosed ? "hidden" : "visible",
             pointerEvents: isClosed ? "none" : "auto",
-            transform: "translateX(-50%) translateY(0px)",
             willChange: "transform, opacity, z-index",
           }}
         >
@@ -102,7 +103,7 @@ export const Envelope = forwardRef<HTMLDivElement, EnvelopeProps>(
         {/* =========================================================================
             LAYER 4: ENVELOPE FRONT POCKET (z-30)
             Folded side and bottom triangles meeting at center (230, 155).
-            Forms a physical pouch that contains the card.
+            Forms a physical pouch that contains and supports the card.
            ========================================================================= */}
         <div
           className="absolute inset-0 z-30 pointer-events-none rounded-b-sm overflow-hidden"
@@ -161,14 +162,15 @@ export const Envelope = forwardRef<HTMLDivElement, EnvelopeProps>(
 
         {/* =========================================================================
             LAYER 5: ENVELOPE TOP FLAP (Starts at z-35, folds backward 180deg to z-12)
-            Triangular flap attached at top edge (y=0) and pointing down to (230, 160).
-            Hinged strictly at top center (transform-origin: top center).
+            Triangular flap hinged strictly to the top edge (transform-origin: top center).
+            - Front Face: visible when closed, points down to center (230, 156).
+            - Back Face: reveals interior lining when rotated 180deg backward, pointing up.
            ========================================================================= */}
         <div
           ref={flapRef}
           className="absolute top-0 left-0 right-0 z-[35]"
           style={{
-            height: "51.61%",
+            height: "50.32%",
             transformOrigin: "top center",
             transformStyle: "preserve-3d",
             transform: "rotateX(0deg)",
@@ -177,14 +179,14 @@ export const Envelope = forwardRef<HTMLDivElement, EnvelopeProps>(
         >
           {/* FRONT FACE OF FLAP (Visible when closed, rotateX: 0deg) */}
           <div
-            className="absolute inset-0 backface-hidden"
+            className="absolute inset-0"
             style={{
               backfaceVisibility: "hidden",
               WebkitBackfaceVisibility: "hidden",
             }}
           >
             <svg
-              viewBox="0 0 460 160"
+              viewBox="0 0 460 156"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
               className="w-full h-full filter drop-shadow-[0_8px_14px_rgba(0,0,0,0.92)]"
@@ -206,15 +208,15 @@ export const Envelope = forwardRef<HTMLDivElement, EnvelopeProps>(
                 </linearGradient>
               </defs>
 
-              {/* Triangle Top Flap pointing down to (230, 160) */}
+              {/* Triangle Top Flap pointing down to (230, 156) */}
               <path
-                d="M 0 0 L 230 160 L 460 0 Z"
+                d="M 0 0 L 230 156 L 460 0 Z"
                 fill="url(#flap-front-grad)"
               />
 
               {/* Flap Gold Rim */}
               <path
-                d="M 0 0 L 230 160 L 460 0"
+                d="M 0 0 L 230 156 L 460 0"
                 stroke="url(#flap-gold-rim)"
                 strokeWidth="1.1"
                 fill="none"
@@ -224,7 +226,7 @@ export const Envelope = forwardRef<HTMLDivElement, EnvelopeProps>(
 
           {/* BACK FACE OF FLAP (Lining revealed when folded backward 180deg) */}
           <div
-            className="absolute inset-0 backface-hidden"
+            className="absolute inset-0"
             style={{
               transform: "rotateY(180deg)",
               backfaceVisibility: "hidden",
@@ -232,7 +234,7 @@ export const Envelope = forwardRef<HTMLDivElement, EnvelopeProps>(
             }}
           >
             <svg
-              viewBox="0 0 460 160"
+              viewBox="0 0 460 156"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
               className="w-full h-full"
@@ -241,21 +243,22 @@ export const Envelope = forwardRef<HTMLDivElement, EnvelopeProps>(
               <defs>
                 <linearGradient id="flap-back-grad" x1="50%" y1="0%" x2="50%" y2="100%">
                   <stop offset="0%" stopColor="#380914" />
-                  <stop offset="100%" stopColor="#1b0307" />
+                  <stop offset="60%" stopColor="#23040a" />
+                  <stop offset="100%" stopColor="#150205" />
                 </linearGradient>
               </defs>
 
               <path
-                d="M 0 0 L 230 160 L 460 0 Z"
+                d="M 0 0 L 230 156 L 460 0 Z"
                 fill="url(#flap-back-grad)"
               />
 
               {/* Delicate Gold Rim on open back face */}
               <path
-                d="M 0 0 L 230 160 L 460 0"
+                d="M 0 0 L 230 156 L 460 0"
                 stroke="#caa24d"
                 strokeWidth="0.8"
-                opacity="0.35"
+                opacity="0.4"
                 fill="none"
               />
             </svg>
@@ -264,12 +267,12 @@ export const Envelope = forwardRef<HTMLDivElement, EnvelopeProps>(
 
         {/* =========================================================================
             LAYER 6: WAX SEAL (z-36 initially)
-            Positioned exactly over the apex of the flap (top: 51.61%, left: 50%).
+            Positioned exactly over the apex of the flap (top: 50.32%, left: 50%).
            ========================================================================= */}
         <div
           className="absolute left-1/2 -translate-x-1/2 -translate-y-1/2 z-[36] pointer-events-auto"
           style={{
-            top: "51.61%",
+            top: "50.32%",
           }}
         >
           <WaxSeal

@@ -17,7 +17,7 @@ export const InvitationCard = forwardRef<HTMLDivElement, InvitationCardProps>(
     return (
       <div
         ref={ref}
-        className="relative w-[clamp(275px,78vw,330px)] sm:w-[clamp(360px,50vw,440px)] md:w-[clamp(450px,42vw,560px)] aspect-[340/430] rounded-none bg-gradient-to-b from-[#24060d] via-[#1a0409] to-[#100205] p-3.5 sm:p-6 md:p-7 select-none backface-hidden overflow-hidden"
+        className="relative w-full h-full rounded-none bg-gradient-to-b from-[#24060d] via-[#1a0409] to-[#100205] p-3 sm:p-5 md:p-6 select-none backface-hidden overflow-hidden"
         style={{
           boxShadow:
             "0 30px 70px -10px rgba(0, 0, 0, 0.98), 0 0 40px rgba(0, 0, 0, 0.9)",
@@ -68,26 +68,26 @@ export const InvitationCard = forwardRef<HTMLDivElement, InvitationCardProps>(
         </div>
 
         {/* Top-Left Corner Subtitle matching reference */}
-        <div className="absolute top-3 left-3 sm:top-4 sm:left-4 md:top-5 md:left-5 text-left z-10">
-          <span className="font-cinzel text-[6.5px] sm:text-[7.5px] md:text-[9px] tracking-[0.3em] text-[#caa24d] block leading-tight">
+        <div className="absolute top-2.5 left-2.5 sm:top-3.5 sm:left-3.5 md:top-4 md:left-4 text-left z-10 pointer-events-none">
+          <span className="font-cinzel text-[6px] sm:text-[7px] md:text-[8.5px] tracking-[0.26em] text-[#caa24d] block leading-tight">
             A
           </span>
-          <span className="font-cinzel text-[6.5px] sm:text-[7.5px] md:text-[9px] tracking-[0.3em] text-[#caa24d] block leading-tight">
+          <span className="font-cinzel text-[6px] sm:text-[7px] md:text-[8.5px] tracking-[0.26em] text-[#caa24d] block leading-tight">
             BRIGHTER
           </span>
-          <span className="font-cinzel text-[6.5px] sm:text-[7.5px] md:text-[9px] tracking-[0.3em] text-[#caa24d] block leading-tight">
+          <span className="font-cinzel text-[6px] sm:text-[7px] md:text-[8.5px] tracking-[0.26em] text-[#caa24d] block leading-tight">
             CHAPTER
           </span>
-          <span className="font-cinzel text-[6.5px] sm:text-[7.5px] md:text-[9px] tracking-[0.3em] text-[#caa24d] block leading-tight">
+          <span className="font-cinzel text-[6px] sm:text-[7px] md:text-[8.5px] tracking-[0.26em] text-[#caa24d] block leading-tight">
             TOGETHER
           </span>
-          <div className="w-4 sm:w-5 md:w-6 h-[0.75px] bg-[#caa24d]/70 mt-1" />
+          <div className="w-3.5 sm:w-4.5 md:w-5 h-[0.75px] bg-[#caa24d]/70 mt-1" />
         </div>
 
         {/* Card Content Layout */}
         <div className="relative z-10 flex flex-col items-center justify-between h-full text-center py-1 sm:py-2 md:py-3">
-          {/* Header Tag & Families Invite (Positioned with generous clearance) */}
-          <div ref={headerRef} className="pt-6 sm:pt-8 md:pt-10 flex flex-col items-center">
+          {/* Header Tag & Families Invite (Positioned with generous clearance below top-left subtitle) */}
+          <div ref={headerRef} className="pt-9 sm:pt-11 md:pt-12 flex flex-col items-center">
             <p className="font-cinzel text-[8px] sm:text-[9.5px] md:text-[11.5px] tracking-[0.28em] text-[#e5c57b] uppercase font-light">
               TOGETHER WITH OUR FAMILIES
             </p>
@@ -113,16 +113,16 @@ export const InvitationCard = forwardRef<HTMLDivElement, InvitationCardProps>(
 
           {/* Date & Location Section */}
           <div ref={detailsRef} className="flex flex-col items-center">
-            <p className="font-cinzel text-[8.5px] sm:text-[10.5px] md:text-[12.5px] tracking-[0.28em] text-[#ecd9b8] uppercase font-medium">
+            <p className="font-cinzel text-[9px] sm:text-[11px] md:text-[12.5px] tracking-[0.28em] text-[#fbf6ea] uppercase font-medium">
               SUNDAY, 15 NOVEMBER 2026
             </p>
-            <p className="font-cinzel text-[8px] sm:text-[9.5px] md:text-[11.5px] tracking-[0.25em] text-[#caa24d]/90 uppercase mt-0.5">
+            <p className="font-cinzel text-[8.5px] sm:text-[10px] md:text-[11.5px] tracking-[0.25em] text-[#e5c57b] uppercase mt-0.5 font-normal">
               THRISSUR, KERALA
             </p>
-            <div className="w-8 sm:w-12 md:w-16 h-[1px] bg-[#caa24d]/50 mx-auto my-1.5 sm:my-2 md:my-2.5" />
+            <div className="w-8 sm:w-12 md:w-16 h-[1px] bg-[#caa24d]/60 mx-auto my-1.5 sm:my-2 md:my-2.5" />
 
             {/* Presence Note */}
-            <div className="font-cinzel text-[7.5px] sm:text-[9px] md:text-[10.5px] tracking-[0.24em] text-[#ecd9b8]/80 uppercase leading-relaxed font-light">
+            <div className="font-cinzel text-[8px] sm:text-[9.5px] md:text-[11px] tracking-[0.22em] text-[#fbf6ea]/90 uppercase leading-relaxed font-normal">
               <p>YOUR PRESENCE</p>
               <p>WILL MAKE OUR DAY</p>
               <p>EVEN MORE SPECIAL</p>
@@ -134,7 +134,7 @@ export const InvitationCard = forwardRef<HTMLDivElement, InvitationCardProps>(
             <button
               type="button"
               onClick={onEnterWedding}
-              className="px-4 sm:px-6 md:px-8 py-1.5 sm:py-2 md:py-2.5 rounded-none border border-[#caa24d]/60 bg-transparent text-[#e5c57b] font-cinzel text-[8.5px] sm:text-[10px] md:text-[11.5px] tracking-[0.25em] uppercase hover:bg-[#caa24d]/15 hover:border-[#caa24d] hover:text-[#fff0c7] transition-all cursor-pointer shadow-sm"
+              className="px-4 sm:px-6 md:px-8 py-1.5 sm:py-2 md:py-2.5 rounded-none border border-[#caa24d] bg-[#1a0307]/60 text-[#fbf6ea] font-cinzel text-[8.5px] sm:text-[10px] md:text-[11.5px] tracking-[0.25em] uppercase hover:bg-[#caa24d]/25 hover:border-[#fff0c7] hover:text-white transition-all cursor-pointer shadow-md"
               aria-label="Enter our wedding invitation website"
             >
               ENTER OUR WEDDING →
