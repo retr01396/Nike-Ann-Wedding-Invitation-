@@ -85,7 +85,7 @@ async function run() {
     const openedMetrics = await page.evaluate(() => {
       const env = document.querySelector("[class*='aspect-\\[460\\/310\\]']");
       const envRect = env ? env.getBoundingClientRect() : null;
-      const card = document.querySelector("[class*='aspect-\\[320\\/430\\]']");
+      const card = document.querySelector("[class*='aspect-\\[273\\/296\\]']") || document.querySelector("h1")?.closest("[class*='aspect-']");
       const cardRect = card ? card.getBoundingClientRect() : null;
       const nikeHeader = Array.from(document.querySelectorAll("h1")).find((h) => h.textContent?.includes("NIKE"));
       const body = document.body;

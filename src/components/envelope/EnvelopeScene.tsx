@@ -50,9 +50,8 @@ export const EnvelopeScene: React.FC = () => {
 
     if (cardRef.current) {
       gsap.set(cardRef.current, {
-        y: 30,
-        opacity: 0,
-        visibility: "hidden",
+        yPercent: 0,
+        y: 0,
         scale: 1,
         zIndex: 20,
         rotateX: 0,
@@ -89,9 +88,8 @@ export const EnvelopeScene: React.FC = () => {
       if (envelopeContainerRef.current) gsap.set(envelopeContainerRef.current, { y: 0 });
       if (cardRef.current) {
         gsap.set(cardRef.current, {
-          y: 12,
-          opacity: 1,
-          visibility: "visible",
+          yPercent: -15,
+          y: 0,
           scale: 1.0,
           zIndex: 40,
           boxShadow: "0 30px 80px -10px rgba(0,0,0,0.98), 0 0 35px rgba(212,175,55,0.18)",
@@ -112,6 +110,9 @@ export const EnvelopeScene: React.FC = () => {
       onComplete: () => {
         setState("OPENED");
         isBusyRef.current = false;
+        if (cardRef.current) {
+          cardRef.current.style.zIndex = "40";
+        }
       },
     });
     timelineRef.current = tl;
@@ -171,37 +172,28 @@ export const EnvelopeScene: React.FC = () => {
           ease: "power2.out",
           pointerEvents: "none",
         },
-        "-=0.4"
+        "-=0.3"
       )
 
       // 5. Card emerges vertically from inside the pocket
+      // Starts seated at yPercent: 0, zIndex: 20 behind front pocket (z-30)
       .call(() => {
         setState("CARD_EMERGING");
         if (cardRef.current) {
-          cardRef.current.style.visibility = "visible";
           cardRef.current.style.zIndex = "20";
         }
       })
       .to(
         cardRef.current,
         {
-          opacity: 1,
-          duration: 0.2,
-          ease: "power1.out",
-        },
-        "-=0.4"
-      )
-      .to(
-        cardRef.current,
-        {
-          y: -10,
+          yPercent: -58,
           duration: animationConfig.timings.cardEmergence,
           ease: animationConfig.easings.cardExtract,
           onUpdate: function () {
             if (cardRef.current) {
-              const currentY = gsap.getProperty(cardRef.current, "y") as number;
-              // Lower body stays masked behind pocket (z-20) until it clears the rim
-              if (currentY <= 15) {
+              const currentYP = gsap.getProperty(cardRef.current, "yPercent") as number;
+              // Lower body stays masked behind pocket (z-20) until it clears the pocket apex (at -50%)
+              if (currentYP <= -50) {
                 cardRef.current.style.zIndex = "40";
               } else {
                 cardRef.current.style.zIndex = "20";
@@ -209,13 +201,13 @@ export const EnvelopeScene: React.FC = () => {
             }
           },
         },
-        "-=0.2"
+        "-=0.1"
       )
 
       // 6. CARD SETTLES TOWARD THE VIEWER (Resting gracefully in front of pocket)
       .call(() => setState("CARD_SETTLING"))
       .to(cardRef.current, {
-        y: 12,
+        yPercent: -15,
         scale: 1.0,
         duration: animationConfig.timings.cardSettling,
         ease: animationConfig.easings.cardSettle,

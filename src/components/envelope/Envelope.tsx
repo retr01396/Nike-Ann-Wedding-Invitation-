@@ -72,23 +72,22 @@ export const Envelope = forwardRef<HTMLDivElement, EnvelopeProps>(
         </div>
 
         {/* =========================================================================
-            LAYER 3: INVITATION CARD (Direct child of Envelope for authentic stacking)
-            - Proportional sizing: strictly 74% width on desktop, 80% on mobile.
-            - In CLOSED state: seated at bottom: 20px, y: 0, visibility: hidden, opacity: 0, z-20.
-            - When emerging: rises vertically from inside the pocket (z-20 behind pocket z-30).
-            - When clearing: transitions forward to z-40 in front of pocket.
-            - When settled: rests at y: -70px with rich stationery drop shadow.
+            LAYER 3: INVITATION CARD (Initially z-20, emerges, clears pocket, flips to z-40)
+            - Proportional sizing: strictly 65% on desktop, 72% on mobile, aspect-[290/300].
+            - Seated inside the pocket at bottom: 4px, y: 0.
+            - In CLOSED state: Flap (z-35) and FrontPocket (z-30) physically cover the card.
+              The card is at opacity: 1, visibility: visible, with zero peek.
+            - Emergence: Glides up from y: 0 to y: -190. While currentY > -155, stays at z-20
+              behind FrontPocket (z-30) so the front pocket physically occludes its lower body.
+            - Once cleared (currentY <= -155), flips to z-40 and settles to y: -75 in front of pocket.
            ========================================================================= */}
         <div
           ref={cardRef}
-          className="absolute left-1/2 -translate-x-1/2 w-[80%] sm:w-[74%] aspect-[320/430] pointer-events-auto"
+          className="absolute left-0 right-0 mx-auto w-[61%] aspect-[273/296] pointer-events-auto z-20"
           style={{
-            bottom: "16px",
-            zIndex: isClosed ? 20 : 40,
-            opacity: isClosed ? 0 : 1,
-            visibility: isClosed ? "hidden" : "visible",
+            bottom: "5px",
             pointerEvents: isClosed ? "none" : "auto",
-            willChange: "transform, opacity, z-index",
+            willChange: "transform, z-index, box-shadow",
           }}
         >
           <InvitationCard
