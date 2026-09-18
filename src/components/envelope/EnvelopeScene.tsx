@@ -50,11 +50,11 @@ export const EnvelopeScene: React.FC = () => {
 
     if (cardRef.current) {
       gsap.set(cardRef.current, {
-        y: 40,
+        y: 60,
         opacity: 0,
         visibility: "hidden",
-        scale: 0.96,
-        zIndex: 18,
+        scale: 0.98,
+        zIndex: 20,
         rotateX: 0,
         boxShadow: "0 10px 30px rgba(0,0,0,0.8)",
       });
@@ -85,15 +85,15 @@ export const EnvelopeScene: React.FC = () => {
       if (sealRef.current) gsap.set(sealRef.current, { opacity: 0 });
       if (teaserCtaRef.current) gsap.set(teaserCtaRef.current, { opacity: 0 });
       if (topHeaderRef.current) gsap.set(topHeaderRef.current, { opacity: 0 });
-      if (envelopeContainerRef.current) gsap.set(envelopeContainerRef.current, { y: 35 });
+      if (envelopeContainerRef.current) gsap.set(envelopeContainerRef.current, { y: 45 });
       if (cardRef.current) {
         gsap.set(cardRef.current, {
-          y: -80,
+          y: -45,
           opacity: 1,
           visibility: "visible",
           scale: 1.0,
-          zIndex: 32,
-          boxShadow: "0 30px 80px rgba(0,0,0,0.98)",
+          zIndex: 40,
+          boxShadow: "0 35px 90px -10px rgba(0,0,0,0.98), 0 0 35px rgba(212,175,55,0.18)",
         });
       }
       if (cardHeaderRef.current) gsap.set(cardHeaderRef.current, { opacity: 1, y: 0 });
@@ -176,7 +176,7 @@ export const EnvelopeScene: React.FC = () => {
       .to(
         envelopeContainerRef.current,
         {
-          y: 40,
+          y: 45,
           duration: 1.0,
           ease: "power3.out",
         },
@@ -194,40 +194,40 @@ export const EnvelopeScene: React.FC = () => {
         cardRef.current,
         {
           opacity: 1,
-          duration: 0.35,
-          ease: "power2.out",
+          duration: 0.25,
+          ease: "power1.out",
         },
         "-=0.5"
       )
       .to(
         cardRef.current,
         {
-          y: -140,
+          y: -125,
           duration: animationConfig.timings.cardEmergence,
           ease: animationConfig.easings.cardExtract,
           onUpdate: function () {
             if (cardRef.current) {
               const currentY = gsap.getProperty(cardRef.current, "y") as number;
-              if (currentY < -40) {
-                cardRef.current.style.zIndex = "32";
+              if (currentY < -20) {
+                cardRef.current.style.zIndex = "40";
               } else {
-                cardRef.current.style.zIndex = "18";
+                cardRef.current.style.zIndex = "20";
               }
             }
           },
         },
-        "-=0.25"
+        "-=0.2"
       )
 
       // 7. CARD SETTLES TOWARD THE VIEWER (Resting in front of pocket)
       .call(() => setState("CARD_SETTLING"))
       .to(cardRef.current, {
-        y: -80,
+        y: -45,
         scale: 1.0,
         duration: animationConfig.timings.cardSettling,
         ease: animationConfig.easings.cardSettle,
         boxShadow:
-          "0 35px 85px -10px rgba(0, 0, 0, 0.98), 0 0 30px rgba(212, 175, 55, 0.16)",
+          "0 35px 90px -10px rgba(0, 0, 0, 0.98), 0 0 35px rgba(212, 175, 55, 0.18)",
       })
 
       // 8. COHESIVE GOLDEN TYPOGRAPHY ILLUMINATION

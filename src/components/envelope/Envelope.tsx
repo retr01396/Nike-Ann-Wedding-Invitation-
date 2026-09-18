@@ -40,7 +40,7 @@ export const Envelope = forwardRef<HTMLDivElement, EnvelopeProps>(
     return (
       <div
         ref={ref}
-        className="relative w-[310px] min-[390px]:w-[350px] sm:w-[400px] md:w-[460px] h-[210px] min-[390px]:h-[235px] sm:h-[270px] md:h-[310px] select-none"
+        className="relative w-[clamp(320px,90vw,420px)] sm:w-[clamp(440px,74vw,620px)] md:w-[clamp(600px,62vw,820px)] aspect-[460/310] select-none"
         style={{
           perspective: "1600px",
         }}
@@ -72,17 +72,17 @@ export const Envelope = forwardRef<HTMLDivElement, EnvelopeProps>(
         </div>
 
         {/* =========================================================================
-            LAYER 3: INVITATION CARD (Starts seated inside pocket at z-18)
+            LAYER 3: INVITATION CARD (Starts seated inside pocket at z-20)
             In CLOSED state: 100% hidden (visibility: hidden, opacity: 0).
             When emerging: rises out from inside the pocket, clears pocket rim,
-            and settles forward in front of the pocket (z-32).
+            and settles forward in front of the pocket (z-40).
            ========================================================================= */}
         <div
           ref={cardRef}
           className="absolute left-1/2 -translate-x-1/2 pointer-events-auto"
           style={{
             bottom: "8px",
-            zIndex: isClosed ? 18 : 32,
+            zIndex: isClosed ? 20 : 40,
             opacity: isClosed ? 0 : 1,
             visibility: isClosed ? "hidden" : "visible",
             pointerEvents: isClosed ? "none" : "auto",
