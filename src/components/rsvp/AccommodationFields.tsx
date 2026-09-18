@@ -12,6 +12,8 @@ import {
 interface AccommodationFieldsProps {
   config: RSVPAccommodationConfig;
   isExpanded: boolean;
+  stayGuestName: string;
+  onStayGuestNameChange: (val: string) => void;
   phone: string;
   onPhoneChange: (val: string) => void;
   peopleStaying: number;
@@ -29,6 +31,7 @@ interface AccommodationFieldsProps {
   specialRequirements: string;
   onSpecialRequirementsChange: (val: string) => void;
   errors?: {
+    stayGuestName?: string;
     phone?: string;
     arrivalDate?: string;
     departureDate?: string;
@@ -40,6 +43,8 @@ interface AccommodationFieldsProps {
 export const AccommodationFields: React.FC<AccommodationFieldsProps> = ({
   config,
   isExpanded,
+  stayGuestName,
+  onStayGuestNameChange,
   phone,
   onPhoneChange,
   peopleStaying,
@@ -75,7 +80,31 @@ export const AccommodationFields: React.FC<AccommodationFieldsProps> = ({
             </span>
           </div>
 
-          {/* 1. PHONE NUMBER */}
+          {/* 1. GUEST FULL NAME FOR STAY */}
+          <div className="space-y-1.5">
+            <label
+              htmlFor="rsvp-stay-guest-name"
+              className="block font-sans text-[9px] sm:text-[10px] uppercase tracking-[0.25em] text-[#caa24d]/90 font-medium"
+            >
+              Guest Full Name for Stay <span className="text-[#caa24d]">*</span>
+            </label>
+            <input
+              id="rsvp-stay-guest-name"
+              type="text"
+              value={stayGuestName}
+              onChange={(e) => onStayGuestNameChange(e.target.value)}
+              placeholder="Full Name of Guest Staying"
+              autoComplete="name"
+              className="w-full px-3.5 py-2.5 bg-[#1a0308] border border-[#caa24d]/35 text-[#fff0c7] text-xs font-sans placeholder-[#caa24d]/35 focus:outline-none focus:border-[#caa24d] focus:ring-1 focus:ring-[#caa24d]"
+            />
+            {errors?.stayGuestName && (
+              <p className="font-sans text-[11px] text-[#e5c57b] italic pt-0.5" role="alert">
+                {errors.stayGuestName}
+              </p>
+            )}
+          </div>
+
+          {/* 2. PHONE NUMBER */}
           <div className="space-y-1.5">
             <div className="flex items-center space-x-1.5">
               <PhoneIcon className="w-3.5 h-3.5 text-[#caa24d]" />

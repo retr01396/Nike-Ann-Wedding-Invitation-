@@ -10,6 +10,7 @@ import { Envelope } from "./Envelope";
 import { TapToOpenPrompt } from "./TapToOpenPrompt";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { RotateCcw, Lock } from "lucide-react";
+import { FluidSilkBackground } from "@/components/background/FluidSilkBackground";
 
 export const EnvelopeScene: React.FC = () => {
   const [state, setState] = useState<EnvelopeAnimationState>("CLOSED");
@@ -253,12 +254,23 @@ export const EnvelopeScene: React.FC = () => {
       className="relative min-h-[100svh] w-full flex flex-col items-center justify-center px-4 py-6 sm:py-8 safe-area-top safe-area-bottom z-10 overflow-hidden select-none bg-[#100205]"
     >
       {/* =========================================================================
-          HERO PHOTOGRAPHIC FLORAL & VELVET BACKDROP
-          Authentic crops placed on left and right without duplicate envelopes
+          HERO ANIMATED FLUID SILK BACKDROP & PHOTOGRAPHIC FLORAL FRAMING
+          Authentic crops placed on left and right framing the fluid movement
          ========================================================================= */}
       <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
-        {/* Left Side: Dahlia, Baby's Breath & Velvet */}
-        <div className="absolute top-0 left-0 w-[220px] sm:w-[300px] md:w-[360px] h-[500px] sm:h-[650px] md:h-[750px] pointer-events-none opacity-85">
+        {/* Layer 1: Animated Burgundy Fluid Silk Canvas */}
+        <FluidSilkBackground className="z-0" />
+
+        {/* Layer 2: Left Side Floral Framing (Dahlia, Baby's Breath & Velvet) */}
+        <div
+          className="absolute top-0 left-0 w-[220px] sm:w-[300px] md:w-[360px] h-[500px] sm:h-[650px] md:h-[750px] pointer-events-none opacity-90 z-[1]"
+          style={{
+            WebkitMaskImage: "linear-gradient(to right, rgba(0,0,0,1) 45%, rgba(0,0,0,0) 98%), linear-gradient(to bottom, rgba(0,0,0,1) 70%, rgba(0,0,0,0) 100%)",
+            maskImage: "linear-gradient(to right, rgba(0,0,0,1) 45%, rgba(0,0,0,0) 98%), linear-gradient(to bottom, rgba(0,0,0,1) 70%, rgba(0,0,0,0) 100%)",
+            WebkitMaskComposite: "destination-in",
+            maskComposite: "intersect",
+          }}
+        >
           <Image
             src="/images/wedding/hero/hero-bg-left.jpg"
             alt=""
@@ -267,12 +279,18 @@ export const EnvelopeScene: React.FC = () => {
             className="object-cover object-left-top filter contrast-105"
             priority
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#100205]/40 to-[#100205] pointer-events-none" />
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#100205] pointer-events-none" />
         </div>
 
-        {/* Right Side: Plate, Diamond Crystal & Baby's Breath */}
-        <div className="absolute top-0 right-0 w-[220px] sm:w-[300px] md:w-[360px] h-[500px] sm:h-[650px] md:h-[750px] pointer-events-none opacity-85">
+        {/* Layer 2: Right Side Floral Framing (Plate, Crystal & Baby's Breath) */}
+        <div
+          className="absolute top-0 right-0 w-[220px] sm:w-[300px] md:w-[360px] h-[500px] sm:h-[650px] md:h-[750px] pointer-events-none opacity-90 z-[1]"
+          style={{
+            WebkitMaskImage: "linear-gradient(to left, rgba(0,0,0,1) 45%, rgba(0,0,0,0) 98%), linear-gradient(to bottom, rgba(0,0,0,1) 70%, rgba(0,0,0,0) 100%)",
+            maskImage: "linear-gradient(to left, rgba(0,0,0,1) 45%, rgba(0,0,0,0) 98%), linear-gradient(to bottom, rgba(0,0,0,1) 70%, rgba(0,0,0,0) 100%)",
+            WebkitMaskComposite: "destination-in",
+            maskComposite: "intersect",
+          }}
+        >
           <Image
             src="/images/wedding/hero/hero-bg-right.jpg"
             alt=""
@@ -281,12 +299,10 @@ export const EnvelopeScene: React.FC = () => {
             className="object-cover object-right-top filter contrast-105"
             priority
           />
-          <div className="absolute inset-0 bg-gradient-to-l from-transparent via-[#100205]/40 to-[#100205] pointer-events-none" />
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#100205] pointer-events-none" />
         </div>
 
-        {/* Velvet Vignette Shadow Overlays */}
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_transparent_40%,_#0d0104_95%)] pointer-events-none" />
+        {/* Layer 3: Velvet Vignette Shadow Overlays */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_transparent_45%,_#0d0104_95%)] pointer-events-none z-[2]" />
       </div>
 
       {/* Replay Button */}

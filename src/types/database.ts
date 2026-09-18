@@ -13,11 +13,13 @@ export interface Database {
         Row: {
           id: string;
           name: string;
+          email: string | null;
           attendance: "attending" | "declined";
           guest_count: number;
           dietary_preference: string;
           dietary_other: string | null;
           accommodation_required: boolean;
+          stay_guest_name: string | null;
           phone: string | null;
           people_staying: number | null;
           arrival_date: string | null;
@@ -34,11 +36,13 @@ export interface Database {
         Insert: {
           id?: string;
           name: string;
+          email?: string | null;
           attendance: "attending" | "declined";
           guest_count?: number;
           dietary_preference?: string;
           dietary_other?: string | null;
           accommodation_required?: boolean;
+          stay_guest_name?: string | null;
           phone?: string | null;
           people_staying?: number | null;
           arrival_date?: string | null;
@@ -55,11 +59,13 @@ export interface Database {
         Update: {
           id?: string;
           name?: string;
+          email?: string | null;
           attendance?: "attending" | "declined";
           guest_count?: number;
           dietary_preference?: string;
           dietary_other?: string | null;
           accommodation_required?: boolean;
+          stay_guest_name?: string | null;
           phone?: string | null;
           people_staying?: number | null;
           arrival_date?: string | null;

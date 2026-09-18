@@ -85,6 +85,7 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
     if (body.attendance === "declined") {
       body.guest_count = 1;
       body.accommodation_required = false;
+      body.stay_guest_name = null;
       body.phone = null;
       body.people_staying = null;
       body.arrival_date = null;

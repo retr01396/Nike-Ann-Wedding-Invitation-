@@ -143,8 +143,9 @@ export const RSVPTable: React.FC<RSVPTableProps> = ({
                           {row.rooms_required || 1} Room
                           {(row.rooms_required || 1) > 1 ? "s" : ""}
                         </span>
-                        <div className="text-[10px] text-[#caa24d]/75 italic font-serif">
+                        <div className="text-[10px] text-[#caa24d]/75 italic font-serif truncate max-w-[120px]">
                           {row.people_staying || 1} Staying
+                          {row.stay_guest_name && row.stay_guest_name !== row.name ? ` (${row.stay_guest_name})` : ""}
                         </div>
                       </div>
                     ) : (

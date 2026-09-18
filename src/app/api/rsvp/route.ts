@@ -75,7 +75,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const { name, attendance, guestCount, dietaryPreference, dietaryOther, accommodation, message } = payload;
+    const { name, email, attendance, guestCount, dietaryPreference, dietaryOther, accommodation, message } = payload;
 
     // 3. Runtime Input Validations & Length Bounds
     if (typeof name !== "string" || !name.trim()) {
@@ -91,6 +91,14 @@ export async function POST(request: NextRequest) {
         { success: false, error: "Name cannot exceed 100 characters." },
         { status: 400 }
       );
+    }
+
+    let validatedEmail: string | null = null;
+    if (typeof email === "string" && email.trim()) {
+      const trimmedEmail = email.trim();
+      if (trimmedEmail.length <= 120 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmedEmail)) {
+        validatedEmail = trimmedEmail;
+      }
     }
 
     if (attendance !== "yes" && attendance !== "no") {
@@ -151,6 +159,7 @@ export async function POST(request: NextRequest) {
     // Accommodation validations
     const isStaying = isAttending && typeof accommodation === "object" && accommodation !== null && !!accommodation.staying;
 
+    let validatedStayGuestName: string | null = null;
     let validatedPhone: string | null = null;
     let validatedArrival: string | null = null;
     let validatedDeparture: string | null = null;
@@ -161,6 +170,13 @@ export async function POST(request: NextRequest) {
     let validatedSpecialReqs: string | null = null;
 
     if (isStaying) {
+      // Guest Full Name for Stay
+      if (typeof accommodation.stayGuestName === "string" && accommodation.stayGuestName.trim()) {
+        validatedStayGuestName = accommodation.stayGuestName.trim().slice(0, 100);
+      } else {
+        validatedStayGuestName = trimmedName;
+      }
+
       // Phone
       if (typeof accommodation.phone !== "string" || !accommodation.phone.trim()) {
         return NextResponse.json(
@@ -302,11 +318,13 @@ export async function POST(request: NextRequest) {
     // 4. Map to Normalized Database Row
     const rsvpRow: RSVPInsert = {
       name: trimmedName,
+      email: validatedEmail,
       attendance: isAttending ? "attending" : "declined",
       guest_count: validatedGuestCount,
       dietary_preference: validatedDietary,
       dietary_other: validatedDietaryOther,
       accommodation_required: isStaying,
+      stay_guest_name: validatedStayGuestName,
       phone: validatedPhone,
       people_staying: validatedPeopleStaying,
       arrival_date: validatedArrival,

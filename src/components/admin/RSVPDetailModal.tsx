@@ -142,9 +142,18 @@ export const RSVPDetailModal: React.FC<RSVPDetailModalProps> = ({
 
             {isAttending && rsvp.accommodation_required ? (
               <div className="grid grid-cols-2 gap-3">
-                <div>
+                <div className="col-span-2 sm:col-span-1">
                   <span className="block font-sans text-[8.5px] uppercase tracking-wider text-[#caa24d]/75">
-                    Phone Number
+                    Guest Name for Stay
+                  </span>
+                  <span className="text-[#fff0c7] font-sans text-xs font-medium">
+                    {rsvp.stay_guest_name || rsvp.name}
+                  </span>
+                </div>
+
+                <div className="col-span-2 sm:col-span-1">
+                  <span className="block font-sans text-[8.5px] uppercase tracking-wider text-[#caa24d]/75">
+                    Contact Phone Number
                   </span>
                   <span className="text-[#fff0c7] font-sans text-xs">
                     {rsvp.phone || "—"}

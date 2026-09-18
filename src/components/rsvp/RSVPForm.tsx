@@ -17,6 +17,7 @@ export const RSVPForm: React.FC = () => {
   const [dietaryPreference, setDietaryPreference] = useState<string>("no-preference");
   const [dietaryOther, setDietaryOther] = useState("");
   const [staying, setStaying] = useState<"yes" | "no">("no");
+  const [stayGuestName, setStayGuestName] = useState("");
   const [phone, setPhone] = useState("");
   const [peopleStaying, setPeopleStaying] = useState<number>(1);
   const [arrivalDate, setArrivalDate] = useState("");
@@ -54,20 +55,24 @@ export const RSVPForm: React.FC = () => {
       }
 
       if (staying === "yes") {
+        const guestNameToUse = stayGuestName.trim() || name.trim();
+        if (!guestNameToUse) {
+          errs.stayGuestName = "Please provide the full name for accommodation.";
+        }
         if (!phone.trim()) {
           errs.phone = "Please provide your phone number.";
         }
         if (!arrivalDate) {
-          errs.arrivalDate = "Please select your arrival date.";
+          errs.arrivalDate = "Please select your check-in date.";
         }
         if (!departureDate) {
-          errs.departureDate = "Please select your departure date.";
+          errs.departureDate = "Please select your check-out date.";
         }
         if (arrivalDate && departureDate && departureDate < arrivalDate) {
-          errs.dateOrder = "Departure cannot precede arrival.";
+          errs.dateOrder = "Check-out date cannot precede check-in date.";
         }
-        if (roomsRequired < 1) {
-          errs.roomsRequired = "Please select at least 1 room.";
+        if (peopleStaying < 1) {
+          errs.peopleStaying = "Please select at least 1 guest.";
         }
       }
     }
@@ -100,6 +105,7 @@ export const RSVPForm: React.FC = () => {
         accommodation: {
           staying: staying === "yes",
           ...(staying === "yes" && {
+            stayGuestName: stayGuestName.trim() || name.trim(),
             phone: phone.trim(),
             peopleStaying,
             arrivalDate,
@@ -287,27 +293,48 @@ export const RSVPForm: React.FC = () => {
           />
         </div>
 
-        {/* Conditional Accommodation Expansion if Attending */}
+        {/* Conditional Accommodation Question if Attending */}
         {isAttending && (
-          <div className="pt-1 space-y-3">
-            {/* Stay Toggle */}
-            <div className="flex items-center justify-between p-2 rounded bg-[#caa24d]/5 border border-[#caa24d]/20">
-              <span className="font-cinzel text-[9px] tracking-wider text-[#caa24d] uppercase">
-                ACCOMMODATION NEEDED?
-              </span>
-              <button
-                type="button"
-                onClick={() => setStaying(staying === "yes" ? "no" : "yes")}
-                className="font-cinzel text-[9.5px] tracking-wider px-2.5 py-0.5 rounded border border-[#caa24d]/40 text-[#fff0c7] bg-[#1d0509] hover:bg-[#caa24d]/20 transition-colors"
-              >
-                {staying === "yes" ? "YES" : "NO"}
-              </button>
+          <div className="pt-2 space-y-3">
+            <div>
+              <label className="block font-cinzel text-[9px] sm:text-[10px] tracking-[0.25em] text-[#caa24d]/90 uppercase font-medium mb-1.5 text-center sm:text-left">
+                ARE YOU STAYING FOR THE WEDDING?
+              </label>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setStaying("yes");
+                    if (!stayGuestName) setStayGuestName(name);
+                  }}
+                  className={`px-3 py-2.5 text-xs font-serif text-center transition-all cursor-pointer border ${
+                    staying === "yes"
+                      ? "bg-[#caa24d]/20 border-[#caa24d] text-[#fff0c7] shadow-[0_0_12px_rgba(202,162,77,0.25)] font-medium"
+                      : "bg-[#120306] border-[#caa24d]/25 text-[#caa24d]/70 hover:border-[#caa24d]/50 hover:text-[#fff0c7]"
+                  }`}
+                >
+                  YES, I&apos;LL BE STAYING
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setStaying("no")}
+                  className={`px-3 py-2.5 text-xs font-serif text-center transition-all cursor-pointer border ${
+                    staying === "no"
+                      ? "bg-[#caa24d]/20 border-[#caa24d] text-[#fff0c7] shadow-[0_0_12px_rgba(202,162,77,0.25)] font-medium"
+                      : "bg-[#120306] border-[#caa24d]/25 text-[#caa24d]/70 hover:border-[#caa24d]/50 hover:text-[#fff0c7]"
+                  }`}
+                >
+                  NO, I WON&apos;T BE STAYING
+                </button>
+              </div>
             </div>
 
-            {/* Accommodation In-flow Fields */}
+            {/* Accommodation In-flow Fields (Revealed when YES) */}
             <AccommodationFields
               config={rsvp.accommodation}
               isExpanded={staying === "yes"}
+              stayGuestName={stayGuestName}
+              onStayGuestNameChange={setStayGuestName}
               phone={phone}
               onPhoneChange={setPhone}
               peopleStaying={peopleStaying}

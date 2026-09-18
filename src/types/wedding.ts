@@ -213,12 +213,14 @@ export interface RSVPSectionConfig {
 
 export interface RSVPSubmission {
   name: string;
+  email?: string;
   attendance: AttendanceOptionValue;
   guestCount?: number;
   dietaryPreference?: string;
   dietaryOther?: string;
   accommodation?: {
     staying: boolean;
+    stayGuestName?: string;
     phone?: string;
     peopleStaying?: number;
     arrivalDate?: string;
