@@ -1,11 +1,12 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { createClient, isServerSupabaseConfigured } from "@/lib/supabase/server";
+import { getMockRsvps } from "@/lib/mockRsvpStore";
 
 export async function GET(request: NextRequest) {
   if (!isServerSupabaseConfigured()) {
     return NextResponse.json({
       success: true,
-      rsvps: [],
+      rsvps: getMockRsvps(),
       unconfigured: true,
     });
   }

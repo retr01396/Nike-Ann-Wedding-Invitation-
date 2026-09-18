@@ -2,6 +2,7 @@ import { NextResponse, type NextRequest } from "next/server";
 import { createClient, isServerSupabaseConfigured } from "@/lib/supabase/server";
 import { RSVPSubmission } from "@/types/wedding";
 import { RSVPInsert } from "@/types/database";
+import { addMockRsvp } from "@/lib/mockRsvpStore";
 
 // Lightweight in-memory rate limiting bucket: max 10 requests per minute per client IP.
 // NOTE: This provides lightweight single-node abuse mitigation and is not a globally distributed rate limiter.
@@ -360,10 +361,11 @@ export async function POST(request: NextRequest) {
       console.warn(
         "[RSVP API Notice] Supabase credentials not set in environment. Submission processed in local simulation mode."
       );
+      const savedMock = addMockRsvp(rsvpRow);
       return NextResponse.json({
         success: true,
         unconfiguredNotice: true,
-        id: "local-simulation-" + Date.now(),
+        id: savedMock.id,
       });
     }
   } catch (err: unknown) {

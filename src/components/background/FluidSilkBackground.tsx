@@ -18,7 +18,7 @@ varying vec2 v_uv;
 uniform vec2 u_resolution;
 uniform float u_time;
 
-// Fast 2D hash
+// Fast hash
 vec2 hash(vec2 p) {
   p = vec2(dot(p, vec2(127.1, 311.7)), dot(p, vec2(269.5, 183.3)));
   return -1.0 + 2.0 * fract(sin(p) * 43758.5453123);
@@ -38,40 +38,33 @@ float noise(vec2 p) {
   );
 }
 
-// 3-octave Fractional Brownian Motion (FBM)
-float fbm(vec2 p) {
-  float v = 0.0;
-  float a = 0.5;
-  mat2 rot = mat2(0.877, 0.479, -0.479, 0.877);
-  for (int i = 0; i < 3; i++) {
-    v += a * noise(p);
-    p = rot * p * 2.05 + vec2(100.0);
-    a *= 0.5;
-  }
-  return v;
-}
+// Broad liquid silk drapery with sweeping domain warping
+float silkHeight(vec2 p_uv, float t) {
+  // Scale for broad, elegant drapery folds across the viewport
+  vec2 p = p_uv * 1.35;
 
-// Organic liquid silk height field with multi-stage domain warping
-float silkHeight(vec2 uv, float t) {
-  vec2 p = uv * 2.4;
-
-  // Primary slow-rolling fabric folds
-  vec2 q = vec2(
-    fbm(p + vec2(0.0, 0.0) + t * 0.03),
-    fbm(p + vec2(5.2, 1.3) - t * 0.025)
+  // Primary slow-rolling fluid warp field
+  vec2 w1 = vec2(
+    sin(p.y * 1.4 + t * 0.16 + 0.8),
+    cos(p.x * 1.2 - t * 0.13 + 1.4)
   );
 
-  // Secondary liquid turbulence
-  vec2 r = vec2(
-    fbm(p + 3.2 * q + vec2(1.7, 9.2) + t * 0.04),
-    fbm(p + 3.2 * q + vec2(8.3, 2.8) - t * 0.035)
+  // Secondary subtle organic turbulence
+  vec2 w2 = vec2(
+    sin((p.x + w1.x * 0.85) * 2.0 + t * 0.20),
+    cos((p.y + w1.y * 0.85) * 1.8 - t * 0.15)
   );
 
-  // Surface deformation
-  float h1 = fbm(p + 3.8 * r + t * 0.03);
-  float h2 = sin(p.x * 2.2 + p.y * 1.4 + 3.6 * r.x + t * 0.07);
+  // Fabric folds: sweeping diagonal ridges with graceful undulations
+  float f1 = sin(p.x * 1.5 + p.y * 1.05 + w2.x * 1.35 + t * 0.18);
+  float f2 = cos(p.x * 0.95 - p.y * 1.4 + w2.y * 1.25 - t * 0.15);
+  float f3 = sin((p.x + p.y) * 2.2 + (w1.x + w2.y) * 1.1 + t * 0.22);
+  float f4 = noise(p * 2.5 + w2 * 0.5 + t * 0.08) * 0.25;
 
-  return h1 * 0.65 + h2 * 0.35;
+  float h = f1 * 0.48 + f2 * 0.34 + f3 * 0.14 + f4 * 0.04;
+
+  // Non-linear pleat curvature: deep rounded troughs and sharp glowing crests
+  return sin(h * 1.85);
 }
 
 void main() {
@@ -80,53 +73,57 @@ void main() {
   vec2 p_uv = uv;
   p_uv.x *= aspect;
 
-  // Ultra-slow, cinematic time evolution
-  float t = u_time * 0.28;
+  // Slow, cinematic liquid velocity
+  float t = u_time * 0.32;
 
-  // Finite differences to calculate surface normal
+  // Surface normal through finite differences
   float eps = 0.0035;
   float h0 = silkHeight(p_uv, t);
   float hx = silkHeight(p_uv + vec2(eps, 0.0), t);
   float hy = silkHeight(p_uv + vec2(0.0, eps), t);
 
-  vec3 normal = normalize(vec3(-(hx - h0) / eps * 2.6, -(hy - h0) / eps * 2.6, 1.0));
+  vec3 normal = normalize(vec3(-(hx - h0) / eps * 2.4, -(hy - h0) / eps * 2.4, 1.0));
 
-  // Soft directional spotlight grazing from upper-left
-  vec3 lightDir = normalize(vec3(-0.25, 0.45, 0.75));
+  // Dramatic directional grazing spotlight from upper-left
+  vec3 lightDir = normalize(vec3(-0.35, 0.50, 0.65));
   vec3 viewDir = vec3(0.0, 0.0, 1.0);
 
   float diff = max(0.0, dot(normal, lightDir));
   vec3 halfVec = normalize(lightDir + viewDir);
-  float spec = pow(max(0.0, dot(normal, halfVec)), 26.0);
+  float spec1 = pow(max(0.0, dot(normal, halfVec)), 14.0); // Soft velvet bloom
+  float spec2 = pow(max(0.0, dot(normal, halfVec)), 38.0); // Sharp liquid silk specular highlight
 
-  // Velvet Fresnel sheen along fold contours
+  // Velvet Fresnel rim sheen along fold silhouettes
   float fresnel = pow(1.0 - max(0.0, dot(normal, viewDir)), 2.6);
 
-  // Luxury Dark Burgundy Wedding Palette
-  vec3 c_base = vec3(0.045, 0.006, 0.015);      // Near-black burgundy (#0c0104)
-  vec3 c_wine = vec3(0.16, 0.018, 0.048);       // Deep wine (#29040c)
-  vec3 c_crimson = vec3(0.32, 0.038, 0.092);    // Rich oxblood (#520917)
-  vec3 c_ruby = vec3(0.52, 0.072, 0.15);        // Glowing muted ruby highlight (#851226)
-  vec3 c_sheen = vec3(0.70, 0.14, 0.24);       // Specular silk glint
-  vec3 c_gold = vec3(0.75, 0.50, 0.20);        // Subtle golden ember warmth
+  // High-Contrast Luxury Wine & Ruby Wedding Palette:
+  vec3 c_valley = vec3(0.04, 0.005, 0.012);   // Near-black shadow valley (#0a0103)
+  vec3 c_wine = vec3(0.18, 0.018, 0.052);     // Deep wine / dark burgundy (#2e050d)
+  vec3 c_crimson = vec3(0.38, 0.042, 0.115);  // Rich oxblood midtone (#610b1d)
+  vec3 c_ruby = vec3(0.62, 0.085, 0.19);      // Glowing radiant ruby crest (#9e1630)
+  vec3 c_sheen = vec3(0.92, 0.28, 0.40);     // Specular liquid silk sheen
+  vec3 c_gold = vec3(0.95, 0.72, 0.35);      // Warm gold specular glint
 
-  float nh = clamp(h0 * 0.5 + 0.5, 0.0, 1.0);
+  // Map height from [-1, 1] to [0, 1]
+  float nh = h0 * 0.5 + 0.5;
 
-  vec3 col = mix(c_base, c_wine, smoothstep(0.05, 0.42, nh));
-  col = mix(col, c_crimson, smoothstep(0.38, 0.76, nh) * (diff * 0.85 + 0.15));
-  col = mix(col, c_ruby, smoothstep(0.68, 0.98, nh) * (diff * 0.75 + 0.25));
+  // Distinct transitions creating clearly visible folds
+  vec3 col = mix(c_valley, c_wine, smoothstep(0.02, 0.38, nh));
+  col = mix(col, c_crimson, smoothstep(0.32, 0.72, nh) * (diff * 0.8 + 0.2));
+  col = mix(col, c_ruby, smoothstep(0.62, 0.96, nh) * (diff * 0.85 + 0.25));
 
-  // Layer velvet fresnel rim
-  col += c_crimson * fresnel * 0.6;
+  // Add glowing velvet fresnel sheen along the fold ridges
+  col += c_crimson * fresnel * 0.55;
 
-  // Layer restrained liquid silk specular highlights
-  col += c_sheen * spec * 0.75;
-  col += c_gold * spec * 0.15;
+  // Add vibrant liquid specular highlights along crests
+  col += c_sheen * spec1 * 0.55;
+  col += c_sheen * spec2 * 0.80;
+  col += c_gold * spec2 * 0.22;
 
-  // Gentle vignette softening around canvas borders
+  // Subtle perimeter vignette
   vec2 vigCoord = uv * (1.0 - uv.yx);
-  float vig = clamp(vigCoord.x * vigCoord.y * 28.0, 0.0, 1.0);
-  col *= mix(0.78, 1.0, vig);
+  float vig = clamp(vigCoord.x * vigCoord.y * 30.0, 0.0, 1.0);
+  col *= mix(0.85, 1.0, vig);
 
   gl_FragColor = vec4(col, 1.0);
 }
@@ -290,8 +287,8 @@ export const FluidSilkBackground: React.FC<FluidSilkBackgroundProps> = ({ classN
       const dpr = Math.min(window.devicePixelRatio || 1, maxDpr);
 
       // Max rendering dimension cap
-      const renderW = Math.min(Math.floor(width * dpr), 1440);
-      const renderH = Math.min(Math.floor(height * dpr), 1024);
+      const renderW = Math.min(Math.floor(width * dpr), 1920);
+      const renderH = Math.min(Math.floor(height * dpr), 1200);
 
       if (canvas.width !== renderW || canvas.height !== renderH) {
         canvas.width = renderW;

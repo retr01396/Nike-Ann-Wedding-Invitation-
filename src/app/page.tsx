@@ -16,7 +16,7 @@ export default function Home() {
   const [introFinished, setIntroFinished] = useState(false);
 
   return (
-    <div className="relative min-h-[100svh] w-full overflow-x-hidden bg-[#0d0104] text-[#fbf6ea]">
+    <div className="relative min-h-[100svh] w-full overflow-x-hidden bg-transparent text-[#fbf6ea]">
       {/* Living Atmospheric Environment (Dark Velvet, Golden embers) */}
       <LivingBackground />
 
@@ -38,27 +38,47 @@ export default function Home() {
       <section
         id="events-rsvp-travel-suite"
         aria-label="Wedding Celebration, RSVP, and Directions"
-        className="relative w-full max-w-6xl mx-auto my-8 sm:my-14 border-y border-[#caa24d]/25 bg-gradient-to-b from-[#190408]/90 via-[#130306]/95 to-[#0b0103]/95 shadow-[0_20px_50px_rgba(0,0,0,0.85)] select-none z-20"
+        className="relative w-full max-w-6xl mx-auto my-8 sm:my-14 border-y border-[#caa24d]/25 bg-gradient-to-b from-[#180308]/85 via-[#120205]/90 to-[#0a0103]/90 backdrop-blur-sm shadow-[0_25px_60px_rgba(0,0,0,0.85)] select-none z-20"
       >
-        {/* Left Edge Floral Decoration matching reference */}
-        <div className="absolute top-0 -left-6 sm:-left-10 w-20 sm:w-28 h-full pointer-events-none overflow-hidden opacity-85 z-10 hidden md:block">
+        {/* Left Edge Floral Framing with soft gradient feathering */}
+        <div
+          className="absolute top-0 -left-6 sm:-left-10 w-24 sm:w-32 h-full pointer-events-none overflow-hidden opacity-80 z-10 hidden md:block"
+          style={{
+            WebkitMaskImage:
+              "linear-gradient(to right, rgba(0,0,0,0.9) 20%, rgba(0,0,0,0) 100%), linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 12%, rgba(0,0,0,1) 88%, rgba(0,0,0,0) 100%)",
+            maskImage:
+              "linear-gradient(to right, rgba(0,0,0,0.9) 20%, rgba(0,0,0,0) 100%), linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 12%, rgba(0,0,0,1) 88%, rgba(0,0,0,0) 100%)",
+            WebkitMaskComposite: "destination-in",
+            maskComposite: "intersect",
+          }}
+        >
           <Image
             src="/images/wedding/lower-suite-edge-left.jpg"
             alt=""
             fill
-            sizes="120px"
-            className="object-cover object-left filter contrast-110"
+            sizes="130px"
+            className="object-cover object-left filter contrast-105"
           />
         </div>
 
-        {/* Right Edge Velvet/Floral Decoration matching reference */}
-        <div className="absolute top-0 -right-6 sm:-right-10 w-20 sm:w-28 h-full pointer-events-none overflow-hidden opacity-85 z-10 hidden md:block">
+        {/* Right Edge Velvet/Floral Framing with soft gradient feathering */}
+        <div
+          className="absolute top-0 -right-6 sm:-right-10 w-24 sm:w-32 h-full pointer-events-none overflow-hidden opacity-80 z-10 hidden md:block"
+          style={{
+            WebkitMaskImage:
+              "linear-gradient(to left, rgba(0,0,0,0.9) 20%, rgba(0,0,0,0) 100%), linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 12%, rgba(0,0,0,1) 88%, rgba(0,0,0,0) 100%)",
+            maskImage:
+              "linear-gradient(to left, rgba(0,0,0,0.9) 20%, rgba(0,0,0,0) 100%), linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 12%, rgba(0,0,0,1) 88%, rgba(0,0,0,0) 100%)",
+            WebkitMaskComposite: "destination-in",
+            maskComposite: "intersect",
+          }}
+        >
           <Image
             src="/images/wedding/lower-suite-edge-right.jpg"
             alt=""
             fill
-            sizes="120px"
-            className="object-cover object-right filter contrast-110"
+            sizes="130px"
+            className="object-cover object-right filter contrast-105"
           />
         </div>
 

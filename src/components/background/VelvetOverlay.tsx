@@ -28,8 +28,8 @@ export const VelvetOverlay: React.FC = () => {
 
   return (
     <div className="absolute inset-0 pointer-events-none overflow-hidden select-none z-0">
-      {/* Base deep velvet gradient */}
-      <div className="absolute inset-0 bg-gradient-to-b from-[#180306] via-[#100204] to-[#080102]" />
+      {/* Translucent velvet color grading allowing the living silk to flow through */}
+      <div className="absolute inset-0 bg-gradient-to-b from-[#120205]/30 via-transparent to-[#080102]/50 pointer-events-none" />
 
       {/* Shifting warm wine/burgundy ambient glow */}
       <div

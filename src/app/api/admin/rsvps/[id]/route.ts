@@ -1,6 +1,7 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { createClient, isServerSupabaseConfigured } from "@/lib/supabase/server";
 import { RSVPUpdate } from "@/types/database";
+import { getMockRsvpById, updateMockRsvp, deleteMockRsvp } from "@/lib/mockRsvpStore";
 
 interface RouteParams {
   params: { id: string };
@@ -8,7 +9,7 @@ interface RouteParams {
 
 async function verifyAdminAuth() {
   if (!isServerSupabaseConfigured()) {
-    return { authorized: false, status: 503, error: "Database unconfigured" };
+    return { authorized: true, isSimulation: true, supabase: null, user: null };
   }
 
   const supabase = createClient();
@@ -17,7 +18,7 @@ async function verifyAdminAuth() {
   } = await supabase.auth.getUser();
 
   if (!user) {
-    return { authorized: false, status: 401, error: "Unauthorized" };
+    return { authorized: false, isSimulation: false, status: 401, error: "Unauthorized" };
   }
 
   const { data: adminRecord } = await supabase
@@ -27,13 +28,24 @@ async function verifyAdminAuth() {
     .maybeSingle();
 
   if (!adminRecord) {
-    return { authorized: false, status: 403, error: "Forbidden: Admin required" };
+    return { authorized: false, isSimulation: false, status: 403, error: "Forbidden: Admin required" };
   }
 
-  return { authorized: true, supabase, user };
+  return { authorized: true, isSimulation: false, supabase, user };
 }
 
 export async function GET(request: NextRequest, { params }: RouteParams) {
+  if (!isServerSupabaseConfigured()) {
+    const rsvp = getMockRsvpById(params.id);
+    if (!rsvp) {
+      return NextResponse.json(
+        { success: false, error: "RSVP record not found." },
+        { status: 404 }
+      );
+    }
+    return NextResponse.json({ success: true, rsvp });
+  }
+
   const auth = await verifyAdminAuth();
   if (!auth.authorized) {
     return NextResponse.json({ success: false, error: auth.error }, { status: auth.status });
@@ -132,6 +144,17 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
       return NextResponse.json({ success: false, error: "Message cannot exceed 1000 characters." }, { status: 400 });
     }
 
+    if (!isServerSupabaseConfigured()) {
+      const updated = updateMockRsvp(params.id, body);
+      if (!updated) {
+        return NextResponse.json(
+          { success: false, error: "RSVP record not found." },
+          { status: 404 }
+        );
+      }
+      return NextResponse.json({ success: true, rsvp: updated });
+    }
+
     const { data: updated, error } = await auth.supabase!
       .from("rsvps")
       .update(body)
@@ -160,6 +183,11 @@ export async function DELETE(request: NextRequest, { params }: RouteParams) {
   const auth = await verifyAdminAuth();
   if (!auth.authorized) {
     return NextResponse.json({ success: false, error: auth.error }, { status: auth.status });
+  }
+
+  if (!isServerSupabaseConfigured()) {
+    deleteMockRsvp(params.id);
+    return NextResponse.json({ success: true, message: "RSVP deleted successfully." });
   }
 
   const { error } = await auth.supabase!.from("rsvps").delete().eq("id", params.id);

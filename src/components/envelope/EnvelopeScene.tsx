@@ -10,7 +10,6 @@ import { Envelope } from "./Envelope";
 import { TapToOpenPrompt } from "./TapToOpenPrompt";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { RotateCcw, Lock } from "lucide-react";
-import { FluidSilkBackground } from "@/components/background/FluidSilkBackground";
 
 export const EnvelopeScene: React.FC = () => {
   const [state, setState] = useState<EnvelopeAnimationState>("CLOSED");
@@ -29,7 +28,6 @@ export const EnvelopeScene: React.FC = () => {
   const cardNamesRef = useRef<HTMLDivElement>(null);
   const cardDetailsRef = useRef<HTMLDivElement>(null);
   const cardCtaRef = useRef<HTMLDivElement>(null);
-  const quotePanelRef = useRef<HTMLDivElement>(null);
 
   const reducedMotion = useReducedMotion();
 
@@ -47,7 +45,6 @@ export const EnvelopeScene: React.FC = () => {
     if (envelopeContainerRef.current) gsap.set(envelopeContainerRef.current, { y: 0 });
     if (flapRef.current) gsap.set(flapRef.current, { rotateX: 0, zIndex: 35 });
     if (sealRef.current) gsap.set(sealRef.current, { opacity: 1, scale: 1, pointerEvents: "auto" });
-    if (quotePanelRef.current) gsap.set(quotePanelRef.current, { opacity: 0, x: 20 });
 
     if (cardRef.current) {
       gsap.set(cardRef.current, {
@@ -88,10 +85,11 @@ export const EnvelopeScene: React.FC = () => {
       if (topHeaderRef.current) gsap.set(topHeaderRef.current, { opacity: 0, pointerEvents: "none" });
       if (envelopeContainerRef.current) gsap.set(envelopeContainerRef.current, { y: 0 });
       if (cardRef.current) {
+        const targetScale = typeof window !== "undefined" && window.innerWidth < 640 ? 1.10 : 1.16;
         gsap.set(cardRef.current, {
           yPercent: -15,
           y: 0,
-          scale: 1.0,
+          scale: targetScale,
           zIndex: 40,
           boxShadow: "0 30px 80px -10px rgba(0,0,0,0.98), 0 0 35px rgba(212,175,55,0.18)",
         });
@@ -100,7 +98,6 @@ export const EnvelopeScene: React.FC = () => {
       if (cardNamesRef.current) gsap.set(cardNamesRef.current, { opacity: 1, filter: "none", scale: 1 });
       if (cardDetailsRef.current) gsap.set(cardDetailsRef.current, { opacity: 1, y: 0 });
       if (cardCtaRef.current) gsap.set(cardCtaRef.current, { opacity: 1, y: 0 });
-      if (quotePanelRef.current) gsap.set(quotePanelRef.current, { opacity: 1, x: 0 });
       setState("OPENED");
       isBusyRef.current = false;
       return;
@@ -117,6 +114,9 @@ export const EnvelopeScene: React.FC = () => {
       },
     });
     timelineRef.current = tl;
+    if (typeof window !== "undefined") {
+      (window as any).__envelopeTl = tl;
+    }
 
     // 1. Teaser CTA button dissolves & seal reacts subtly
     tl.to(teaserCtaRef.current, {
@@ -196,6 +196,7 @@ export const EnvelopeScene: React.FC = () => {
               // Lower body stays masked behind pocket (z-20) until it clears the pocket apex (at -50%)
               if (currentYP <= -50) {
                 cardRef.current.style.zIndex = "40";
+                setState((prev) => (prev !== "CARD_CLEARING" ? "CARD_CLEARING" : prev));
               } else {
                 cardRef.current.style.zIndex = "20";
               }
@@ -222,23 +223,19 @@ export const EnvelopeScene: React.FC = () => {
         { filter: "brightness(1.2)" },
         {
           filter: "brightness(1)",
-          duration: 0.6,
+          duration: 0.5,
           ease: "power2.out",
         },
         "-=0.2"
       )
 
-      // 8. Editorial Quote Panel reveals on right
-      .to(
-        quotePanelRef.current,
-        {
-          opacity: 1,
-          x: 0,
-          duration: 0.6,
-          ease: "power2.out",
-        },
-        "<"
-      );
+      // 8. CARD EXPANDING: Post-emergence graceful enlargement for maximum readability
+      .call(() => setState("CARD_EXPANDING"))
+      .to(cardRef.current, {
+        scale: typeof window !== "undefined" && window.innerWidth < 640 ? 1.10 : 1.16,
+        duration: 0.65,
+        ease: "power2.out",
+      });
   }, [state, reducedMotion]);
 
   const handleEnterWedding = useCallback(() => {
@@ -251,17 +248,14 @@ export const EnvelopeScene: React.FC = () => {
   return (
     <main
       ref={sceneContainerRef}
-      className="relative min-h-[100svh] w-full flex flex-col items-center justify-center px-4 py-6 sm:py-8 safe-area-top safe-area-bottom z-10 overflow-hidden select-none bg-[#100205]"
+      className="relative min-h-[100svh] w-full flex flex-col items-center justify-center px-4 py-6 sm:py-8 safe-area-top safe-area-bottom z-10 overflow-hidden select-none bg-transparent"
     >
       {/* =========================================================================
-          HERO ANIMATED FLUID SILK BACKDROP & PHOTOGRAPHIC FLORAL FRAMING
-          Authentic crops placed on left and right framing the fluid movement
+          HERO PHOTOGRAPHIC FLORAL FRAMING
+          Authentic crops placed on left and right framing the living fluid silk
          ========================================================================= */}
       <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
-        {/* Layer 1: Animated Burgundy Fluid Silk Canvas */}
-        <FluidSilkBackground className="z-0" />
-
-        {/* Layer 2: Left Side Floral Framing (Dahlia, Baby's Breath & Velvet) */}
+        {/* Layer 1: Left Side Floral Framing (Dahlia, Baby's Breath & Velvet) */}
         <div
           className="absolute top-0 left-0 w-[220px] sm:w-[300px] md:w-[360px] h-[500px] sm:h-[650px] md:h-[750px] pointer-events-none opacity-90 z-[1]"
           style={{
@@ -382,19 +376,6 @@ export const EnvelopeScene: React.FC = () => {
               </div>
             </div>
           )}
-        </div>
-
-        {/* Right Editorial Quote Panel matching reference */}
-        <div
-          ref={quotePanelRef}
-          className="hidden xl:flex absolute -right-6 lg:right-2 top-1/2 -translate-y-1/2 flex-col items-center justify-center text-center p-6 text-[#e5c57b]/85 space-y-1.5 select-none pointer-events-none opacity-0"
-        >
-          <p className="font-cinzel text-[10px] tracking-[0.35em]">LOVE</p>
-          <p className="font-cinzel text-[10px] tracking-[0.35em]">PEOPLE</p>
-          <p className="font-cinzel text-[10px] tracking-[0.35em]">GOOD FOOD</p>
-          <p className="font-cinzel text-[10px] tracking-[0.35em]">GREAT TIMES</p>
-          <div className="w-5 h-[1px] bg-[#caa24d]/50 my-2.5 mx-auto" />
-          <p className="font-cinzel text-sm tracking-[0.3em] text-[#d8b257] font-medium">N / A</p>
         </div>
       </div>
     </main>

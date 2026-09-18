@@ -24,10 +24,10 @@ interface AccommodationFieldsProps {
   onDepartureDateChange: (val: string) => void;
   roomsRequired: number;
   onRoomsRequiredChange: (val: number) => void;
-  transportation: string;
-  onTransportationChange: (val: string) => void;
-  transportationOther: string;
-  onTransportationOtherChange: (val: string) => void;
+  transportation?: string;
+  onTransportationChange?: (val: string) => void;
+  transportationOther?: string;
+  onTransportationOtherChange?: (val: string) => void;
   specialRequirements: string;
   onSpecialRequirementsChange: (val: string) => void;
   errors?: {
@@ -55,10 +55,6 @@ export const AccommodationFields: React.FC<AccommodationFieldsProps> = ({
   onDepartureDateChange,
   roomsRequired,
   onRoomsRequiredChange,
-  transportation,
-  onTransportationChange,
-  transportationOther,
-  onTransportationOtherChange,
   specialRequirements,
   onSpecialRequirementsChange,
   errors,
@@ -71,7 +67,7 @@ export const AccommodationFields: React.FC<AccommodationFieldsProps> = ({
       aria-hidden={!isExpanded}
     >
       <div className="overflow-hidden">
-        <div className="pt-4 pb-2 border-t border-[#caa24d]/25 space-y-5 text-left">
+        <div className="pt-4 pb-2 border-t border-[#caa24d]/25 space-y-4 text-left">
           {/* Section Header */}
           <div className="flex items-center space-x-2 pb-1 border-b border-[#caa24d]/15">
             <BedHotelIcon className="w-4 h-4 text-[#caa24d]" />
@@ -131,16 +127,16 @@ export const AccommodationFields: React.FC<AccommodationFieldsProps> = ({
             )}
           </div>
 
-          {/* 2. DATES & ROOMS GRID */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {/* 3. DATES GRID (Arrival Date & Departure Date aligned) */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 items-start">
             {/* Arrival Date */}
-            <div className="space-y-1.5">
-              <div className="flex items-center space-x-1.5">
-                <CalendarDateIcon className="w-3.5 h-3.5 text-[#caa24d]" />
+            <div className="space-y-1.5 flex flex-col justify-start">
+              <div className="h-6 flex items-center space-x-1.5">
+                <CalendarDateIcon className="w-3.5 h-3.5 text-[#caa24d] shrink-0" />
                 <label
                   htmlFor="rsvp-arrival-date"
                   id="arrival-date-label"
-                  className="block font-sans text-[9px] sm:text-[10px] uppercase tracking-[0.25em] text-[#caa24d]/90 font-medium"
+                  className="block font-sans text-[9px] sm:text-[10px] uppercase tracking-[0.25em] text-[#caa24d]/90 font-medium whitespace-nowrap"
                 >
                   {config.arrivalDateLabel} <span className="text-[#caa24d]">*</span>
                 </label>
@@ -150,7 +146,7 @@ export const AccommodationFields: React.FC<AccommodationFieldsProps> = ({
                 type="date"
                 value={arrivalDate}
                 onChange={(e) => onArrivalDateChange(e.target.value)}
-                className="w-full px-3.5 py-2.5 bg-[#1a0308] border border-[#caa24d]/35 text-[#fff0c7] text-xs font-sans focus:outline-none focus:border-[#caa24d] focus:ring-1 focus:ring-[#caa24d]"
+                className="w-full h-11 px-3.5 py-2.5 bg-[#1a0308] border border-[#caa24d]/35 text-[#fff0c7] text-xs font-sans focus:outline-none focus:border-[#caa24d] focus:ring-1 focus:ring-[#caa24d] [color-scheme:dark]"
               />
               {errors?.arrivalDate && (
                 <p className="font-sans text-[11px] text-[#e5c57b] italic pt-0.5" role="alert">
@@ -160,13 +156,13 @@ export const AccommodationFields: React.FC<AccommodationFieldsProps> = ({
             </div>
 
             {/* Departure Date */}
-            <div className="space-y-1.5">
-              <div className="flex items-center space-x-1.5">
-                <CalendarDateIcon className="w-3.5 h-3.5 text-[#caa24d]" />
+            <div className="space-y-1.5 flex flex-col justify-start">
+              <div className="h-6 flex items-center space-x-1.5">
+                <CalendarDateIcon className="w-3.5 h-3.5 text-[#caa24d] shrink-0" />
                 <label
                   htmlFor="rsvp-departure-date"
                   id="departure-date-label"
-                  className="block font-sans text-[9px] sm:text-[10px] uppercase tracking-[0.25em] text-[#caa24d]/90 font-medium"
+                  className="block font-sans text-[9px] sm:text-[10px] uppercase tracking-[0.25em] text-[#caa24d]/90 font-medium whitespace-nowrap"
                 >
                   {config.departureDateLabel} <span className="text-[#caa24d]">*</span>
                 </label>
@@ -176,7 +172,7 @@ export const AccommodationFields: React.FC<AccommodationFieldsProps> = ({
                 type="date"
                 value={departureDate}
                 onChange={(e) => onDepartureDateChange(e.target.value)}
-                className="w-full px-3.5 py-2.5 bg-[#1a0308] border border-[#caa24d]/35 text-[#fff0c7] text-xs font-sans focus:outline-none focus:border-[#caa24d] focus:ring-1 focus:ring-[#caa24d]"
+                className="w-full h-11 px-3.5 py-2.5 bg-[#1a0308] border border-[#caa24d]/35 text-[#fff0c7] text-xs font-sans focus:outline-none focus:border-[#caa24d] focus:ring-1 focus:ring-[#caa24d] [color-scheme:dark]"
               />
               {errors?.departureDate && (
                 <p className="font-sans text-[11px] text-[#e5c57b] italic pt-0.5" role="alert">
@@ -193,30 +189,32 @@ export const AccommodationFields: React.FC<AccommodationFieldsProps> = ({
             </p>
           )}
 
-          {/* 3. PEOPLE STAYING & ROOMS REQUIRED */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {/* 4. PEOPLE STAYING & ROOMS REQUIRED GRID (Aligned labels & matching stepper heights) */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 items-start">
             {/* People Staying */}
-            <div className="space-y-1.5">
-              <label className="block font-sans text-[9px] sm:text-[10px] uppercase tracking-[0.25em] text-[#caa24d]/90 font-medium">
-                {config.peopleStayingLabel}
-              </label>
-              <div className="inline-flex items-center border border-[#caa24d]/40 bg-[#190308] p-1 w-full justify-between">
+            <div className="space-y-1.5 flex flex-col justify-start">
+              <div className="min-h-[26px] sm:min-h-[28px] flex items-center">
+                <label className="block font-sans text-[9px] sm:text-[10px] uppercase tracking-[0.25em] text-[#caa24d]/90 font-medium leading-tight">
+                  {config.peopleStayingLabel}
+                </label>
+              </div>
+              <div className="h-11 flex items-center justify-between border border-[#caa24d]/40 bg-[#190308] px-2 w-full">
                 <button
                   type="button"
                   disabled={peopleStaying <= config.minPeople}
                   onClick={() => onPeopleStayingChange(Math.max(config.minPeople, peopleStaying - 1))}
-                  className="w-9 h-9 flex items-center justify-center font-serif text-base text-[#fff0c7] hover:bg-[#caa24d]/20 disabled:opacity-30 transition-colors"
+                  className="w-8 h-8 flex items-center justify-center font-serif text-base text-[#fff0c7] hover:bg-[#caa24d]/20 disabled:opacity-30 transition-colors cursor-pointer"
                 >
                   −
                 </button>
-                <span className="font-serif text-base text-[#fff0c7] select-none">
+                <span className="font-serif text-sm sm:text-base text-[#fff0c7] select-none text-center">
                   {peopleStaying} {peopleStaying === 1 ? "Person" : "People"}
                 </span>
                 <button
                   type="button"
                   disabled={peopleStaying >= config.maxPeople}
                   onClick={() => onPeopleStayingChange(Math.min(config.maxPeople, peopleStaying + 1))}
-                  className="w-9 h-9 flex items-center justify-center font-serif text-base text-[#fff0c7] hover:bg-[#caa24d]/20 disabled:opacity-30 transition-colors"
+                  className="w-8 h-8 flex items-center justify-center font-serif text-base text-[#fff0c7] hover:bg-[#caa24d]/20 disabled:opacity-30 transition-colors cursor-pointer"
                 >
                   +
                 </button>
@@ -224,27 +222,29 @@ export const AccommodationFields: React.FC<AccommodationFieldsProps> = ({
             </div>
 
             {/* Rooms Required */}
-            <div className="space-y-1.5">
-              <label className="block font-sans text-[9px] sm:text-[10px] uppercase tracking-[0.25em] text-[#caa24d]/90 font-medium">
-                {config.roomsRequiredLabel}
-              </label>
-              <div className="inline-flex items-center border border-[#caa24d]/40 bg-[#190308] p-1 w-full justify-between">
+            <div className="space-y-1.5 flex flex-col justify-start">
+              <div className="min-h-[26px] sm:min-h-[28px] flex items-center">
+                <label className="block font-sans text-[9px] sm:text-[10px] uppercase tracking-[0.25em] text-[#caa24d]/90 font-medium leading-tight">
+                  {config.roomsRequiredLabel}
+                </label>
+              </div>
+              <div className="h-11 flex items-center justify-between border border-[#caa24d]/40 bg-[#190308] px-2 w-full">
                 <button
                   type="button"
                   disabled={roomsRequired <= config.minRooms}
                   onClick={() => onRoomsRequiredChange(Math.max(config.minRooms, roomsRequired - 1))}
-                  className="w-9 h-9 flex items-center justify-center font-serif text-base text-[#fff0c7] hover:bg-[#caa24d]/20 disabled:opacity-30 transition-colors"
+                  className="w-8 h-8 flex items-center justify-center font-serif text-base text-[#fff0c7] hover:bg-[#caa24d]/20 disabled:opacity-30 transition-colors cursor-pointer"
                 >
                   −
                 </button>
-                <span className="font-serif text-base text-[#fff0c7] select-none">
+                <span className="font-serif text-sm sm:text-base text-[#fff0c7] select-none text-center">
                   {roomsRequired} {roomsRequired === 1 ? "Room" : "Rooms"}
                 </span>
                 <button
                   type="button"
                   disabled={roomsRequired >= config.maxRooms}
                   onClick={() => onRoomsRequiredChange(Math.min(config.maxRooms, roomsRequired + 1))}
-                  className="w-9 h-9 flex items-center justify-center font-serif text-base text-[#fff0c7] hover:bg-[#caa24d]/20 disabled:opacity-30 transition-colors"
+                  className="w-8 h-8 flex items-center justify-center font-serif text-base text-[#fff0c7] hover:bg-[#caa24d]/20 disabled:opacity-30 transition-colors cursor-pointer"
                 >
                   +
                 </button>
@@ -255,48 +255,6 @@ export const AccommodationFields: React.FC<AccommodationFieldsProps> = ({
                 </p>
               )}
             </div>
-          </div>
-
-          {/* 4. TRANSPORTATION REQUIREMENTS */}
-          <div className="space-y-2 pt-1">
-            <div className="flex items-center space-x-1.5">
-              <CarShuttleIcon className="w-3.5 h-3.5 text-[#caa24d]" />
-              <label className="block font-sans text-[9px] sm:text-[10px] uppercase tracking-[0.25em] text-[#caa24d]/90 font-medium">
-                {config.transportationLabel}
-              </label>
-            </div>
-
-            <div className="grid grid-cols-1 gap-2">
-              {config.transportationOptions.map((opt) => {
-                const isSelected = transportation === opt.value;
-                return (
-                  <button
-                    key={opt.value}
-                    type="button"
-                    onClick={() => onTransportationChange(opt.value)}
-                    className={`px-3 py-2.5 text-left border rounded-none text-xs transition-all duration-300 focus:outline-none focus:ring-1 focus:ring-[#caa24d] ${
-                      isSelected
-                        ? "border-[#caa24d] bg-[#2d0812] text-[#fff0c7] shadow-[0_0_10px_rgba(202,162,77,0.2)]"
-                        : "border-[#caa24d]/20 bg-[#180308] text-[#f3e5c8]/70 hover:border-[#caa24d]/40 hover:text-[#fff0c7]"
-                    }`}
-                  >
-                    <span className="font-serif tracking-wide block">{opt.label}</span>
-                  </button>
-                );
-              })}
-            </div>
-
-            {transportation === "other" && (
-              <div className="pt-2 animate-fadeIn">
-                <input
-                  type="text"
-                  value={transportationOther}
-                  onChange={(e) => onTransportationOtherChange(e.target.value)}
-                  placeholder={config.transportationOtherPlaceholder}
-                  className="w-full px-3.5 py-2.5 bg-[#1a0308] border border-[#caa24d]/35 text-[#fff0c7] text-xs font-sans placeholder-[#caa24d]/35 focus:outline-none focus:border-[#caa24d] focus:ring-1 focus:ring-[#caa24d]"
-                />
-              </div>
-            )}
           </div>
 
           {/* 5. SPECIAL REQUIREMENTS */}

@@ -3,7 +3,9 @@ export type EnvelopeAnimationState =
   | "OPENING"
   | "FLAP_OPEN"
   | "CARD_EMERGING"
+  | "CARD_CLEARING"
   | "CARD_SETTLING"
+  | "CARD_EXPANDING"
   | "OPENED";
 
 export interface CoupleConfig {
