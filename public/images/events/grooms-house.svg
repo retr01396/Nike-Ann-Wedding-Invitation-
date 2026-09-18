@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 450" fill="none">
+  <defs>
+    <radialGradient id="gh-bg" cx="50%" cy="35%" r="70%">
+      <stop offset="0%" stop-color="#380e18" />
+      <stop offset="60%" stop-color="#1e0409" />
+      <stop offset="100%" stop-color="#090103" />
+    </radialGradient>
+    <radialGradient id="gh-warm-glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#fff0c7" stop-opacity="0.8" />
+      <stop offset="35%" stop-color="#f6ad55" stop-opacity="0.4" />
+      <stop offset="70%" stop-color="#9b2c2c" stop-opacity="0.15" />
+      <stop offset="100%" stop-color="#160307" stop-opacity="0" />
+    </radialGradient>
+    <linearGradient id="gh-timber" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fcedc7" />
+      <stop offset="40%" stop-color="#caa24d" />
+      <stop offset="100%" stop-color="#684714" />
+    </linearGradient>
+    <filter id="gh-grain">
+      <feTurbulence type="fractalNoise" baseFrequency="0.75" numOctaves="2" />
+      <feColorMatrix type="matrix" values="0 0 0 0 0.8  0 0 0 0 0.7  0 0 0 0 0.5  0 0 0 0.05 0" />
+      <feBlend in="SourceGraphic" in2="noise" mode="overlay" />
+    </filter>
+  </defs>
+
+  <rect width="500" height="450" fill="url(#gh-bg)" />
+  <rect width="500" height="450" filter="url(#gh-grain)" />
+
+  <!-- Warm courtyard evening illumination -->
+  <circle cx="250" cy="240" r="160" fill="url(#gh-warm-glow)" />
+
+  <!-- Crescent moon & stars in evening sky -->
+  <circle cx="410" cy="80" r="12" fill="#fff5da" opacity="0.6" />
+  <circle cx="415" cy="78" r="11" fill="#1b040a" />
+  <circle cx="100" cy="80" r="1" fill="#fff5da" opacity="0.7" />
+  <circle cx="180" cy="60" r="1.2" fill="#fff5da" opacity="0.5" />
+  <circle cx="340" cy="70" r="1" fill="#fff5da" opacity="0.6" />
+
+  <!-- Outer gold foil border & delicate stitching -->
+  <rect x="20" y="20" width="460" height="410" stroke="#caa24d" stroke-width="0.75" stroke-opacity="0.3" fill="none" />
+  <rect x="26" y="26" width="448" height="398" stroke="#caa24d" stroke-width="0.5" stroke-dasharray="3 4" stroke-opacity="0.15" fill="none" />
+
+  <!-- Traditional Kerala Tharavadu Gabled Roof Structure -->
+  <!-- Main Gabled Sloping Roof -->
+  <path d="M 90 220 L 250 110 L 410 220 L 380 230 L 250 140 L 120 230 Z" fill="url(#gh-timber)" />
+
+  <!-- Upper Gabled Attic Window (Mughappu / Charupadi) -->
+  <path d="M 200 180 L 250 145 L 300 180 Z" fill="#140205" stroke="#caa24d" stroke-width="0.75" />
+  <circle cx="250" cy="170" r="4" fill="#caa24d" />
+  <line x1="250" y1="150" x2="250" y2="180" stroke="#caa24d" stroke-width="0.5" />
+  <line x1="215" y1="175" x2="285" y2="175" stroke="#caa24d" stroke-width="0.5" />
+
+  <!-- Supporting Verandah Timber Pillars (Thoonu) -->
+  <g fill="#160307" stroke="#caa24d" stroke-width="0.5">
+    <rect x="140" y="230" width="12" height="130" rx="1" />
+    <rect x="210" y="230" width="12" height="130" rx="1" />
+    <rect x="278" y="230" width="12" height="130" rx="1" />
+    <rect x="348" y="230" width="12" height="130" rx="1" />
+  </g>
+
+  <!-- Verandah Wooden Railing (Charupadi bench) -->
+  <rect x="130" y="300" width="240" height="8" fill="url(#gh-timber)" />
+  <rect x="130" y="320" width="240" height="6" fill="url(#gh-timber)" opacity="0.6" />
+
+  <!-- Hanging Brass Bell-Lanterns from eaves (Vilakku) -->
+  <g stroke="#caa24d" stroke-width="0.8">
+    <!-- Left Hanging Lamp -->
+    <line x1="175" y1="210" x2="175" y2="255" />
+    <ellipse cx="175" cy="260" rx="9" ry="3" fill="url(#gh-timber)" />
+    <ellipse cx="175" cy="256" rx="2.5" ry="4" fill="#fff5da" />
+
+    <!-- Center Hanging Lamp -->
+    <line x1="250" y1="190" x2="250" y2="245" />
+    <ellipse cx="250" cy="250" rx="12" ry="4" fill="url(#gh-timber)" />
+    <ellipse cx="250" cy="245" rx="3.5" ry="6" fill="#fff5da" />
+
+    <!-- Right Hanging Lamp -->
+    <line x1="325" y1="210" x2="325" y2="255" />
+    <ellipse cx="325" cy="260" rx="9" ry="3" fill="url(#gh-timber)" />
+    <ellipse cx="325" cy="256" rx="2.5" ry="4" fill="#fff5da" />
+  </g>
+
+  <!-- Courtyard Stone Floor (Nadumuttam / Verandah Steps) -->
+  <polygon points="100,360 400,360 430,390 70,390" fill="#120205" stroke="#caa24d" stroke-width="0.5" stroke-opacity="0.3" />
+
+  <!-- Traditional Kerala Plantain / Banana frond foliage at sides -->
+  <g fill="#1a3818" stroke="#caa24d" stroke-width="0.4" opacity="0.4">
+    <!-- Left foliage -->
+    <path d="M 60 390 C 70 330, 110 300, 125 320 C 105 345, 90 375, 80 390 Z" />
+    <!-- Right foliage -->
+    <path d="M 440 390 C 430 330, 390 300, 375 320 C 395 345, 410 375, 420 390 Z" />
+  </g>
+
+  <text x="250" y="415" font-family="serif" font-size="9" font-weight="500" fill="#caa24d" fill-opacity="0.65" letter-spacing="3" text-anchor="middle">THARAVADU RESIDENCE · EVE CELEBRATION</text>
+</svg>

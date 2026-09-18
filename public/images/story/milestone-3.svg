@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 600" fill="none">
+  <defs>
+    <radialGradient id="m3-sky" cx="50%" cy="40%" r="65%">
+      <stop offset="0%" stop-color="#4a121c" />
+      <stop offset="50%" stop-color="#2c0912" />
+      <stop offset="100%" stop-color="#0a0104" />
+    </radialGradient>
+    <radialGradient id="sunset-sun" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#fff0c7" />
+      <stop offset="40%" stop-color="#f6ad55" />
+      <stop offset="80%" stop-color="#dd6b20" stop-opacity="0.4" />
+      <stop offset="100%" stop-color="#742a2a" stop-opacity="0" />
+    </radialGradient>
+    <linearGradient id="ocean-shimmer" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#caa24d" stop-opacity="0.5" />
+      <stop offset="100%" stop-color="#140306" stop-opacity="0.9" />
+    </linearGradient>
+    <filter id="m3-grain">
+      <feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="2" />
+      <feColorMatrix type="matrix" values="0 0 0 0 0.8  0 0 0 0 0.7  0 0 0 0 0.5  0 0 0 0.06 0" />
+      <feBlend in="SourceGraphic" in2="noise" mode="overlay" />
+    </filter>
+  </defs>
+
+  <rect width="500" height="600" fill="url(#m3-sky)" />
+  <rect width="500" height="600" filter="url(#m3-grain)" />
+
+  <!-- Sunset glow & Sun disc -->
+  <circle cx="280" cy="270" r="140" fill="url(#sunset-sun)" />
+  <circle cx="280" cy="270" r="28" fill="#fff5da" opacity="0.95" />
+
+  <!-- Horizon Line & Ocean Water -->
+  <line x1="0" y1="310" x2="500" y2="310" stroke="#caa24d" stroke-width="0.75" stroke-opacity="0.35" />
+  <rect x="0" y="310" width="500" height="290" fill="#130307" />
+
+  <!-- Ocean wave reflections -->
+  <path d="M 230 325 L 330 325 M 200 340 L 360 340 M 170 360 L 390 360 M 140 385 L 420 385 M 100 415 L 450 415 M 60 450 L 480 450" stroke="#caa24d" stroke-width="0.8" stroke-dasharray="14 10 24 12" stroke-opacity="0.4" />
+
+  <!-- Dramatic Varkala Red Cliff Silhouette (Left) -->
+  <path d="M 0 180 Q 40 240, 60 300 T 110 380 Q 140 430, 180 500 L 220 600 L 0 600 Z" fill="#20050c" stroke="#caa24d" stroke-width="0.5" stroke-opacity="0.3" />
+  <path d="M 0 220 Q 30 270, 45 320 T 90 400 Q 110 440, 150 510 L 190 600 L 0 600 Z" fill="#170308" />
+
+  <!-- Couple on the cliff overlooking the sea -->
+  <g transform="translate(90, 320)" fill="#0d0104">
+    <!-- Groom proposing on one knee -->
+    <path d="M 15 25 C 13 18, 17 12, 22 12 C 27 12, 30 18, 28 25 L 32 38 L 22 38 L 18 50 L 10 50 L 14 38 Z" />
+    <circle cx="22" cy="8" r="5" />
+    <!-- Arm extending ring box with sparkle -->
+    <path d="M 26 24 L 38 20" stroke="#0d0104" stroke-width="3" stroke-linecap="round" />
+    <circle cx="40" cy="19" r="3" fill="#caa24d" />
+    <circle cx="40" cy="19" r="1.5" fill="#ffffff" />
+    <!-- Sparkle rays -->
+    <line x1="40" y1="13" x2="40" y2="25" stroke="#fcedc7" stroke-width="0.75" />
+    <line x1="34" y1="19" x2="46" y2="19" stroke="#fcedc7" stroke-width="0.75" />
+
+    <!-- Bride standing in surprise / joy -->
+    <circle cx="54" cy="5" r="4.5" />
+    <path d="M 50 14 C 47 18, 48 30, 45 42 L 58 50 L 62 50 L 58 35 L 60 14 Z" />
+    <path d="M 51 16 C 45 18, 44 24, 46 25" stroke="#0d0104" stroke-width="2.5" stroke-linecap="round" />
+  </g>
+
+  <!-- Archival stamp / border -->
+  <rect x="25" y="25" width="450" height="550" stroke="#caa24d" stroke-width="0.75" stroke-opacity="0.3" fill="none" />
+  <rect x="32" y="32" width="436" height="536" stroke="#caa24d" stroke-width="0.5" stroke-dasharray="3 4" stroke-opacity="0.15" fill="none" />
+
+  <text x="250" y="562" font-family="serif" font-size="10" font-weight="500" fill="#caa24d" fill-opacity="0.6" letter-spacing="3" text-anchor="middle">VARKALA · FEBRUARY 2024</text>
+</svg>

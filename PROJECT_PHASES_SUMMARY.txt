@@ -1,0 +1,319 @@
+================================================================================
+NIKE & ANN CINEMATIC WEDDING INVITATION & GUEST PLATFORM
+COMPREHENSIVE SUMMARY OF IMPLEMENTED PHASES (PHASES 1 TO 6)
+================================================================================
+
+Date: September 17, 2026
+Project: Nike & Ann Luxury Wedding Invitation Website
+Location: Thrissur, Kerala
+Tech Stack: Next.js 14 (App Router), React 18, TypeScript, Tailwind CSS, 
+            GSAP / ScrollTrigger, Supabase SSR & Database, Puppeteer QA
+
+Design Source of Truth:
+"Invite Concept.jpeg" — Deep wine/burgundy palette (#0c0104, #140206, #22040b),
+warm muted gold (#caa24d, #e5c57b, #fff0c7), editorial serif typography,
+fine gold hairlines, restrained stationery composition, line-art wedding icons,
+floral framing, and dark romantic atmosphere.
+
+================================================================================
+TABLE OF CONTENTS
+================================================================================
+1. Project Vision & Architecture Overview
+2. Phase 1: Monogram & Hero Envelope Experience
+3. Phase 2: Our Story Timeline ("Two Souls, A Shared Journey")
+4. Phase 3: The Celebration & Event Details
+5. Phase 4: Travel, Getting There & Logistics
+6. Phase 5: Kindly RSVP & Guest Hospitality Flow
+7. Phase 6: Supabase Backend, RSVP Database & Admin Dashboard
+8. Verification, Build & Quality Assurance Summary
+9. Setup & Handover Instructions
+
+================================================================================
+1. PROJECT VISION & ARCHITECTURE OVERVIEW
+================================================================================
+The project transforms a bespoke luxury stationery wedding invitation into a
+single continuous, cinematic, scroll-driven web experience. Instead of a
+generic card-based website, the entire application flows seamlessly like an
+unfolding physical invitation suite:
+
+   [Hero Monogram & 3D Envelope]
+              ↓ (Seal Break & Card Emergence)
+   [Two Souls: Our Story Timeline]
+              ↓ (Drawn Gold Hairline Chronology)
+   [The Celebration: Events & Dossiers]
+              ↓ (Holy Matrimony, Groom's House, Reception)
+   [Travel & Cartography: Getting to Thrissur]
+              ↓ (Airports, Railway, Road, Interactive Maps)
+   [Kindly RSVP & Hospitality Flow]
+              ↓ (Segmented Controls, In-Flow Stay Expansion, Wax Seal Confirmation)
+   [Supabase Backend & Admin Operations Console]
+                (Row-Level Security, Real-Time KPIs, Filters, CSV Export)
+
+Central Configuration Rule:
+All couple names, dates, placeholder labels, event timings, venues, travel
+hubs, and RSVP copy are centralized in `src/config/wedding.ts`. No copy or
+coordinates are hardcoded across UI components.
+
+================================================================================
+2. PHASE 1: MONOGRAM & HERO ENVELOPE EXPERIENCE
+================================================================================
+Phase 1 establishes the first impression of the wedding website with a tactile,
+editorial stationery opening.
+
+Key Features & Implementations:
+- Monogram Pre-loader & Reveal:
+  Embossed circular gold monogram medallion featuring the interlocked "N/A"
+  insignia with subtle radial lighting and floral filigree.
+- 3D Interactive Envelope:
+  A custom CSS/GSAP 3D envelope structure with realistic flap folding, deep wine
+  textured velvet shading, and fine gold edge borders.
+- Wax Seal Breaking Interaction:
+  Clicking or tapping the gold wax seal initiates a realistic opening sequence:
+  the seal breaks, the top flap unfolds upward in 3D perspective, and the
+  inner invitation card smoothly emerges out of the envelope.
+- Letter Emergence & Scroll Cue:
+  The formal invitation letter card emerges with formal typography:
+  "The Wedding of Nike & Ann", ceremony date, and invitation text.
+  A subtle pulsing gold arrow prompts the user to scroll into the journey.
+- Audio / Ambient Atmosphere:
+  Optional ambient sound triggers accompanied by smooth visual transitions.
+
+================================================================================
+3. PHASE 2: OUR STORY TIMELINE ("TWO SOULS, A SHARED JOURNEY")
+================================================================================
+Phase 2 continues the continuous narrative journey into the couple's relationship
+milestones.
+
+Key Features & Implementations:
+- Cinematic Section Introduction:
+  "Two Souls, A Shared Journey" heading rendered in large editorial serif
+  typography with gold hairline accents.
+- Scroll-Driven SVG Timeline Line:
+  An animated vertical gold hairline that dynamically draws and illuminates
+  as the user scrolls down the page using GSAP ScrollTrigger.
+- Milestone Dossiers:
+  Alternating left-right narrative chapters detailing key relationship moments:
+  * How They Met
+  * The First Date & Growing Bond
+  * The Proposal & Shared Promises
+- Visual Framing & Atmosphere:
+  Each chapter features fine gold corner brackets, romantic photo framing,
+  date tags, and heartfelt reflections.
+- Mobile-First Layout:
+  On mobile devices (375px - 414px), milestones neatly align along a continuous
+  left-aligned gold stem with generous touch targets and zero horizontal overflow.
+
+================================================================================
+4. PHASE 3: THE CELEBRATION & EVENT DETAILS
+================================================================================
+Phase 3 translates the EVENT DETAILS section of the design reference into an
+interactive schedule of celebrations.
+
+Key Features & Implementations:
+- Celebration Dossiers:
+  1. Holy Matrimony (Church Ceremony)
+  2. Groom's House (Traditional Welcome & Blessings)
+  3. Wedding Reception (Evening Celebration & Dinner)
+- Stationery Enclosures:
+  Velvet burgundy containers (#140206) with 1px gold borders (#caa24d/30) and
+  delicate corner brackets matching the stationery concept.
+- Line-Art Wedding Icons:
+  Custom vector line-art icons for rings, church bells, champagne glasses,
+  and time/attire indicators.
+- In-Flow Expandable Event Details:
+  Clicking "View Full Details" smoothly expands each event without jarring page
+  jumps, revealing:
+  * Full itinerary and sequence of events
+  * Dress code and attire guidelines
+  * Location notes and placeholder venue indicators
+  * "Add to Calendar" action generating downloadable .ics and Google Calendar links
+- Zero Fabricated Data Rule:
+  Any unconfirmed location data is clearly designated as placeholder in
+  `src/config/wedding.ts` with no fabricated real-world addresses.
+
+================================================================================
+5. PHASE 4: TRAVEL, GETTING THERE & LOGISTICS
+================================================================================
+Phase 4 provides comprehensive transportation, accommodation, and cartographic
+guidance for guests traveling to Thrissur, Kerala.
+
+Key Features & Implementations:
+- Location Data Architecture:
+  Built strictly around configurable location data in `src/config/wedding.ts`.
+  Unconfirmed coordinates are explicitly flagged with clear disclaimers,
+  ensuring no fabricated Google Maps links are presented to guests.
+- Multi-Hub Arrival Cards:
+  * By Air: Cochin International Airport (COK - ~55 km) and Calicut (CCJ - ~85 km)
+  * By Rail: Thrissur Railway Station (TSR - central connectivity)
+  * By Road: National Highway 544 transit guidelines and local cab advice
+- Interactive Stylized Cartography:
+  Dark-romantic cartographic canvas featuring deep burgundy terrain, gold route
+  lines, destination pins with gold halos, and zoom/pan controls.
+- Directions & Route Launchers:
+  "Get Directions" buttons that open map navigation dynamically based on
+  configured coordinates.
+- Guest Assistance & Concierge:
+  Dedicated hospitality note with travel desk contact placeholders for guests
+  requiring airport pickup or assistance.
+
+================================================================================
+6. PHASE 5: KINDLY RSVP & GUEST HOSPITALITY FLOW
+================================================================================
+Phase 5 implements the complete guest RSVP and stay coordination experience,
+faithfully matching the center column of "Invite Concept.jpeg".
+
+Key Features & Implementations:
+- Stationery Framing & Typography:
+  * "KINDLY / RSVP" badge in uppercase serif with gold hairline divider
+  * Subtitle: "Your presence would mean the world to us."
+  * Deadline indicator: "Kindly respond on or before 15 October 2026"
+- Bespoke Segmented Radio Controls:
+  Custom luxury choice tiles (Attending vs. Regretfully Declining) featuring
+  velvet burgundy backgrounds, gold borders, and gold checkmark seal icons.
+- Attending Branch:
+  * Guest count stepper (1 to 10 guests)
+  * Dietary selection: None, Vegetarian, Vegan, Halal, Gluten-Free, Custom Allergen
+  * Accommodation Toggle: "Will you require accommodation in Thrissur?"
+- In-Flow Hardware-Accelerated Accommodation Expansion:
+  Selecting "Yes, please arrange stay" expands smooth CSS Grid inputs:
+  * Guest contact phone number (required)
+  * Arrival date picker (check-in)
+  * Departure date picker (check-out)
+  * Rooms needed stepper (1 to 5 rooms)
+  * Airport shuttle / transit assistance toggle
+- Client-Side Live Validation:
+  * Name and attendance required
+  * Contact phone and dates required when requesting stay
+  * Date sequence enforcement: departure date must be on or after arrival date
+- Personalized Stationery Confirmation Card:
+  Upon submission, the form smoothly transitions into an archival confirmation card:
+  * Embossed "N/A" Monogram Wax Seal medallion
+  * "✓ RESPONSE RECEIVED" status pill
+  * Personalized greeting ("Dear [Guest Name],")
+  * Custom sentiment tailored to attendance choice
+  * Complete response summary dossier
+  * "[ EDIT YOUR RESPONSE ]" action allowing guests to revise their response
+
+================================================================================
+7. PHASE 6: SUPABASE BACKEND, RSVP DATABASE & ADMIN DASHBOARD
+================================================================================
+Phase 6 adds the complete production database infrastructure, Row-Level Security,
+administrative authentication, and an executive operations dashboard.
+
+Key Features & Implementations:
+A. Database Schema (`supabase/migrations/001_create_rsvps.sql`):
+   - `public.admin_users`: Explicit authorization table mapping `user_id` to
+     roles ('admin', 'superadmin').
+   - `public.rsvps`: Production table matching Phase 5 `RSVPSubmission`:
+     id (uuid), full_name, attendance, guest_count, dietary_preference,
+     dietary_other, needs_accommodation, phone, arrival_date, departure_date,
+     rooms_needed, needs_transport, notes, created_at, updated_at.
+   - Database Constraints & Security Hardening:
+     * `valid_date_order`: departure_date >= arrival_date
+     * `valid_accommodation_fields`: phone, arrival_date, departure_date required
+       if needs_accommodation is true
+     * `is_admin()` Security Definer hardened with `SET search_path = ''` to prevent
+       search-path injection attacks.
+     * Default table permissions revoked from `PUBLIC`.
+
+B. Strict Row Level Security (RLS):
+   - Anonymous (`anon` role): Allowed ONLY to `INSERT` into `public.rsvps`.
+     Cannot read, list, update, or delete any RSVP records.
+   - Authenticated Admins: Allowed `SELECT`, `UPDATE`, `DELETE` on `public.rsvps`
+     strictly if `public.is_admin()` verifies the user's UUID is in `admin_users`.
+   - Authenticated Non-Admins: Blocked from all RSVP data (returns 403 Forbidden).
+   - Zero Privileged Service Keys: The application uses authenticated user tokens
+     exclusively; no `SUPABASE_SECRET_KEY` or service-role key is required.
+
+C. API Endpoints:
+   - `POST /api/rsvp`: Public submission handler with IP rate-limiting (max 10/min),
+     strict runtime shape & length validation, and unconfigured fallback.
+   - `GET /api/rsvp`: Returns 405 Method Not Allowed (zero guest enumeration).
+   - `GET /api/admin/rsvps`: Protected admin listing endpoint.
+   - `GET /api/admin/rsvps/[id]`: Protected admin single-record inspector.
+   - `PATCH /api/admin/rsvps/[id]`: Protected admin updater with strict constraint validation.
+   - `DELETE /api/admin/rsvps/[id]`: Protected admin record deletion.
+   - `POST /api/auth/logout`: Server-side cookie cleanup.
+
+D. Admin Operations Console (`/admin`):
+   - Executive KPI Metrics:
+     * Total Responses
+     * Attending Guests (strictly excludes declined entries)
+     * Declined Responses
+     * Rooms Needed
+     * Airport Transits Needed
+   - Debounced Search: 300ms live text filter for guest names.
+   - Multi-Filter Matrix: Attendance, Lodging, Dietary, Transit, and Sorting.
+   - Responsive Dual-Mode Presentation:
+     * Desktop (>= 768px): Data table with gold hairlines and action menus.
+     * Mobile (< 768px): Luxury stacked cards with zero horizontal overflow.
+   - Detailed Dossier View (`/admin/rsvps/[id]`): Complete guest inspection.
+   - Inline Edit Modal (`EditRSVPModal.tsx`): Safe updates to guest records.
+   - Two-Step Deletion Modal (`DeleteConfirmModal.tsx`): Accidental loss prevention.
+   - RFC-4180 Compliant CSV Export: Escapes quotes/commas, downloads date-stamped file.
+
+E. Admin Login Portal (`/admin/login`):
+   - Clean, full-screen dark burgundy sign-in interface.
+   - Top dashboard navigation is completely hidden from the login screen via
+     Route Group isolation (`src/app/admin/(dashboard)/layout.tsx`).
+   - Displays clear setup instructions when Supabase environment variables are missing.
+
+================================================================================
+8. VERIFICATION, BUILD & QUALITY ASSURANCE SUMMARY
+================================================================================
+The entire application has been tested across static analysis, production builds,
+automated browser simulations, and viewport audits:
+
+| Verification Check            | Status | Metric / Details                         |
+| :---------------------------- | :----: | :--------------------------------------- |
+| TypeScript Diagnostics        | PASS   | `npx tsc --noEmit` exited 0 (0 errors)   |
+| Next.js Production Build      | PASS   | `npm run build` compiled all 10 routes   |
+| Phase 1: Envelope & Monogram  | PASS   | 3D envelope, seal break, card emergence  |
+| Phase 2: Our Story Timeline   | PASS   | Drawn gold hairline, milestone chapters  |
+| Phase 3: Event Details        | PASS   | Ceremony & reception dossiers, calendars |
+| Phase 4: Travel & Cartography | PASS   | Multi-hub arrival cards, interactive map |
+| Phase 5: RSVP & Stay Flow     | PASS   | Accept/decline flows, wax seal card      |
+| Phase 6: Supabase & Admin     | PASS   | RLS policies, metrics, filters, export   |
+| Mobile 375px (iPhone SE)      | PASS   | 0 horizontal overflow (scrollWidth = w)  |
+| Mobile 390px (iPhone 14/15/16)| PASS   | 0 horizontal overflow (scrollWidth = w)  |
+| Mobile 414px (iPhone Plus)    | PASS   | 0 horizontal overflow (scrollWidth = w)  |
+| Tablet 768px & 1024px         | PASS   | 0 horizontal overflow (scrollWidth = w)  |
+| Desktop 1280px (Widescreen)   | PASS   | 0 horizontal overflow (scrollWidth = w)  |
+| Browser Console Audits        | PASS   | 0 runtime errors or unhandled rejections |
+
+================================================================================
+9. SETUP & HANDOVER INSTRUCTIONS
+================================================================================
+To connect the application to your live Supabase project:
+
+1. Create a Supabase Project:
+   - Visit https://supabase.com and create a project.
+
+2. Run Database Migration:
+   - Copy the SQL from `supabase/migrations/001_create_rsvps.sql`.
+   - Paste and execute it in your Supabase Project's SQL Editor.
+
+3. Configure Environment Variables:
+   - Create a `.env.local` file in the root directory:
+     ```
+     NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
+     NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=your-anon-key
+     ```
+
+4. Authorize Your First Administrator:
+   - In the Supabase Dashboard, go to Authentication -> Users and invite or add
+     your admin email (e.g., admin@example.com).
+   - In the SQL Editor, insert that user's UUID into `public.admin_users`:
+     ```sql
+     INSERT INTO public.admin_users (user_id, role)
+     VALUES ('your-user-uuid-here', 'superadmin');
+     ```
+
+5. Launch & Manage:
+   - Run `npm run dev` or `npm run build && npm run start`.
+   - Visit `/admin/login` to sign in to the operations console.
+   - Consult `docs/SUPABASE_SETUP.md` for complete technical documentation.
+
+================================================================================
+END OF SUMMARY
+================================================================================

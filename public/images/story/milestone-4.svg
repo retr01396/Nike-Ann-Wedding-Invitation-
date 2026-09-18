@@ -1,0 +1,101 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 600" fill="none">
+  <defs>
+    <radialGradient id="m4-bg" cx="50%" cy="40%" r="65%">
+      <stop offset="0%" stop-color="#3d0e19" />
+      <stop offset="50%" stop-color="#24060e" />
+      <stop offset="100%" stop-color="#0a0104" />
+    </radialGradient>
+    <radialGradient id="lamp-flame-glow" cx="50%" cy="40%" r="60%">
+      <stop offset="0%" stop-color="#fff5da" stop-opacity="0.95" />
+      <stop offset="25%" stop-color="#f6ad55" stop-opacity="0.7" />
+      <stop offset="60%" stop-color="#c53030" stop-opacity="0.2" />
+      <stop offset="100%" stop-color="#18040a" stop-opacity="0" />
+    </radialGradient>
+    <linearGradient id="brass-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#8c6b24" />
+      <stop offset="35%" stop-color="#fcedc7" />
+      <stop offset="70%" stop-color="#caa24d" />
+      <stop offset="100%" stop-color="#6e5015" />
+    </linearGradient>
+    <filter id="m4-grain">
+      <feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="2" />
+      <feColorMatrix type="matrix" values="0 0 0 0 0.8  0 0 0 0 0.7  0 0 0 0 0.5  0 0 0 0.06 0" />
+      <feBlend in="SourceGraphic" in2="noise" mode="overlay" />
+    </filter>
+  </defs>
+
+  <rect width="500" height="600" fill="url(#m4-bg)" />
+  <rect width="500" height="600" filter="url(#m4-grain)" />
+
+  <!-- Sacred Radiant Flame Glow -->
+  <circle cx="250" cy="230" r="150" fill="url(#lamp-flame-glow)" />
+
+  <!-- Hanging temple bells from top -->
+  <line x1="120" y1="0" x2="120" y2="100" stroke="#caa24d" stroke-width="1" stroke-opacity="0.4" />
+  <path d="M 112 100 Q 120 95, 128 100 L 125 116 Q 120 118, 115 116 Z" fill="url(#brass-grad)" />
+  <circle cx="120" cy="122" r="2.5" fill="#fcedc7" />
+
+  <line x1="380" y1="0" x2="380" y2="100" stroke="#caa24d" stroke-width="1" stroke-opacity="0.4" />
+  <path d="M 372 100 Q 380 95, 388 100 L 385 116 Q 380 118, 375 116 Z" fill="url(#brass-grad)" />
+  <circle cx="380" cy="122" r="2.5" fill="#fcedc7" />
+
+  <!-- Hanging Jasmine Garlands on sides -->
+  <g stroke="#fff5da" stroke-width="3" stroke-linecap="round" stroke-dasharray="1 8" opacity="0.45">
+    <path d="M 70 0 C 80 120, 60 260, 90 380" />
+    <path d="M 430 0 C 420 120, 440 260, 410 380" />
+  </g>
+
+  <!-- Traditional Kerala Nilavilakku (Brass Lamp) -->
+  <g id="nilavilakku">
+    <!-- Top Crown Bird / Lotus -->
+    <path d="M 250 160 C 242 168, 245 180, 250 185 C 255 180, 258 168, 250 160 Z" fill="url(#brass-grad)" />
+    <!-- Oil Dish (Thattu) Top -->
+    <ellipse cx="250" cy="190" rx="35" ry="8" fill="url(#brass-grad)" />
+    <ellipse cx="250" cy="189" rx="32" ry="6" fill="#421a08" />
+
+    <!-- Flames dancing on the rim -->
+    <path d="M 222 188 C 218 178, 222 170, 224 165 C 226 170, 228 178, 226 188 Z" fill="#fff5da" />
+    <path d="M 250 185 C 246 170, 250 160, 252 152 C 254 160, 258 170, 254 185 Z" fill="#fff5da" />
+    <path d="M 278 188 C 274 178, 278 170, 280 165 C 282 170, 284 178, 282 188 Z" fill="#fff5da" />
+
+    <!-- Upper stem neck -->
+    <path d="M 244 196 L 244 230 L 256 230 L 256 196 Z" fill="url(#brass-grad)" />
+    <ellipse cx="250" cy="230" rx="14" ry="4" fill="url(#brass-grad)" />
+
+    <!-- Main Lower Oil Basin (Deep Thattu) -->
+    <ellipse cx="250" cy="270" rx="75" ry="16" fill="url(#brass-grad)" />
+    <ellipse cx="250" cy="268" rx="70" ry="12" fill="#381305" />
+
+    <!-- Flames on main lower basin -->
+    <path d="M 185 268 C 182 255, 186 245, 189 238 C 192 245, 195 255, 193 268 Z" fill="#fff5da" />
+    <path d="M 215 270 C 212 252, 217 240, 220 230 C 223 240, 227 252, 225 270 Z" fill="#fff5da" />
+    <path d="M 250 270 C 246 248, 252 232, 255 220 C 258 232, 264 248, 260 270 Z" fill="#fff5da" />
+    <path d="M 285 270 C 283 252, 287 240, 290 230 C 293 240, 298 252, 295 270 Z" fill="#fff5da" />
+    <path d="M 315 268 C 313 255, 316 245, 319 238 C 322 245, 325 255, 323 268 Z" fill="#fff5da" />
+
+    <!-- Main pillar/pedestal (Thoonu) with ornamental rings -->
+    <path d="M 240 284 L 235 440 L 265 440 L 260 284 Z" fill="url(#brass-grad)" />
+    <ellipse cx="250" cy="330" rx="20" ry="6" fill="url(#brass-grad)" />
+    <ellipse cx="250" cy="380" rx="22" ry="6" fill="url(#brass-grad)" />
+
+    <!-- Flared stepped base (Peedam) -->
+    <path d="M 230 440 L 205 480 Q 250 495, 295 480 L 270 440 Z" fill="url(#brass-grad)" />
+    <ellipse cx="250" cy="482" rx="95" ry="18" fill="url(#brass-grad)" />
+    <ellipse cx="250" cy="492" rx="105" ry="20" fill="#140306" stroke="#caa24d" stroke-width="1" stroke-opacity="0.5" />
+  </g>
+
+  <!-- Golden floral petals scattered at base -->
+  <g fill="#caa24d" opacity="0.6">
+    <ellipse cx="180" cy="495" rx="7" ry="3" transform="rotate(-15 180 495)" />
+    <ellipse cx="210" cy="505" rx="6" ry="3" transform="rotate(25 210 505)" />
+    <ellipse cx="290" cy="503" rx="7" ry="3" transform="rotate(-30 290 503)" />
+    <ellipse cx="320" cy="496" rx="6" ry="3" transform="rotate(10 320 496)" />
+    <ellipse cx="250" cy="510" rx="8" ry="3.5" />
+  </g>
+
+  <!-- Archival stamp / border -->
+  <rect x="25" y="25" width="450" height="550" stroke="#caa24d" stroke-width="0.75" stroke-opacity="0.3" fill="none" />
+  <rect x="32" y="32" width="436" height="536" stroke="#caa24d" stroke-width="0.5" stroke-dasharray="3 4" stroke-opacity="0.15" fill="none" />
+
+  <text x="250" y="562" font-family="serif" font-size="10" font-weight="500" fill="#caa24d" fill-opacity="0.6" letter-spacing="3" text-anchor="middle">THRISSUR · NOVEMBER 2026</text>
+</svg>

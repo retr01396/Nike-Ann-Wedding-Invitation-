@@ -1,0 +1,109 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-burgundy-base: #1c0408;
+  --color-burgundy-dark: #0d0104;
+  --color-gold-foil: #e5c57b;
+  --color-gold-bright: #fff0c7;
+  --color-gold-antique: #916b2e;
+}
+
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  min-height: 100%;
+  min-height: 100svh;
+  background-color: #0d0104;
+  color: #f7e6b5;
+  overflow-x: hidden;
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Luxury Gold Foil Text Utility */
+.gold-foil-text {
+  background: linear-gradient(
+    120deg,
+    #d1ab4e 0%,
+    #fff5d6 25%,
+    #e5c57b 45%,
+    #a37d2c 70%,
+    #fae7b8 90%,
+    #d1ab4e 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 0 20px rgba(229, 197, 123, 0.25);
+}
+
+.gold-foil-text-subtle {
+  background: linear-gradient(
+    135deg,
+    #eed8a1 0%,
+    #caa24d 50%,
+    #f3e2b5 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* 3D Perspective Preservation */
+.preserve-3d {
+  transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d;
+}
+
+.backface-hidden {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+/* Grain / Velvet Texture Filter */
+.velvet-noise {
+  background-image: radial-gradient(circle at 50% 40%, rgba(68, 12, 22, 0.45) 0%, rgba(13, 1, 4, 0.96) 80%),
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.035'/%3E%3C/svg%3E");
+}
+
+/* Gold Shimmer Sheen */
+@keyframes goldSheen {
+  0% {
+    background-position: -150% 0;
+  }
+  100% {
+    background-position: 250% 0;
+  }
+}
+
+.animate-gold-sheen {
+  animation: goldSheen 5s ease-in-out infinite;
+}
+
+/* Mobile Safe Area Padding */
+.safe-area-bottom {
+  padding-bottom: max(1.5rem, env(safe-area-inset-bottom));
+}
+
+.safe-area-top {
+  padding-top: max(1rem, env(safe-area-inset-top));
+}
+
+/* Reduced motion fallbacks */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
