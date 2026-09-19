@@ -56,6 +56,8 @@ export interface TimelineMilestone {
   title: string;
   subtitle?: string;
   description: string;
+  /** Short one-line editorial caption shown beside the timeline node. */
+  shortDescription?: string;
   image: string;
   imageAlt: string;
   location?: string;
@@ -71,6 +73,20 @@ export interface StoryIntroConfig {
   portraitImage: string;
   portraitAlt: string;
   portraitCaption?: string;
+  fullStoryTitle?: string;
+  fullStory?: string[];
+  polaroids?: {
+    top: {
+      image: string;
+      caption: string;
+      alt: string;
+    };
+    bottom: {
+      image: string;
+      caption: string;
+      alt: string;
+    };
+  };
 }
 
 export interface StoryTimelineConfig {
@@ -107,10 +123,19 @@ export interface WeddingEventDetailItem {
   mapUrl?: string;
 }
 
+export interface ProgrammeScheduleItem {
+  time: string;
+  label: string;
+}
+
 export interface EventsSectionConfig {
   badge: string;
   title: string;
   subtitle: string;
+  /** Day programme shown inside the Event Details glass panel. */
+  programmeSchedule?: ProgrammeScheduleItem[];
+  /** Refined closing note rendered beneath the panel content. */
+  closingNote?: string[];
   events: WeddingEventDetailItem[];
 }
 

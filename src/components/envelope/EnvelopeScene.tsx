@@ -239,7 +239,7 @@ export const EnvelopeScene: React.FC = () => {
   }, [state, reducedMotion]);
 
   const handleEnterWedding = useCallback(() => {
-    const target = document.getElementById("stationery-nav");
+    const target = document.getElementById("our-story") || document.getElementById("story");
     if (target) {
       target.scrollIntoView({ behavior: "smooth" });
     }
@@ -257,7 +257,7 @@ export const EnvelopeScene: React.FC = () => {
       <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
         {/* Layer 1: Left Side Floral Framing (Dahlia, Baby's Breath & Velvet) */}
         <div
-          className="absolute top-0 left-0 w-[220px] sm:w-[300px] md:w-[360px] h-[500px] sm:h-[650px] md:h-[750px] pointer-events-none opacity-90 z-[1]"
+          className="absolute top-0 left-0 w-[220px] sm:w-[300px] md:w-[360px] h-[500px] sm:h-[650px] md:h-[750px] pointer-events-none opacity-70 z-[1]"
           style={{
             WebkitMaskImage: "linear-gradient(to right, rgba(0,0,0,1) 45%, rgba(0,0,0,0) 98%), linear-gradient(to bottom, rgba(0,0,0,1) 70%, rgba(0,0,0,0) 100%)",
             maskImage: "linear-gradient(to right, rgba(0,0,0,1) 45%, rgba(0,0,0,0) 98%), linear-gradient(to bottom, rgba(0,0,0,1) 70%, rgba(0,0,0,0) 100%)",
@@ -270,14 +270,14 @@ export const EnvelopeScene: React.FC = () => {
             alt=""
             fill
             sizes="360px"
-            className="object-cover object-left-top filter contrast-105"
+            className="object-cover object-left-top filter brightness-[0.78] saturate-[0.92] contrast-105"
             priority
           />
         </div>
 
         {/* Layer 2: Right Side Floral Framing (Plate, Crystal & Baby's Breath) */}
         <div
-          className="absolute top-0 right-0 w-[220px] sm:w-[300px] md:w-[360px] h-[500px] sm:h-[650px] md:h-[750px] pointer-events-none opacity-90 z-[1]"
+          className="absolute top-0 right-0 w-[220px] sm:w-[300px] md:w-[360px] h-[500px] sm:h-[650px] md:h-[750px] pointer-events-none opacity-70 z-[1]"
           style={{
             WebkitMaskImage: "linear-gradient(to left, rgba(0,0,0,1) 45%, rgba(0,0,0,0) 98%), linear-gradient(to bottom, rgba(0,0,0,1) 70%, rgba(0,0,0,0) 100%)",
             maskImage: "linear-gradient(to left, rgba(0,0,0,1) 45%, rgba(0,0,0,0) 98%), linear-gradient(to bottom, rgba(0,0,0,1) 70%, rgba(0,0,0,0) 100%)",
@@ -290,27 +290,53 @@ export const EnvelopeScene: React.FC = () => {
             alt=""
             fill
             sizes="360px"
-            className="object-cover object-right-top filter contrast-105"
+            className="object-cover object-right-top filter brightness-[0.78] saturate-[0.92] contrast-105"
             priority
           />
         </div>
 
-        {/* Layer 3: Velvet Vignette Shadow Overlays */}
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_transparent_45%,_#0d0104_95%)] pointer-events-none z-[2]" />
+        {/* Layer 3: Velvet Vignette Shadow Overlays — edges and corners fall
+            to near-black; the centre behind the envelope stays DARK */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(8,2,4,0.45)_0%,_rgba(6,1,3,0.72)_58%,_#050102_95%)] pointer-events-none z-[2]" />
       </div>
 
-      {/* Replay Button */}
+      {/* Replay Button matching reference style */}
       {state === "OPENED" && (
         <button
           type="button"
           onClick={setupInitialState}
-          className="fixed top-4 left-4 z-50 flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-gold-400/30 bg-[#150306]/85 text-gold-300 text-[9px] tracking-[0.2em] uppercase backdrop-blur-sm hover:border-gold-300 hover:text-white transition-all cursor-pointer shadow-lg"
+          className="absolute top-4 sm:top-6 left-4 sm:left-8 z-30 flex items-center gap-1.5 px-3.5 py-1.5 rounded-full border border-[#caa24d]/35 bg-[#170408]/85 text-[#e5c57b] font-cinzel text-[8.5px] sm:text-[9.5px] tracking-[0.2em] uppercase backdrop-blur-md hover:border-[#caa24d] hover:text-[#fff0c7] transition-all cursor-pointer shadow-lg"
           aria-label="Replay envelope animation"
         >
-          <RotateCcw className="w-3 h-3 text-gold-300" />
-          <span>Replay</span>
+          <RotateCcw className="w-3 h-3 text-[#caa24d]" />
+          <span>REPLAY</span>
         </button>
       )}
+
+      {/* Left Editorial: TWO SOULS ONE BEAUTIFUL JOURNEY */}
+      <div className="hidden lg:flex flex-col items-start absolute left-8 xl:left-14 top-1/2 -translate-y-1/2 z-20 pointer-events-none">
+        <div className="w-[1px] h-14 bg-gradient-to-b from-[#caa24d]/70 to-[#caa24d]/10 mb-4" />
+        <p className="font-cinzel text-[10px] xl:text-[11px] tracking-[0.35em] text-[#e5c57b]/80 uppercase leading-[2.2]">
+          {"TWO\nSOULS\nONE\nBEAUTIFUL\nJOURNEY"
+            .split("\n")
+            .map((word, i) => (
+              <span key={i} className="block">
+                {word}
+              </span>
+            ))}
+        </p>
+      </div>
+
+      {/* Right Editorial Calligraphy: Perhaps It Was Grace */}
+      <div className="hidden lg:flex flex-col items-center absolute right-8 xl:right-16 top-1/3 -translate-y-1/2 z-20 pointer-events-none">
+        <p className="font-script text-3xl xl:text-4xl text-[#e5c57b]/90 -rotate-12 origin-center leading-tight drop-shadow-[0_2px_14px_rgba(202,162,77,0.3)]">
+          Perhaps
+          <br />
+          It Was
+          <br />
+          Grace
+        </p>
+      </div>
 
       {/* TOP HEADER: Center Title & Right Private Invitation Badge (matching reference) */}
       <div
@@ -377,6 +403,16 @@ export const EnvelopeScene: React.FC = () => {
             </div>
           )}
         </div>
+      </div>
+
+      {/* Bottom Scroll Indicator: SCROLL TO BEGIN (matching reference) */}
+      <div className="absolute bottom-3 sm:bottom-4 left-0 right-0 flex flex-col items-center justify-center z-20 pointer-events-none opacity-80">
+        <div className="w-3.5 h-6 rounded-full border border-[#caa24d]/50 flex items-start justify-center p-0.5 mb-1">
+          <div className="w-0.5 h-1.5 bg-[#e5c57b] rounded-full animate-bounce" />
+        </div>
+        <span className="font-cinzel text-[7.5px] sm:text-[8.5px] tracking-[0.35em] text-[#caa24d]/85 uppercase font-light">
+          SCROLL TO BEGIN
+        </span>
       </div>
     </main>
   );

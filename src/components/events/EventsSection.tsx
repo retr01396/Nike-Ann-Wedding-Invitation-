@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import { weddingConfig } from "@/config/wedding";
 import { WeddingEventDetailItem } from "@/types/wedding";
 import { EventDetailsPanel } from "./EventDetailsPanel";
+import { GoldGlowFrame } from "@/components/ui/GoldGlowFrame";
 import { X, ExternalLink } from "lucide-react";
 
 const RingsIcon: React.FC<{ className?: string }> = ({ className = "w-6 h-6" }) => (
@@ -32,6 +33,8 @@ export const EventsSection: React.FC = () => {
 
   const primaryEvent = weddingConfig.events.events[0];
   const allEvents = weddingConfig.events.events;
+  const programme = weddingConfig.events.programmeSchedule ?? [];
+  const closingNote = weddingConfig.events.closingNote ?? ["WE CAN'T WAIT", "TO CELEBRATE WITH YOU"];
 
   // Prevent background scrolling while dossier modal is open
   useEffect(() => {
@@ -61,98 +64,141 @@ export const EventsSection: React.FC = () => {
   }, [selectedEvent]);
 
   return (
-    <div
-      id="events"
-      className="relative w-full p-6 sm:p-7 overflow-hidden flex flex-col justify-between scroll-mt-16"
-    >
-      <div className="relative z-10">
-        {/* Eyebrow & Title */}
-        <div className="text-center">
-          <span className="font-cinzel text-[8.5px] sm:text-[9.5px] tracking-[0.35em] text-[#caa24d] uppercase font-medium">
-            {weddingConfig.events.badge}
-          </span>
-          <h3 className="mt-1 font-cinzel text-lg sm:text-xl tracking-[0.14em] text-[#fbf6ea] font-normal">
-            {weddingConfig.events.title}
-          </h3>
-          <div className="w-6 h-[1px] bg-[#caa24d]/60 mx-auto mt-2" />
+    <GoldGlowFrame id="events" className="h-full scroll-mt-16">
+      <div className="flex flex-col h-full">
+        <div className="flex-1 p-6 sm:p-8">
+          {/* Eyebrow & Title */}
+          <div className="text-center">
+            <span className="font-cinzel text-[8.5px] sm:text-[9.5px] tracking-[0.35em] text-[#caa24d] uppercase font-medium">
+              {weddingConfig.events.badge}
+            </span>
+            <h3 className="mt-1.5 font-cinzel text-lg sm:text-xl tracking-[0.14em] text-[#fbf6ea] font-normal">
+              {weddingConfig.events.title}
+            </h3>
+            <div className="w-6 h-[1px] bg-[#caa24d]/60 mx-auto mt-2.5" />
+          </div>
+
+          {/* Elegant Detail Rows matching reference */}
+          <div className="mt-7 space-y-6">
+            {/* Row 1: Wedding Ceremony */}
+            <div
+              onClick={() => setSelectedEvent(primaryEvent)}
+              className="flex items-start gap-4 p-2 rounded-sm hover:bg-[#caa24d]/5 transition-colors cursor-pointer group"
+            >
+              <div className="text-[#caa24d] mt-0.5 group-hover:scale-105 transition-transform">
+                <RingsIcon className="w-6 h-6 text-[#caa24d]" />
+              </div>
+              <div>
+                <h4 className="font-cinzel text-[10px] sm:text-[11px] tracking-[0.25em] text-[#fbf6ea] uppercase font-medium">
+                  WEDDING
+                </h4>
+                <p className="mt-1 font-serif text-xs text-[#ecd9b8]">
+                  {weddingConfig.date.formatted}
+                </p>
+                <p className="font-serif italic text-[11px] text-[#caa24d]/85">
+                  {primaryEvent.time || "Time to be confirmed"}
+                </p>
+              </div>
+            </div>
+
+            {/* Row 2: Venue */}
+            <div
+              onClick={() => setSelectedEvent(primaryEvent)}
+              className="flex items-start gap-4 p-2 rounded-sm hover:bg-[#caa24d]/5 transition-colors cursor-pointer group"
+            >
+              <div className="text-[#caa24d] mt-0.5 group-hover:scale-105 transition-transform">
+                <PinIcon className="w-5 h-5 text-[#caa24d]" />
+              </div>
+              <div>
+                <h4 className="font-cinzel text-[10px] sm:text-[11px] tracking-[0.25em] text-[#fbf6ea] uppercase font-medium">
+                  VENUE
+                </h4>
+                <p className="mt-1 font-serif text-xs text-[#ecd9b8]">
+                  {weddingConfig.location.display}
+                </p>
+                <p className="font-serif italic text-[11px] text-[#caa24d]/85">
+                  Venue details to follow
+                </p>
+              </div>
+            </div>
+
+            {/* Row 3: Dress Code */}
+            <div
+              onClick={() => setSelectedEvent(primaryEvent)}
+              className="flex items-start gap-4 p-2 rounded-sm hover:bg-[#caa24d]/5 transition-colors cursor-pointer group"
+            >
+              <div className="text-[#caa24d] mt-0.5 group-hover:scale-105 transition-transform">
+                <HangerIcon className="w-6 h-6 text-[#caa24d]" />
+              </div>
+              <div>
+                <h4 className="font-cinzel text-[10px] sm:text-[11px] tracking-[0.25em] text-[#fbf6ea] uppercase font-medium">
+                  DRESS CODE
+                </h4>
+                <p className="mt-1 font-serif text-xs text-[#ecd9b8] leading-relaxed">
+                  {primaryEvent.dressCode || "Elegant Celebration"}
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* ── PROGRAMME SCHEDULE — the day's flow, per the reference ── */}
+          {programme.length > 0 && (
+            <div className="mt-9">
+              <div className="flex items-center gap-3">
+                <span className="flex-1 h-[1px] bg-gradient-to-r from-transparent to-[#caa24d]/30" aria-hidden="true" />
+                <span className="font-cinzel text-[9px] sm:text-[10px] tracking-[0.3em] text-[#e5c57b]/90 uppercase">
+                  Programme Schedule
+                </span>
+                <span className="flex-1 h-[1px] bg-gradient-to-l from-transparent to-[#caa24d]/30" aria-hidden="true" />
+              </div>
+
+              <ol className="relative mt-5 ml-1 space-y-4 list-none m-0 p-0">
+                {/* Vertical stem linking the schedule nodes */}
+                <span
+                  aria-hidden="true"
+                  className="absolute left-[4px] top-2 bottom-2 w-[1px] bg-gradient-to-b from-[#caa24d]/45 via-[#caa24d]/25 to-transparent"
+                />
+                {programme.map((item) => (
+                  <li key={item.time} className="relative flex items-baseline gap-4 pl-5">
+                    <span
+                      aria-hidden="true"
+                      className="absolute left-0 top-[7px] w-[9px] h-[9px] rounded-full border border-[#e5c57b]/70 bg-[#2a070e]"
+                      style={{ boxShadow: "0 0 8px rgba(233,196,124,0.35)" }}
+                    />
+                    <span className="font-cinzel text-[10.5px] sm:text-[11px] tracking-[0.14em] text-[#fff0c7] whitespace-nowrap">
+                      {item.time}
+                    </span>
+                    <span className="font-serif text-[11.5px] sm:text-xs text-[#d9c5a3]/90">
+                      {item.label}
+                    </span>
+                  </li>
+                ))}
+              </ol>
+            </div>
+          )}
         </div>
 
-        {/* Elegant Detail Rows matching reference */}
-        <div className="mt-6 space-y-5">
-          {/* Row 1: Wedding Ceremony */}
+        {/* Celebration note with rose ornament — per the reference footer */}
+        <div className="relative px-6 sm:px-8 pb-7 pt-2 text-center">
+          <p className="font-cinzel text-[9px] sm:text-[10px] tracking-[0.3em] text-[#e5c57b]/90 uppercase leading-relaxed">
+            {closingNote.map((line, i) => (
+              <React.Fragment key={i}>
+                {i > 0 && <br />}
+                {line}
+              </React.Fragment>
+            ))}
+          </p>
+          {/* Rose ornament */}
           <div
-            onClick={() => setSelectedEvent(primaryEvent)}
-            className="flex items-start gap-4 p-2 rounded-sm hover:bg-[#caa24d]/5 transition-colors cursor-pointer group"
-          >
-            <div className="text-[#caa24d] mt-0.5 group-hover:scale-105 transition-transform">
-              <RingsIcon className="w-6 h-6 text-[#caa24d]" />
-            </div>
-            <div>
-              <h4 className="font-cinzel text-[10px] sm:text-[11px] tracking-[0.25em] text-[#fbf6ea] uppercase font-medium">
-                WEDDING
-              </h4>
-              <p className="mt-0.5 font-serif text-xs text-[#ecd9b8]">
-                {weddingConfig.date.formatted}
-              </p>
-              <p className="font-serif italic text-[11px] text-[#caa24d]/85">
-                {primaryEvent.time || "Time to be confirmed"}
-              </p>
-            </div>
-          </div>
-
-          {/* Row 2: Venue */}
-          <div
-            onClick={() => setSelectedEvent(primaryEvent)}
-            className="flex items-start gap-4 p-2 rounded-sm hover:bg-[#caa24d]/5 transition-colors cursor-pointer group"
-          >
-            <div className="text-[#caa24d] mt-0.5 group-hover:scale-105 transition-transform">
-              <PinIcon className="w-5 h-5 text-[#caa24d]" />
-            </div>
-            <div>
-              <h4 className="font-cinzel text-[10px] sm:text-[11px] tracking-[0.25em] text-[#fbf6ea] uppercase font-medium">
-                VENUE
-              </h4>
-              <p className="mt-0.5 font-serif text-xs text-[#ecd9b8]">
-                {weddingConfig.location.display}
-              </p>
-              <p className="font-serif italic text-[11px] text-[#caa24d]/85">
-                Venue details to follow
-              </p>
-            </div>
-          </div>
-
-          {/* Row 3: Dress Code */}
-          <div
-            onClick={() => setSelectedEvent(primaryEvent)}
-            className="flex items-start gap-4 p-2 rounded-sm hover:bg-[#caa24d]/5 transition-colors cursor-pointer group"
-          >
-            <div className="text-[#caa24d] mt-0.5 group-hover:scale-105 transition-transform">
-              <HangerIcon className="w-5 h-5 text-[#caa24d]" />
-            </div>
-            <div>
-              <h4 className="font-cinzel text-[10px] sm:text-[11px] tracking-[0.25em] text-[#fbf6ea] uppercase font-medium">
-                DRESS CODE
-              </h4>
-              <p className="mt-0.5 font-serif text-xs text-[#ecd9b8]">
-                {primaryEvent.dressCode || "Elegant Celebration"}
-              </p>
-              <p className="font-serif italic text-[11px] text-[#caa24d]/85">
-                Details to follow
-              </p>
-            </div>
-          </div>
+            className="mt-3.5 mx-auto w-10 h-6 opacity-90"
+            aria-hidden="true"
+            style={{
+              background:
+                "radial-gradient(ellipse 45% 60% at 50% 40%, #7d1f33 0%, #57121f 55%, transparent 75%), radial-gradient(ellipse 30% 40% at 38% 55%, #a8354b 0%, transparent 70%), radial-gradient(ellipse 30% 40% at 63% 55%, #a8354b 0%, transparent 70%)",
+              filter: "blur(0.4px)",
+            }}
+          />
         </div>
-      </div>
-
-      {/* Expand/Schedule Note */}
-      <div className="relative z-10 pt-4 text-center">
-        <button
-          type="button"
-          onClick={() => setSelectedEvent(primaryEvent)}
-          className="text-[#caa24d]/80 hover:text-[#fff0c7] font-cinzel text-[8.5px] sm:text-[9.5px] tracking-[0.25em] uppercase transition-colors cursor-pointer"
-        >
-          VIEW CELEBRATION DOSSIER →
-        </button>
       </div>
 
       {/* =========================================================================
@@ -263,7 +309,6 @@ export const EventsSection: React.FC = () => {
           </div>
         </div>
       )}
-    </div>
+    </GoldGlowFrame>
   );
 };
-

@@ -11,12 +11,12 @@ export const VelvetOverlay: React.FC = () => {
   useEffect(() => {
     if (reducedMotion || !spotlightRef.current) return;
 
-    // Extremely subtle breathing light in the center background
+    // Near-invisible slow breath — presence only, adds no visible glow
     const ctx = gsap.context(() => {
       gsap.to(spotlightRef.current, {
-        scale: 1.08,
-        opacity: 0.55,
-        duration: 8.5,
+        scale: 1.05,
+        opacity: 0.16,
+        duration: 9.5,
         ease: "sine.inOut",
         yoyo: true,
         repeat: -1,
@@ -27,17 +27,18 @@ export const VelvetOverlay: React.FC = () => {
   }, [reducedMotion]);
 
   return (
-    <div className="absolute inset-0 pointer-events-none overflow-hidden select-none z-0">
-      {/* Translucent velvet color grading allowing the living silk to flow through */}
-      <div className="absolute inset-0 bg-gradient-to-b from-[#120205]/30 via-transparent to-[#080102]/50 pointer-events-none" />
+    <div className="absolute inset-0 pointer-events-none overflow-hidden select-none z-[3]">
+      {/* Velvet colour grading — near-black burgundy tones over the canvas */}
+      <div className="absolute inset-0 bg-gradient-to-b from-[#16050a]/[0.22] via-transparent to-[#080204]/[0.30] pointer-events-none" />
 
-      {/* Shifting warm wine/burgundy ambient glow */}
+      {/* Deep wine ambient breath — no center glow: the hero centre must
+          stay one of the DARKEST zones; this is presence, not light */}
       <div
         ref={spotlightRef}
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[140vw] h-[100vh] sm:w-[900px] sm:h-[800px] rounded-full opacity-40 blur-[90px] pointer-events-none"
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[140vw] h-[100vh] sm:w-[900px] sm:h-[800px] rounded-full opacity-[0.06] blur-[110px] pointer-events-none"
         style={{
           background:
-            "radial-gradient(ellipse at center, rgba(88, 17, 28, 0.45) 0%, rgba(45, 7, 13, 0.25) 50%, rgba(8, 1, 2, 0) 75%)",
+            "radial-gradient(ellipse at center, rgba(48, 9, 16, 0.30) 0%, rgba(24, 4, 9, 0.18) 50%, rgba(6, 1, 3, 0) 75%)",
         }}
       />
 
@@ -49,8 +50,8 @@ export const VelvetOverlay: React.FC = () => {
         }}
       />
 
-      {/* Subtle vignette border */}
-      <div className="absolute inset-0 shadow-[inset_0_0_120px_rgba(0,0,0,0.85)] pointer-events-none" />
+      {/* Vignette border — deep wine instead of pure black */}
+      <div className="absolute inset-0 shadow-[inset_0_0_120px_rgba(24,2,7,0.72)] pointer-events-none" />
     </div>
   );
 };

@@ -61,10 +61,16 @@ float silkHeight(vec2 p_uv, float t) {
   float f3 = sin((p.x + p.y) * 2.2 + (w1.x + w2.y) * 1.1 + t * 0.22);
   float f4 = noise(p * 2.5 + w2 * 0.5 + t * 0.08) * 0.25;
 
-  float h = f1 * 0.48 + f2 * 0.34 + f3 * 0.14 + f4 * 0.04;
+  // WATER CURRENT: long luminous streams that visibly FLOW across the scene
+  // like light ribbons on water — elongated along x, drifting with time.
+  float current =
+    sin(p.x * 0.55 - t * 0.85 + 2.4 * sin(p.y * 0.9 + t * 0.12)) * 0.55 +
+    noise(vec2(p.x * 0.45 - t * 0.55, p.y * 1.7)) * 0.30;
+
+  float h = f1 * 0.50 + f2 * 0.36 + f3 * 0.15 + f4 * 0.05 + current * 0.42;
 
   // Non-linear pleat curvature: deep rounded troughs and sharp glowing crests
-  return sin(h * 1.85);
+  return sin(h * 2.2);
 }
 
 void main() {
@@ -73,8 +79,8 @@ void main() {
   vec2 p_uv = uv;
   p_uv.x *= aspect;
 
-  // Slow, cinematic liquid velocity
-  float t = u_time * 0.32;
+  // Slow, cinematic liquid velocity (slightly livelier so folds read clearly)
+  float t = u_time * 0.42;
 
   // Surface normal through finite differences
   float eps = 0.0035;
@@ -82,7 +88,7 @@ void main() {
   float hx = silkHeight(p_uv + vec2(eps, 0.0), t);
   float hy = silkHeight(p_uv + vec2(0.0, eps), t);
 
-  vec3 normal = normalize(vec3(-(hx - h0) / eps * 2.4, -(hy - h0) / eps * 2.4, 1.0));
+  vec3 normal = normalize(vec3(-(hx - h0) / eps * 3.2, -(hy - h0) / eps * 3.2, 1.0));
 
   // Dramatic directional grazing spotlight from upper-left
   vec3 lightDir = normalize(vec3(-0.35, 0.50, 0.65));
@@ -90,8 +96,8 @@ void main() {
 
   float diff = max(0.0, dot(normal, lightDir));
   vec3 halfVec = normalize(lightDir + viewDir);
-  float spec1 = pow(max(0.0, dot(normal, halfVec)), 14.0); // Soft velvet bloom
-  float spec2 = pow(max(0.0, dot(normal, halfVec)), 38.0); // Sharp liquid silk specular highlight
+  float spec1 = pow(max(0.0, dot(normal, halfVec)), 12.0); // Soft velvet bloom
+  float spec2 = pow(max(0.0, dot(normal, halfVec)), 34.0); // Sharp liquid silk specular highlight
 
   // Velvet Fresnel rim sheen along fold silhouettes
   float fresnel = pow(1.0 - max(0.0, dot(normal, viewDir)), 2.6);
@@ -107,18 +113,36 @@ void main() {
   // Map height from [-1, 1] to [0, 1]
   float nh = h0 * 0.5 + 0.5;
 
-  // Distinct transitions creating clearly visible folds
-  vec3 col = mix(c_valley, c_wine, smoothstep(0.02, 0.38, nh));
-  col = mix(col, c_crimson, smoothstep(0.32, 0.72, nh) * (diff * 0.8 + 0.2));
-  col = mix(col, c_ruby, smoothstep(0.62, 0.96, nh) * (diff * 0.85 + 0.25));
+  // HIGHLIGHTS-ONLY MODE: this canvas is screen-blended over the
+  // photographic artwork, so dark shader output vanishes into the photo and
+  // only luminous additions surface. Broad crimson fields are scaled way
+  // down (they were stacking into a flat red tint over the artwork); pale
+  // sheen + gold crest glints remain as liquid light on the velvet folds.
+  vec3 col = mix(c_valley, c_wine, smoothstep(0.05, 0.34, nh));
+  col = mix(col, c_crimson, smoothstep(0.30, 0.70, nh) * (diff * 0.9 + 0.25) * 0.30);
+  col = mix(col, c_ruby, smoothstep(0.58, 0.94, nh) * (diff * 0.95 + 0.3) * 0.22);
 
-  // Add glowing velvet fresnel sheen along the fold ridges
-  col += c_crimson * fresnel * 0.55;
+  // Faint velvet fresnel along fold ridges
+  col += c_crimson * fresnel * 0.09;
 
-  // Add vibrant liquid specular highlights along crests
-  col += c_sheen * spec1 * 0.55;
-  col += c_sheen * spec2 * 0.80;
-  col += c_gold * spec2 * 0.22;
+  // Liquid specular highlights along crests — faint reflections in the
+  // darkness, never brightening the screen
+  col += c_sheen * spec1 * 0.06;
+  col += c_sheen * spec2 * 0.16;
+  col += c_gold * spec2 * 0.12;
+
+  // FLOWING WATER STREAMS — thin deep-red reflections gliding over the
+  // black silk folds: visible when you look carefully, never a glow.
+  float stream =
+    smoothstep(0.52, 0.72, nh) * smoothstep(0.98, 0.80, nh);
+  col += (c_sheen * 0.34 + c_gold * 0.22) * stream * (0.5 + 0.5 * diff);
+
+  // CAUSTIC RIPPLES — fine interference ripples drifting with the current,
+  // like sunlight refracting through shallow flowing water.
+  float ripplePhase = p_uv.x * 5.5 + p_uv.y * 2.2 - t * 1.35
+    + 1.8 * noise(vec2(p_uv.x * 3.0 - t * 0.8, p_uv.y * 3.4));
+  float caustic = pow(0.5 + 0.5 * sin(ripplePhase * 6.2831), 7.0);
+  col += (c_sheen * 0.20 + c_gold * 0.14) * caustic * (0.30 + 0.35 * diff);
 
   // Subtle perimeter vignette
   vec2 vigCoord = uv * (1.0 - uv.yx);
@@ -168,7 +192,7 @@ export const FluidSilkBackground: React.FC<FluidSilkBackgroundProps> = ({ classN
       const ctx = canvas.getContext("2d");
       if (!ctx) return;
 
-      const render2DFallback = (now: number) => {
+      const render2DFallback = () => {
         if (!isVisible || !isTabActive) {
           if (!reducedMotion) {
             animationFrameId = requestAnimationFrame(render2DFallback);
@@ -176,7 +200,7 @@ export const FluidSilkBackground: React.FC<FluidSilkBackgroundProps> = ({ classN
           return;
         }
 
-        const t = (now - startTime) * 0.0003;
+        const t = (performance.now() - startTime) * 0.0003;
         const w = canvas.width;
         const h = canvas.height;
 
@@ -275,20 +299,23 @@ export const FluidSilkBackground: React.FC<FluidSilkBackgroundProps> = ({ classN
     const uResolutionLoc = gl.getUniformLocation(program, "u_resolution");
     const uTimeLoc = gl.getUniformLocation(program, "u_time");
 
-    // 4. Responsive Resize with Capped DPR for 60fps Mobile Performance
+    // 4. Responsive Resize — resolution-capped for 60fps on mobile GPUs.
+    // Raising the cap doubles shader work per frame; on phones the photo
+    // backdrop carries the detail, so the silk renders small and upscales.
     const handleResize = () => {
       if (!canvas || !gl) return;
       const rect = canvas.getBoundingClientRect();
       const width = rect.width || window.innerWidth || 1280;
       const height = rect.height || window.innerHeight || 900;
 
-      // Cap DPR to 1.25 on mobile, 1.5 on desktop for optimal battery and thermals
-      const maxDpr = window.innerWidth <= 768 ? 1.25 : 1.5;
+      // Cap DPR to 1 on mobile, 1.25 on desktop — the sheen is soft-focus
+      // light, so sub-DPR crispness is wasted GPU time.
+      const maxDpr = window.innerWidth <= 768 ? 1 : 1.25;
       const dpr = Math.min(window.devicePixelRatio || 1, maxDpr);
 
       // Max rendering dimension cap
-      const renderW = Math.min(Math.floor(width * dpr), 1920);
-      const renderH = Math.min(Math.floor(height * dpr), 1200);
+      const renderW = Math.min(Math.floor(width * dpr), window.innerWidth <= 768 ? 900 : 1600);
+      const renderH = Math.min(Math.floor(height * dpr), window.innerWidth <= 768 ? 700 : 1000);
 
       if (canvas.width !== renderW || canvas.height !== renderH) {
         canvas.width = renderW;
@@ -313,12 +340,14 @@ export const FluidSilkBackground: React.FC<FluidSilkBackgroundProps> = ({ classN
     const handleVisibilityChange = () => {
       isTabActive = document.visibilityState === "visible";
     };
-    document.addEventListener("visibilitychange", handleVisibilityChange);
+    document.addEventListener("visibilitychange", handleVisibilityChange);    // 6. Master Render Loop
+    const render = () => {
 
-    // 6. Master Render Loop
-    const render = (now: number) => {
       if (isVisible && isTabActive && gl) {
-        const elapsedSeconds = (now - startTime) * 0.001;
+        // Drive time from performance.now(), NOT the rAF timestamp: some
+        // compositing environments deliver frozen rAF timestamps, which
+        // would freeze the water. performance.now() is monotonic everywhere.
+        const elapsedSeconds = (performance.now() - startTime) * 0.001;
         gl.uniform1f(uTimeLoc, elapsedSeconds);
         gl.drawArrays(gl.TRIANGLES, 0, 6);
       }
@@ -356,9 +385,15 @@ export const FluidSilkBackground: React.FC<FluidSilkBackgroundProps> = ({ classN
     <canvas
       ref={canvasRef}
       aria-hidden="true"
-      className={`absolute inset-0 w-full h-full pointer-events-none select-none z-0 object-cover ${className}`}
+      // Fixed to the viewport: the flowing water reads at natural screen
+      // proportions everywhere on the page and the GPU cost stays constant
+      className={`fixed inset-0 w-full h-full pointer-events-none select-none object-cover ${className}`}
       style={{
         willChange: "transform",
+        // Blend the liquid-silk shader over the photographic backdrop as
+        // flowing light: dark shader regions vanish, crests glow through.
+        mixBlendMode: "screen",
+        opacity: 0.34,
       }}
     />
   );

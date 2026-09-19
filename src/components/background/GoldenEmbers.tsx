@@ -31,7 +31,7 @@ export const GoldenEmbers: React.FC = () => {
         duration: 9 + (i % 7) * 2.5, // 9s to 24s slow float
         delay: (i * 0.7) % 6,
         drift: ((i % 5) - 2) * 8, // slight horizontal drift -16px to +16px
-        opacity: 0.25 + ((i % 4) * 0.12),
+        opacity: 0.10 + ((i % 4) * 0.05),
       });
     }
     return list;
@@ -40,7 +40,7 @@ export const GoldenEmbers: React.FC = () => {
   if (reducedMotion) return null;
 
   return (
-    <div className="absolute inset-0 pointer-events-none overflow-hidden select-none z-[2]">
+    <div className="absolute inset-0 pointer-events-none overflow-hidden select-none z-[4]">
       {particles.map((p) => (
         <span
           key={p.id}
@@ -50,8 +50,8 @@ export const GoldenEmbers: React.FC = () => {
             top: `${p.y}%`,
             width: `${p.size}px`,
             height: `${p.size}px`,
-            backgroundColor: "#f7e6b5",
-            boxShadow: `0 0 ${p.size * 3}px rgba(229, 197, 123, 0.7)`,
+            backgroundColor: "#d9c08a",
+            boxShadow: `0 0 ${p.size * 2.5}px rgba(202, 162, 77, 0.4)`,
             opacity: p.opacity,
             animation: `floatParticle ${p.duration}s cubic-bezier(0.4, 0, 0.2, 1) infinite`,
             animationDelay: `${p.delay}s`,

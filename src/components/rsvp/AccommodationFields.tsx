@@ -69,9 +69,9 @@ export const AccommodationFields: React.FC<AccommodationFieldsProps> = ({
       <div className="overflow-hidden">
         <div className="pt-4 pb-2 border-t border-[#caa24d]/25 space-y-4 text-left">
           {/* Section Header */}
-          <div className="flex items-center space-x-2 pb-1 border-b border-[#caa24d]/15">
+          <div className="flex items-center space-x-2 pb-1 border-b border-[#f3e5c8]/15">
             <BedHotelIcon className="w-4 h-4 text-[#caa24d]" />
-            <span className="font-serif text-xs uppercase tracking-[0.2em] text-[#fff0c7]">
+            <span className="font-sans text-[10px] uppercase tracking-[0.22em] text-[#e5c57b]/95">
               Guest Stay & Hospitality Details
             </span>
           </div>
@@ -91,7 +91,7 @@ export const AccommodationFields: React.FC<AccommodationFieldsProps> = ({
               onChange={(e) => onStayGuestNameChange(e.target.value)}
               placeholder="Full Name of Guest Staying"
               autoComplete="name"
-              className="w-full px-3.5 py-2.5 bg-[#1a0308] border border-[#caa24d]/35 text-[#fff0c7] text-xs font-sans placeholder-[#caa24d]/35 focus:outline-none focus:border-[#caa24d] focus:ring-1 focus:ring-[#caa24d]"
+              className="w-full px-3.5 py-2.5 bg-white/[0.05] border border-[#f3e5c8]/15 text-[#fff0c7] text-xs font-sans placeholder-[#caa24d]/40 focus:outline-none focus:border-[#e5c57b]/70 focus:bg-white/[0.075] rounded-md transition-colors backdrop-blur-sm"
             />
             {errors?.stayGuestName && (
               <p className="font-sans text-[11px] text-[#e5c57b] italic pt-0.5" role="alert">
@@ -118,7 +118,7 @@ export const AccommodationFields: React.FC<AccommodationFieldsProps> = ({
               onChange={(e) => onPhoneChange(e.target.value)}
               placeholder={config.phonePlaceholder}
               autoComplete="tel"
-              className="w-full px-3.5 py-2.5 bg-[#1a0308] border border-[#caa24d]/35 text-[#fff0c7] text-xs font-sans placeholder-[#caa24d]/35 focus:outline-none focus:border-[#caa24d] focus:ring-1 focus:ring-[#caa24d]"
+              className="w-full px-3.5 py-2.5 bg-white/[0.05] border border-[#f3e5c8]/15 text-[#fff0c7] text-xs font-sans placeholder-[#caa24d]/40 focus:outline-none focus:border-[#e5c57b]/70 focus:bg-white/[0.075] rounded-md transition-colors backdrop-blur-sm"
             />
             {errors?.phone && (
               <p className="font-sans text-[11px] text-[#e5c57b] italic pt-0.5" role="alert">
@@ -146,7 +146,7 @@ export const AccommodationFields: React.FC<AccommodationFieldsProps> = ({
                 type="date"
                 value={arrivalDate}
                 onChange={(e) => onArrivalDateChange(e.target.value)}
-                className="w-full h-11 px-3.5 py-2.5 bg-[#1a0308] border border-[#caa24d]/35 text-[#fff0c7] text-xs font-sans focus:outline-none focus:border-[#caa24d] focus:ring-1 focus:ring-[#caa24d] [color-scheme:dark]"
+                className="w-full h-11 px-3.5 py-2.5 bg-white/[0.05] border border-[#f3e5c8]/15 text-[#fff0c7] text-xs font-sans focus:outline-none focus:border-[#e5c57b]/70 focus:bg-white/[0.075] rounded-md transition-colors [color-scheme:dark] backdrop-blur-sm"
               />
               {errors?.arrivalDate && (
                 <p className="font-sans text-[11px] text-[#e5c57b] italic pt-0.5" role="alert">
@@ -172,7 +172,7 @@ export const AccommodationFields: React.FC<AccommodationFieldsProps> = ({
                 type="date"
                 value={departureDate}
                 onChange={(e) => onDepartureDateChange(e.target.value)}
-                className="w-full h-11 px-3.5 py-2.5 bg-[#1a0308] border border-[#caa24d]/35 text-[#fff0c7] text-xs font-sans focus:outline-none focus:border-[#caa24d] focus:ring-1 focus:ring-[#caa24d] [color-scheme:dark]"
+                className="w-full h-11 px-3.5 py-2.5 bg-white/[0.05] border border-[#f3e5c8]/15 text-[#fff0c7] text-xs font-sans focus:outline-none focus:border-[#e5c57b]/70 focus:bg-white/[0.075] rounded-md transition-colors [color-scheme:dark] backdrop-blur-sm"
               />
               {errors?.departureDate && (
                 <p className="font-sans text-[11px] text-[#e5c57b] italic pt-0.5" role="alert">
@@ -198,12 +198,12 @@ export const AccommodationFields: React.FC<AccommodationFieldsProps> = ({
                   {config.peopleStayingLabel}
                 </label>
               </div>
-              <div className="h-11 flex items-center justify-between border border-[#caa24d]/40 bg-[#190308] px-2 w-full">
+              <div className="h-11 flex items-center justify-between border border-[#f3e5c8]/15 bg-white/[0.05] rounded-md px-2 w-full backdrop-blur-sm">
                 <button
                   type="button"
                   disabled={peopleStaying <= config.minPeople}
                   onClick={() => onPeopleStayingChange(Math.max(config.minPeople, peopleStaying - 1))}
-                  className="w-8 h-8 flex items-center justify-center font-serif text-base text-[#fff0c7] hover:bg-[#caa24d]/20 disabled:opacity-30 transition-colors cursor-pointer"
+                  className="w-8 h-8 flex items-center justify-center font-serif text-base text-[#fff0c7] hover:bg-[#caa24d]/20 disabled:opacity-30 transition-colors cursor-pointer rounded-full"
                 >
                   −
                 </button>
@@ -228,12 +228,12 @@ export const AccommodationFields: React.FC<AccommodationFieldsProps> = ({
                   {config.roomsRequiredLabel}
                 </label>
               </div>
-              <div className="h-11 flex items-center justify-between border border-[#caa24d]/40 bg-[#190308] px-2 w-full">
+              <div className="h-11 flex items-center justify-between border border-[#f3e5c8]/15 bg-white/[0.05] rounded-md px-2 w-full backdrop-blur-sm">
                 <button
                   type="button"
                   disabled={roomsRequired <= config.minRooms}
                   onClick={() => onRoomsRequiredChange(Math.max(config.minRooms, roomsRequired - 1))}
-                  className="w-8 h-8 flex items-center justify-center font-serif text-base text-[#fff0c7] hover:bg-[#caa24d]/20 disabled:opacity-30 transition-colors cursor-pointer"
+                  className="w-8 h-8 flex items-center justify-center font-serif text-base text-[#fff0c7] hover:bg-[#caa24d]/20 disabled:opacity-30 transition-colors cursor-pointer rounded-full"
                 >
                   −
                 </button>
@@ -267,7 +267,7 @@ export const AccommodationFields: React.FC<AccommodationFieldsProps> = ({
               value={specialRequirements}
               onChange={(e) => onSpecialRequirementsChange(e.target.value)}
               placeholder={config.specialRequirementsPlaceholder}
-              className="w-full px-3.5 py-2.5 bg-[#1a0308] border border-[#caa24d]/35 text-[#fff0c7] text-xs font-sans placeholder-[#caa24d]/35 focus:outline-none focus:border-[#caa24d] focus:ring-1 focus:ring-[#caa24d] resize-none"
+              className="w-full px-3.5 py-2.5 bg-white/[0.05] border border-[#f3e5c8]/15 text-[#fff0c7] text-xs font-sans placeholder-[#caa24d]/40 focus:outline-none focus:border-[#e5c57b]/70 focus:bg-white/[0.075] rounded-md transition-colors resize-none backdrop-blur-sm"
             />
           </div>
         </div>

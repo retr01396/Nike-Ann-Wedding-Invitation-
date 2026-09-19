@@ -25,71 +25,44 @@ export default function Home() {
         <MonogramIntro onComplete={() => setIntroFinished(true)} />
       )}
 
-      {/* Section 1: Hero & Interactive Physical Envelope Scene */}
-      <EnvelopeScene />
-
-      {/* Section 2: Slim Stationery Navigation Bar */}
+      {/* Section 1: Slim Stationery Navigation Bar (Top bar matching reference) */}
       <StationeryNav />
 
-      {/* Section 3: Our Story — 3-Column Editorial Magazine Spread */}
+      {/* Section 2: Hero & Interactive Physical Envelope Scene */}
+      <EnvelopeScene />
+
+      {/* Section 3: Our Story — Cinematic Vertical Timeline */}
       <StorySection />
 
-      {/* Section 4: Lower 3-Column Suite (The Celebration | Kindly RSVP | Getting There) */}
+      {/* Section 4: Lower Suite — The Celebration | Kindly RSVP | Getting There
+          Three smoked-burgundy liquid-glass panels. The dark crimson bloom
+          tint lives ONLY here — never behind the hero envelope. */}
       <section
         id="events-rsvp-travel-suite"
         aria-label="Wedding Celebration, RSVP, and Directions"
-        className="relative w-full max-w-6xl mx-auto my-8 sm:my-14 border-y border-[#caa24d]/25 bg-gradient-to-b from-[#180308]/85 via-[#120205]/90 to-[#0a0103]/90 backdrop-blur-sm shadow-[0_25px_60px_rgba(0,0,0,0.85)] select-none z-20"
+        className="relative w-full max-w-6xl mx-auto my-10 sm:my-16 px-4 sm:px-0 select-none z-20"
       >
-        {/* Left Edge Floral Framing with soft gradient feathering */}
+        {/* Scoped atmospheric tint: blurred dark-crimson bloom + gentle radial
+            darkness hugging the panel band; background florals stay visible
+            around it. */}
         <div
-          className="absolute top-0 -left-6 sm:-left-10 w-24 sm:w-32 h-full pointer-events-none overflow-hidden opacity-80 z-10 hidden md:block"
+          aria-hidden="true"
+          className="absolute -inset-x-6 -inset-y-10 sm:-inset-x-10 sm:-inset-y-14 pointer-events-none"
           style={{
-            WebkitMaskImage:
-              "linear-gradient(to right, rgba(0,0,0,0.9) 20%, rgba(0,0,0,0) 100%), linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 12%, rgba(0,0,0,1) 88%, rgba(0,0,0,0) 100%)",
-            maskImage:
-              "linear-gradient(to right, rgba(0,0,0,0.9) 20%, rgba(0,0,0,0) 100%), linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 12%, rgba(0,0,0,1) 88%, rgba(0,0,0,0) 100%)",
-            WebkitMaskComposite: "destination-in",
-            maskComposite: "intersect",
+            background:
+              "radial-gradient(ellipse 72% 62% at 50% 45%, rgba(74,8,18,0.55) 0%, rgba(40,4,10,0.35) 55%, rgba(20,2,6,0.0) 82%)",
+            filter: "blur(30px)",
           }}
-        >
-          <Image
-            src="/images/wedding/lower-suite-edge-left.jpg"
-            alt=""
-            fill
-            sizes="130px"
-            className="object-cover object-left filter contrast-105"
-          />
-        </div>
+        />
 
-        {/* Right Edge Velvet/Floral Framing with soft gradient feathering */}
-        <div
-          className="absolute top-0 -right-6 sm:-right-10 w-24 sm:w-32 h-full pointer-events-none overflow-hidden opacity-80 z-10 hidden md:block"
-          style={{
-            WebkitMaskImage:
-              "linear-gradient(to left, rgba(0,0,0,0.9) 20%, rgba(0,0,0,0) 100%), linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 12%, rgba(0,0,0,1) 88%, rgba(0,0,0,0) 100%)",
-            maskImage:
-              "linear-gradient(to left, rgba(0,0,0,0.9) 20%, rgba(0,0,0,0) 100%), linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 12%, rgba(0,0,0,1) 88%, rgba(0,0,0,0) 100%)",
-            WebkitMaskComposite: "destination-in",
-            maskComposite: "intersect",
-          }}
-        >
-          <Image
-            src="/images/wedding/lower-suite-edge-right.jpg"
-            alt=""
-            fill
-            sizes="130px"
-            className="object-cover object-right filter contrast-105"
-          />
-        </div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-3 divide-y lg:divide-y-0 lg:divide-x divide-[#caa24d]/20 items-stretch">
-          {/* Left Column: Event Details */}
+        <div className="relative grid grid-cols-1 lg:grid-cols-3 gap-5 sm:gap-6 items-stretch">
+          {/* The Celebration */}
           <EventsSection />
 
-          {/* Center Column: Kindly RSVP */}
+          {/* Kindly RSVP — liquid glass panel */}
           <RSVPSection />
 
-          {/* Right Column: Getting There (Travel) */}
+          {/* Getting There (Travel) */}
           <TravelSection />
         </div>
       </section>

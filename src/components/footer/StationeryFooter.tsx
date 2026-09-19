@@ -15,61 +15,93 @@ const WhatsAppIcon: React.FC<{ className?: string }> = ({ className = "w-4 h-4" 
   </svg>
 );
 
+/**
+ * StationeryFooter — the closing band from the approved reference:
+ * "NIKE & ANN 2026" | centered "A BRIGHTER CHAPTER TOGETHER" over the
+ * N / A monogram | nav links + "MADE WITH LOVE ❤" on the right.
+ */
 export const StationeryFooter: React.FC = () => {
   const contact = weddingConfig.contact;
+
+  const navLinks = [
+    { label: "OUR STORY", href: "#our-story" },
+    { label: "EVENTS", href: "#events" },
+    { label: "DIRECTIONS", href: "#directions" },
+    { label: "RSVP", href: "#rsvp" },
+  ];
 
   return (
     <footer
       aria-label="Invitation Footer"
-      className="relative w-full bg-[#0d0104] border-t border-[#caa24d]/30 py-6 sm:py-8 px-4 sm:px-8 select-none z-20"
+      className="relative w-full py-9 sm:py-11 px-4 sm:px-8 select-none z-20"
+      style={{
+        /* Dark translucent burgundy veil — the floral/liquid background
+            continues into the footer (no giant solid block), while staying
+            dark enough that the gold typography remains the focus */
+        background:
+          "linear-gradient(to bottom, rgba(35,3,8,0.66) 0%, rgba(23,2,5,0.82) 60%, rgba(16,1,3,0.92) 100%)",
+        backdropFilter: "blur(14px) brightness(0.9)",
+        WebkitBackdropFilter: "blur(14px) brightness(0.9)",
+        borderTop: "1px solid rgba(202,162,77,0.35)",
+      }}
     >
-      <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 sm:gap-6">
-        {/* Left: N / A Monogram */}
-        <div className="font-cinzel text-sm sm:text-base tracking-[0.3em] text-[#d8b257]">
-          N <span className="font-serif italic text-xs text-[#d8b257]/70">/</span> A
+      {/* Warm gold seam glow along the top edge */}
+      <div
+        aria-hidden="true"
+        className="absolute inset-x-0 top-0 h-[1px] pointer-events-none"
+        style={{
+          background:
+            "linear-gradient(to right, transparent, rgba(255,240,199,0.5), transparent)",
+        }}
+      />
+
+      <div className="relative max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-3 items-center gap-6 sm:gap-4">
+        {/* Left: NIKE & ANN / 2026 */}
+        <div className="text-center sm:text-left order-2 sm:order-1">
+          <p className="font-cinzel text-[10px] tracking-[0.3em] text-[#d8b257] uppercase">
+            NIKE &amp; ANN
+          </p>
+          <p className="mt-1 font-sans text-[9px] tracking-[0.35em] text-[#caa24d]/60">
+            2026
+          </p>
         </div>
 
-        {/* Center: WITH LOVE, NIKE & ANN */}
-        <div className="font-cinzel text-xs sm:text-[13px] tracking-[0.25em] text-[#fbf6ea] uppercase text-center font-normal">
-          WITH LOVE, NIKE &amp; ANN
+        {/* Center: A BRIGHTER CHAPTER TOGETHER + N / A monogram */}
+        <div className="flex flex-col items-center order-1 sm:order-2">
+          <p className="font-cinzel text-[9px] sm:text-[10px] tracking-[0.4em] text-[#e5c57b]/85 uppercase text-center">
+            A BRIGHTER CHAPTER TOGETHER
+          </p>
+          <span
+            aria-hidden="true"
+            className="block w-[1px] h-6 bg-gradient-to-b from-[#caa24d]/70 to-transparent mt-2"
+          />
+          <p className="mt-1 font-cinzel text-base sm:text-lg tracking-[0.35em] text-[#d8b257]">
+            N <span className="font-serif italic text-xs text-[#d8b257]/70">/</span> A
+          </p>
         </div>
 
-        {/* Right: Contact Icons & Date */}
-        <div className="flex items-center gap-4 sm:gap-6 text-[#caa24d]/80">
+        {/* Right: nav links + MADE WITH LOVE */}
+        <div className="flex flex-col items-center sm:items-end gap-2 order-3">
+          <nav
+            aria-label="Footer navigation"
+            className="flex items-center gap-3 sm:gap-4 flex-wrap justify-center"
+          >
+            {navLinks.map((link) => (
+              <a
+                key={link.label}
+                href={link.href}
+                className="font-cinzel text-[8.5px] sm:text-[9.5px] tracking-[0.22em] text-[#caa24d]/75 hover:text-[#fff0c7] transition-colors uppercase"
+              >
+                {link.label}
+              </a>
+            ))}
+          </nav>
           <div className="flex items-center gap-3">
-            <a
-              href={contact?.whatsapp || "https://wa.me/919876543210"}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-[#fff0c7] transition-colors p-1"
-              aria-label="Contact via WhatsApp"
-            >
-              <WhatsAppIcon className="w-4 h-4 text-[#caa24d] hover:text-[#fff0c7]" />
-            </a>
-            <a
-              href={contact?.instagram || "https://instagram.com"}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-[#fff0c7] transition-colors p-1"
-              aria-label="Instagram"
-            >
-              <Instagram className="w-4 h-4" />
-            </a>
-            <a
-              href={contact?.email || "mailto:celebration@nikeannwedding.com"}
-              className="hover:text-[#fff0c7] transition-colors p-1"
-              aria-label="Email"
-            >
-              <Mail className="w-4 h-4" />
-            </a>
+            <span className="font-cinzel text-[8.5px] tracking-[0.25em] text-[#caa24d]/75 uppercase flex items-center gap-1.5">
+              <span>MADE WITH LOVE</span>
+              <span className="text-[#a8354b]">♥</span>
+            </span>
           </div>
-
-          <span className="w-[1px] h-3.5 bg-[#caa24d]/30 hidden sm:block" />
-
-          {/* Date: 15 · 11 · 2026 */}
-          <span className="font-cinzel text-[11px] sm:text-xs tracking-[0.25em] text-[#d8b257]">
-            15 · 11 · 2026
-          </span>
         </div>
       </div>
     </footer>

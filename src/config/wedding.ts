@@ -42,14 +42,36 @@ export const weddingConfig: WeddingDataConfig = {
     ctaButtonText: "ENTER OUR WEDDING →",
   },
   storyIntro: {
-    badge: "A BRIGHTER CHAPTER",
+    badge: "OUR STORY",
     headline: ["TWO SOULS,", "A SHARED JOURNEY"],
-    subheading: "From a serendipitous conversation in Kochi to a lifetime promise in Thrissur",
-    quote: "In every crowd and through every season, finding each other was our life's quietest miracle.",
+    subheading: "Perhaps It Was Grace",
+    fullStoryTitle: "Perhaps It Was Grace",
+    quote: "Some people make your world brighter just by being in it.",
     quoteAuthor: "Nike & Ann",
-    portraitImage: "/images/story/portrait.svg",
-    portraitAlt: "Nike and Ann in an embrace",
+    portraitImage: "/images/story/couple/tree-sculpture.jpg",
+    portraitAlt: "Nike and Ann together",
     portraitCaption: "Kochi, 2024",
+    fullStory: [
+      "Some stories begin with a chance encounter. Ours began with our families, a little faith, and a matrimonial site.",
+      "In October 2025, Chavara (the matrimonial site) brought together a boy from Thrissur and a girl from Kannur. Though we grew up in different parts of Kerala, with our own customs, rhythms, and ways of doing things, we shared the same values. That familiarity made it easy for something meaningful to begin.",
+      "What began as a simple introduction soon became a conversation we both looked forward to. We clicked almost instantly, finding comfort in our shared values, similar upbringings, and grounded Malayali Christian roots. And somewhere between her deep faith and my more relaxed approach, we found a balance that felt entirely natural.",
+      "When we finally met in December, during those breezy days, the ease we had found in our conversations carried effortlessly into real life. We decided to date, spend more time together, and see where life would take us.",
+      "Six months may seem short, but it was long enough to know that we wanted a lifetime. In April, with our families as witnesses, we got engaged — a promise to grow together, live together, and stand by each other through all that life brings.",
+      "Looking back, it feels like something more than coincidence. Two people who may never have crossed paths on their own, brought together by the people who knew them best, and perhaps by a little grace from above.",
+      "And now, here we are — ready to turn a beautiful beginning into a lifetime of togetherness."
+    ],
+    polaroids: {
+      top: {
+        image: "/images/story/couple/tree-sculpture.jpg",
+        caption: "First steps",
+        alt: "Nike and Ann with the illuminated tree sculpture"
+      },
+      bottom: {
+        image: "/images/story/couple/festive-night.jpg",
+        caption: "Forever feels right",
+        alt: "Nike and Ann in festive traditional wear surrounded by warm lights"
+      }
+    }
   },
   storyTimeline: {
     badge: "OUR TIMELINE",
@@ -57,55 +79,59 @@ export const weddingConfig: WeddingDataConfig = {
     subtitle: "The chapters that brought our hearts to forever",
     milestones: [
       {
-        id: "first-hello",
-        year: "2020",
-        dateTag: "OCTOBER 2020",
-        title: "The First Hello",
-        subtitle: "A Serendipitous Connection",
+        id: "faith-oct-2025",
+        year: "OCT 2025",
+        dateTag: "OCTOBER 2025",
+        title: "A Little Faith",
+        subtitle: "When Chavara Connected Us",
+        shortDescription: "Chavara brought together a boy from Thrissur and a girl from Kannur together.",
         description:
-          "What began as an unexpected conversation quickly turned into hours of shared laughter, quiet understanding, and the surreal feeling that we had known each other across lifetimes.",
-        location: "Kochi · Kerala",
-        image: "/images/story/milestone-1.svg",
-        imageAlt: "The beginning of our conversation in Kochi",
+          "In October 2025, Chavara (the matrimonial site) brought together a boy from Thrissur and a girl from Kannur. Finding comfort in our shared values, similar upbringings, and grounded Malayali Christian roots, a meaningful conversation began.",
+        location: "Thrissur & Kannur · Kerala",
+        image: "/images/story/couple/sushi-casual.jpg",
+        imageAlt: "Nike and Ann smiling together",
         orientation: "portrait",
       },
       {
-        id: "misty-hills",
-        year: "2022",
-        dateTag: "DECEMBER 2022",
-        title: "Misty Hills & Roadtrips",
-        subtitle: "Finding Home in Each Other",
+        id: "meet-dec-2025",
+        year: "DEC 2025",
+        dateTag: "DECEMBER 2025",
+        title: "The First Meet",
+        subtitle: "Conversations Turned Real",
+        shortDescription: "Those breezy days turned conversations into something real.",
         description:
-          "Wandering together through the emerald tea gardens of Munnar wrapped in mountain mist, we learned that home was never a place or an address—it was simply wherever we stood together.",
-        location: "Munnar · Kerala",
-        image: "/images/story/milestone-2.svg",
-        imageAlt: "Scenic misty tea hills of Munnar",
-        orientation: "landscape",
-      },
-      {
-        id: "the-promise",
-        year: "2024",
-        dateTag: "FEBRUARY 2024",
-        title: "The Golden Promise",
-        subtitle: "A Sunset by the Sea",
-        description:
-          "Against the red cliffs of Varkala as the Arabian Sea mirrored an amber sky, with tears and trembling certainty, we promised each other all of our tomorrows.",
-        location: "Varkala Cliff · Kerala",
-        image: "/images/story/milestone-3.svg",
-        imageAlt: "Sunset promise by the Arabian Sea",
+          "When we finally met in December, during those breezy days, the ease we had found in our conversations carried effortlessly into real life. We decided to date, spend more time together, and see where life would take us.",
+        location: "Kerala",
+        image: "/images/story/couple/orange-outfit.jpg",
+        imageAlt: "Nike and Ann together in traditional and contemporary attire",
         orientation: "portrait",
       },
       {
-        id: "the-wedding",
-        year: "2026",
+        id: "engagement-apr-2026",
+        year: "APR 2026",
+        dateTag: "APRIL 2026",
+        title: "Our Engagement",
+        subtitle: "A Promise to Grow Together",
+        shortDescription: "With our families as witnesses, we said yes to forever.",
+        description:
+          "Six months may seem short, but it was long enough to know that we wanted a lifetime. In April, with our families as witnesses, we got engaged — a promise to grow together, live together, and stand by each other through all that life brings.",
+        location: "Kerala",
+        image: "/images/story/rings.jpg",
+        imageAlt: "Hands intertwined with engagement rings",
+        orientation: "portrait",
+      },
+      {
+        id: "wedding-nov-2026",
+        year: "NOV 2026",
         dateTag: "NOVEMBER 2026",
-        title: "The Beginning of Always",
-        subtitle: "Two Families, One Heart",
+        title: "A Lifetime Ahead",
+        subtitle: "Perhaps It Was Grace",
+        shortDescription: "Two people, one journey, perhaps it was grace.",
         description:
-          "Surrounded by the warmth of our families, blessed by our ancestors, and stepping hand in hand into the sacred celebration of our marriage.",
+          "Looking back, it feels like something more than coincidence. Two people brought together by the people who knew them best, and perhaps by a little grace from above. And now, here we are — ready for a lifetime of togetherness.",
         location: "Thrissur · Kerala",
-        image: "/images/story/milestone-4.svg",
-        imageAlt: "Nike and Ann wedding celebration",
+        image: "/images/story/couple.jpg",
+        imageAlt: "Nike and Ann walking forward into their lifetime together",
         orientation: "portrait",
       },
     ],
@@ -118,6 +144,14 @@ export const weddingConfig: WeddingDataConfig = {
     badge: "THE CELEBRATION",
     title: "EVENT DETAILS",
     subtitle: "Join us in our sacred traditions and joyous moments",
+    // Day programme displayed inside the Event Details glass panel
+    programmeSchedule: [
+      { time: "08:30 AM", label: "Guest Arrival" },
+      { time: "09:30 AM", label: "Muhurtam" },
+      { time: "12:00 PM", label: "Lunch & Blessings" },
+      { time: "04:00 PM", label: "Reception" },
+    ],
+    closingNote: ["WE CAN'T WAIT", "TO CELEBRATE WITH YOU"],
     events: [
       {
         id: "wedding",
@@ -144,8 +178,7 @@ export const weddingConfig: WeddingDataConfig = {
         contactInfo: "+91 98765 43210 (Event Concierge)",
         specialNotes:
           "Auspicious ceremony will take place between 10:30 AM and 11:30 AM.",
-        mapUrl:
-          "https://maps.google.com/?q=Lulu+International+Convention+Center+Thrissur+Kerala",
+        mapUrl: "https://maps.app.goo.gl/ZwUdbuYiaPKYvV3u5?g_st=iw",
       },
       {
         id: "church",
@@ -168,8 +201,7 @@ export const weddingConfig: WeddingDataConfig = {
           "Family members and close witnesses are invited for the pre-ceremony prayer gathering at 08:30 AM.",
         additionalInstructions:
           "Please silence mobile phones inside the sacred sanctuary during the solemn crowning liturgy.",
-        mapUrl:
-          "https://maps.google.com/?q=St+Thomas+Church+Palayoor+Chavakkad+Thrissur",
+        mapUrl: "https://maps.app.goo.gl/RfBfQvkBvkVc7Ahb8?g_st=iw",
       },
       {
         id: "grooms-house",
@@ -192,7 +224,7 @@ export const weddingConfig: WeddingDataConfig = {
           "Traditional evening Kerala delicacies and refreshments will be served continuously throughout the gathering.",
         specialNotes:
           "An evening dedicated to laughter, nostalgia, and welcoming traveling family and friends.",
-        mapUrl: "https://maps.google.com/?q=Thrissur+Kerala",
+        mapUrl: "https://maps.app.goo.gl/qFGEFSNSgaVG1C6C6?g_st=iw",
       },
     ],
   },
@@ -212,7 +244,7 @@ export const weddingConfig: WeddingDataConfig = {
         isConfirmed: false,
         placeholderNotice:
           "Tentative church placeholder — final confirmed parish location and liturgy arrival times will be updated soon.",
-        mapUrl: "https://maps.google.com/?q=St+Thomas+Church+Palayoor+Chavakkad+Thrissur",
+        mapUrl: "https://maps.app.goo.gl/RfBfQvkBvkVc7Ahb8?g_st=iw",
         directionsButtonText: "GET DIRECTIONS →",
         description:
           "One of the seven historic churches traditionally attributed to the apostolic mission of St. Thomas in Kerala, renowned for its serene heritage.",
@@ -240,7 +272,7 @@ export const weddingConfig: WeddingDataConfig = {
         isConfirmed: false,
         placeholderNotice:
           "Tentative venue placeholder — final confirmed location, parking zones, and exact navigational link will be updated upon venue confirmation.",
-        mapUrl: "https://maps.google.com/?q=Lulu+International+Convention+Center+Thrissur+Kerala",
+        mapUrl: "https://maps.app.goo.gl/ZwUdbuYiaPKYvV3u5?g_st=iw",
         directionsButtonText: "GET DIRECTIONS →",
         description:
           "Modern luxury convention facility featuring grand banquet halls, dedicated bridal amenities, and expansive parking.",
@@ -268,7 +300,7 @@ export const weddingConfig: WeddingDataConfig = {
         isConfirmed: false,
         placeholderNotice:
           "Private family residence — exact navigational pin, gate access, and family contact details will be provided directly to invited guests.",
-        mapUrl: "https://maps.google.com/?q=Thrissur+Kerala",
+        mapUrl: "https://maps.app.goo.gl/qFGEFSNSgaVG1C6C6?g_st=iw",
         directionsButtonText: "GET DIRECTIONS →",
         description:
           "Traditional Kerala heritage homestead opening its courtyard to receive dear family and friends for the eve festivities.",

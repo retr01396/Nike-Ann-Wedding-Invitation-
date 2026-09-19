@@ -5,7 +5,7 @@ import { weddingConfig } from "@/config/wedding";
 import { AttendanceOptionValue, RSVPSubmission } from "@/types/wedding";
 import { RSVPConfirmation } from "./RSVPConfirmation";
 import { AccommodationFields } from "./AccommodationFields";
-import { ChevronDown, Plus, Minus } from "lucide-react";
+import { ChevronDown, Plus, Minus, User } from "lucide-react";
 
 export const RSVPForm: React.FC = () => {
   const { rsvp } = weddingConfig;
@@ -170,33 +170,28 @@ export const RSVPForm: React.FC = () => {
       noValidate
       className="relative w-full text-left space-y-4 select-none"
     >
-      {/* Eyebrow & Title matching reference */}
-      <div className="text-center">
-        <span className="font-cinzel text-[8.5px] sm:text-[9.5px] tracking-[0.35em] text-[#caa24d] uppercase font-medium">
-          {rsvp.badge}
-        </span>
-        <h3 className="mt-1 font-cinzel text-lg sm:text-xl tracking-[0.25em] text-[#fbf6ea] font-normal">
-          {rsvp.title}
-        </h3>
-        <div className="w-6 h-[1px] bg-[#caa24d]/60 mx-auto mt-2" />
-      </div>
+      {/* Panel header (KINDLY / RSVP / subtitle) is rendered by RSVPSection;
+          the form owns only the fields. */}
 
       {/* Inputs Stack */}
-      <div className="mt-5 space-y-3">
+      <div className="space-y-3">
         {/* Field 1: Your Name */}
         <div>
-          <input
-            id="rsvp-name"
-            type="text"
-            value={name}
-            onChange={(e) => {
-              setName(e.target.value);
-              if (errors.name) setErrors((prev) => ({ ...prev, name: "" }));
-            }}
-            placeholder="Your Name"
-            autoComplete="name"
-            className="w-full px-3 py-2.5 bg-[#120306] border border-[#caa24d]/25 text-[#fff0c7] text-xs font-serif placeholder-[#caa24d]/40 focus:outline-none focus:border-[#caa24d] rounded-none transition-colors"
-          />
+          <div className="relative">
+            <input
+              id="rsvp-name"
+              type="text"
+              value={name}
+              onChange={(e) => {
+                setName(e.target.value);
+                if (errors.name) setErrors((prev) => ({ ...prev, name: "" }));
+              }}
+              placeholder="Your Name"
+              autoComplete="name"
+              className="w-full pl-3 pr-9 py-2.5 bg-white/[0.045] border border-[#f3e5c8]/15 text-[#fff0c7] text-xs font-serif placeholder-[#caa24d]/45 focus:outline-none focus:border-[#e5c57b]/70 focus:bg-white/[0.07] rounded-md transition-colors backdrop-blur-sm"
+            />
+            <User className="w-3.5 h-3.5 text-[#caa24d]/60 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+          </div>
           {errors.name && (
             <p className="text-[10px] text-[#e5c57b] font-serif italic pt-0.5" role="alert">
               {errors.name}
@@ -209,7 +204,7 @@ export const RSVPForm: React.FC = () => {
           <button
             type="button"
             onClick={() => setAttendanceOpen(!attendanceOpen)}
-            className="w-full px-3 py-2.5 bg-[#120306] border border-[#caa24d]/25 text-xs font-serif flex items-center justify-between rounded-none focus:outline-none focus:border-[#caa24d] text-left cursor-pointer"
+            className="w-full px-3 py-2.5 bg-white/[0.045] border border-[#f3e5c8]/15 text-xs font-serif flex items-center justify-between rounded-md focus:outline-none focus:border-[#e5c57b]/70 focus:bg-white/[0.07] text-left cursor-pointer backdrop-blur-sm"
           >
             <span className={attendance ? "text-[#fff0c7]" : "text-[#caa24d]/50"}>
               {attendance === "yes"
@@ -222,7 +217,7 @@ export const RSVPForm: React.FC = () => {
           </button>
 
           {attendanceOpen && (
-            <div className="absolute top-full left-0 right-0 mt-1 z-30 bg-[#1e0409] border border-[#caa24d]/40 rounded-none shadow-xl overflow-hidden py-1">
+            <div className="absolute top-full left-0 right-0 mt-1 z-30 bg-[#200510]/95 backdrop-blur-xl border border-[#caa24d]/40 rounded-md shadow-[0_18px_40px_rgba(0,0,0,0.8)] overflow-hidden py-1">
               <button
                 type="button"
                 onClick={() => {
@@ -256,7 +251,7 @@ export const RSVPForm: React.FC = () => {
         </div>
 
         {/* Field 3: Number of guests */}
-        <div className="flex items-center justify-between px-3 py-2 bg-[#120306] border border-[#caa24d]/25 rounded-none">
+        <div className="flex items-center justify-between px-3 py-2 bg-white/[0.045] border border-[#f3e5c8]/15 rounded-md backdrop-blur-sm">
           <span className="text-xs font-serif text-[#caa24d]/70">Number of guests</span>
           <div className="flex items-center gap-3">
             <button
@@ -289,7 +284,7 @@ export const RSVPForm: React.FC = () => {
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             placeholder="A message for us (optional)"
-            className="w-full px-3 py-2 bg-[#120306] border border-[#caa24d]/25 text-[#fff0c7] text-xs font-serif placeholder-[#caa24d]/40 focus:outline-none focus:border-[#caa24d] rounded-none transition-colors resize-none"
+            className="w-full px-3 py-2 bg-white/[0.045] border border-[#f3e5c8]/15 text-[#fff0c7] text-xs font-serif placeholder-[#caa24d]/45 focus:outline-none focus:border-[#e5c57b]/70 focus:bg-white/[0.07] rounded-md transition-colors resize-none backdrop-blur-sm"
           />
         </div>
 
@@ -307,10 +302,10 @@ export const RSVPForm: React.FC = () => {
                     setStaying("yes");
                     if (!stayGuestName) setStayGuestName(name);
                   }}
-                  className={`px-3 py-2.5 text-xs font-serif text-center transition-all cursor-pointer border ${
+                  className={`px-3 py-2.5 text-xs font-serif text-center transition-all cursor-pointer border rounded-md backdrop-blur-sm ${
                     staying === "yes"
-                      ? "bg-[#caa24d]/20 border-[#caa24d] text-[#fff0c7] shadow-[0_0_12px_rgba(202,162,77,0.25)] font-medium"
-                      : "bg-[#120306] border-[#caa24d]/25 text-[#caa24d]/70 hover:border-[#caa24d]/50 hover:text-[#fff0c7]"
+                      ? "bg-[#caa24d]/25 border-[#e5c57b] text-[#fff0c7] shadow-[0_0_16px_rgba(202,162,77,0.3)] font-medium"
+                      : "bg-white/[0.045] border-[#f3e5c8]/15 text-[#caa24d]/75 hover:border-[#caa24d]/50 hover:text-[#fff0c7]"
                   }`}
                 >
                   YES, I&apos;LL BE STAYING
@@ -318,10 +313,10 @@ export const RSVPForm: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => setStaying("no")}
-                  className={`px-3 py-2.5 text-xs font-serif text-center transition-all cursor-pointer border ${
+                  className={`px-3 py-2.5 text-xs font-serif text-center transition-all cursor-pointer border rounded-md backdrop-blur-sm ${
                     staying === "no"
-                      ? "bg-[#caa24d]/20 border-[#caa24d] text-[#fff0c7] shadow-[0_0_12px_rgba(202,162,77,0.25)] font-medium"
-                      : "bg-[#120306] border-[#caa24d]/25 text-[#caa24d]/70 hover:border-[#caa24d]/50 hover:text-[#fff0c7]"
+                      ? "bg-[#caa24d]/25 border-[#e5c57b] text-[#fff0c7] shadow-[0_0_16px_rgba(202,162,77,0.3)] font-medium"
+                      : "bg-white/[0.045] border-[#f3e5c8]/15 text-[#caa24d]/75 hover:border-[#caa24d]/50 hover:text-[#fff0c7]"
                   }`}
                 >
                   NO, I WON&apos;T BE STAYING
@@ -365,7 +360,7 @@ export const RSVPForm: React.FC = () => {
       )}
 
       {/* Submit Button (Matching solid champagne/warm gold satin button from reference) */}
-      <div className="pt-3">
+      <div className="pt-3 text-center">
         <button
           type="submit"
           disabled={isSubmitting}
@@ -374,9 +369,8 @@ export const RSVPForm: React.FC = () => {
           {isSubmitting ? "SENDING RSVP..." : "SEND RSVP →"}
         </button>
 
-        {/* Supporting microcopy matching reference */}
-        <p className="mt-3 font-serif italic text-xs text-[#caa24d]/85 text-center">
-          Your response means the world to us.
+        <p className="mt-2.5 font-serif italic text-[11px] text-[#caa24d]/85">
+          Your response helps us plan a better celebration
         </p>
       </div>
     </form>

@@ -22,7 +22,9 @@ body {
   width: 100%;
   min-height: 100%;
   min-height: 100svh;
-  background-color: #0d0104;
+  /* Near-black burgundy foundation — deep wine visible only where light
+      naturally catches flowers and liquid; black glass at first glance */
+  background-color: #0d0306;
   color: #f7e6b5;
   overflow-x: hidden;
   font-feature-settings: "cv02", "cv03", "cv04", "cv11";
