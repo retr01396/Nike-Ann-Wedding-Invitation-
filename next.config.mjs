@@ -5,7 +5,9 @@ const nextConfig = {
   images: {
     // Serve AVIF first (smallest at equal quality), WebP fallback.
     formats: ["image/avif", "image/webp"],
-    minimumCacheTTL: 2678400, // 31 days — background art is immutable
+    // Set minimumCacheTTL to 0 so manual image replacements in public/images/
+    // are served immediately upon browser refresh without stale 31-day caching.
+    minimumCacheTTL: 0,
   },
 };
 
