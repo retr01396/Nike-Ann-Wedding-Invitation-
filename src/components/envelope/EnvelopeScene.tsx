@@ -266,7 +266,7 @@ export const EnvelopeScene: React.FC = () => {
           }}
         >
           <Image
-            src="/images/wedding/hero/hero-bg-left.jpg"
+            src={weddingConfig.images.hero.floralLeft}
             alt=""
             fill
             sizes="360px"
@@ -286,7 +286,7 @@ export const EnvelopeScene: React.FC = () => {
           }}
         >
           <Image
-            src="/images/wedding/hero/hero-bg-right.jpg"
+            src={weddingConfig.images.hero.floralRight}
             alt=""
             fill
             sizes="360px"

@@ -2,6 +2,7 @@
 
 import React, { forwardRef } from "react";
 import Image from "next/image";
+import { weddingConfig } from "@/config/wedding";
 
 interface WaxSealProps {
   onClick?: () => void;
@@ -27,7 +28,7 @@ export const WaxSeal = forwardRef<HTMLButtonElement, WaxSealProps>(
         {/* Crisp photographic wax seal directly extracted from reference */}
         <div className="relative w-full h-full rounded-full overflow-hidden border border-[#caa24d]/40 shadow-inner">
           <Image
-            src="/images/wedding/envelope/wax-seal-crisp.jpg"
+            src={weddingConfig.images.hero.waxSeal}
             alt="Burgundy N/A monogram wax seal"
             fill
             sizes="96px"

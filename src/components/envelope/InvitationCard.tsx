@@ -40,7 +40,7 @@ export const InvitationCard = forwardRef<HTMLDivElement, InvitationCardProps>(
           }}
         >
           <Image
-            src="/images/wedding/envelope/card-floral-clean-top.jpg"
+            src={weddingConfig.images.hero.cardFloral}
             alt=""
             width={176}
             height={176}
@@ -58,7 +58,7 @@ export const InvitationCard = forwardRef<HTMLDivElement, InvitationCardProps>(
           }}
         >
           <Image
-            src="/images/wedding/envelope/card-floral-clean-top.jpg"
+            src={weddingConfig.images.hero.cardFloral}
             alt=""
             width={176}
             height={176}

@@ -3,6 +3,7 @@
 import React from "react";
 import Image from "next/image";
 import { MapPinIcon } from "./TravelIcons";
+import { weddingConfig } from "@/config/wedding";
 
 interface TravelMapPreviewProps {
   title: string;
@@ -14,7 +15,7 @@ interface TravelMapPreviewProps {
 export const TravelMapPreview: React.FC<TravelMapPreviewProps> = ({
   title,
   cityLabel,
-  mapPreviewImage = "/images/travel/map-venue.svg",
+  mapPreviewImage = weddingConfig.images.directions.eventSpaceMap,
   isConfirmed = false,
 }) => {
   return (

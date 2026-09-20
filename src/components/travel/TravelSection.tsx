@@ -57,7 +57,7 @@ export const TravelSection: React.FC = () => {
         {/* Editorial Dark Cartography Map Card */}
         <div className="mt-5 relative w-full h-[150px] sm:h-[170px] rounded-none overflow-hidden border border-[#caa24d]/25 shadow-[0_10px_25px_rgba(0,0,0,0.8)] group">
           <Image
-            src="/images/wedding/travel/editorial-map-card.jpg"
+            src={selectedDest.mapPreviewImage || weddingConfig.images.directions.eventSpaceMap}
             alt={`Dark cartography map preview for ${selectedDest.title}`}
             fill
             sizes="(max-width: 1024px) 100vw, 33vw"

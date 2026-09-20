@@ -1,4 +1,39 @@
-import type { WeddingDataConfig } from "../types/wedding";
+import type { WeddingDataConfig, WeddingImagesConfig } from "../types/wedding";
+
+export const weddingImages: WeddingImagesConfig = {
+  hero: {
+    backgroundDesktop: "/images/hero/hero-background/desktop/hero-background-desktop.jpg",
+    backgroundMobile: "/images/hero/hero-background/mobile/hero-background-mobile.jpg",
+    backgroundBand: "/images/hero/hero-background/band/hero-background-band.jpg",
+    backgroundTiny: "/images/hero/hero-background/thumbnail/hero-background-tiny.jpg",
+    floralLeft: "/images/hero/hero-floral-left/hero-floral-left.jpg",
+    floralRight: "/images/hero/hero-floral-right/hero-floral-right.jpg",
+    waxSeal: "/images/hero/envelope-wax-seal/wax-seal.jpg",
+    cardFloral: "/images/hero/invitation-card/card-floral.jpg",
+  },
+  story: {
+    editorial: {
+      polaroid01: "/images/story/editorial/polaroid-01/polaroid-01.jpg",
+      polaroid02: "/images/story/editorial/polaroid-02/polaroid-02.jpg",
+    },
+    timeline: {
+      milestone01: "/images/story/timeline/milestone-01/milestone-01.jpg",
+      milestone02: "/images/story/timeline/milestone-02/milestone-02.jpg",
+      milestone03: "/images/story/timeline/milestone-03/milestone-03.jpg",
+      milestone04: "/images/story/timeline/milestone-04/milestone-04.jpg",
+    },
+  },
+  events: {
+    wedding: "/images/events/wedding/wedding.svg",
+    church: "/images/events/church/church.svg",
+    groomHouse: "/images/events/groom-house/groom-house.svg",
+  },
+  directions: {
+    churchMap: "/images/directions/church/church-map.jpg",
+    eventSpaceMap: "/images/directions/event-space/event-space-map.jpg",
+    groomHouseMap: "/images/directions/groom-house/groom-house-map.jpg",
+  },
+};
 
 export const weddingConfig: WeddingDataConfig = {
   couple: {
@@ -48,7 +83,7 @@ export const weddingConfig: WeddingDataConfig = {
     fullStoryTitle: "Perhaps It Was Grace",
     quote: "Some people make your world brighter just by being in it.",
     quoteAuthor: "Nike & Ann",
-    portraitImage: "/images/story/couple/tree-sculpture.jpg",
+    portraitImage: weddingImages.story.editorial.polaroid01,
     portraitAlt: "Nike and Ann together",
     portraitCaption: "Kochi, 2024",
     fullStory: [
@@ -62,12 +97,12 @@ export const weddingConfig: WeddingDataConfig = {
     ],
     polaroids: {
       top: {
-        image: "/images/story/couple/tree-sculpture.jpg",
+        image: weddingImages.story.editorial.polaroid01,
         caption: "First steps",
         alt: "Nike and Ann with the illuminated tree sculpture"
       },
       bottom: {
-        image: "/images/story/couple/festive-night.jpg",
+        image: weddingImages.story.editorial.polaroid02,
         caption: "Forever feels right",
         alt: "Nike and Ann in festive traditional wear surrounded by warm lights"
       }
@@ -88,7 +123,7 @@ export const weddingConfig: WeddingDataConfig = {
         description:
           "In October 2025, Chavara (the matrimonial site) brought together a boy from Thrissur and a girl from Kannur. Finding comfort in our shared values, similar upbringings, and grounded Malayali Christian roots, a meaningful conversation began.",
         location: "Thrissur & Kannur · Kerala",
-        image: "/images/story/couple/sushi-casual.jpg",
+        image: weddingImages.story.timeline.milestone01,
         imageAlt: "Nike and Ann smiling together",
         orientation: "portrait",
       },
@@ -102,7 +137,7 @@ export const weddingConfig: WeddingDataConfig = {
         description:
           "When we finally met in December, during those breezy days, the ease we had found in our conversations carried effortlessly into real life. We decided to date, spend more time together, and see where life would take us.",
         location: "Kerala",
-        image: "/images/story/couple/orange-outfit.jpg",
+        image: weddingImages.story.timeline.milestone02,
         imageAlt: "Nike and Ann together in traditional and contemporary attire",
         orientation: "portrait",
       },
@@ -116,7 +151,7 @@ export const weddingConfig: WeddingDataConfig = {
         description:
           "Six months may seem short, but it was long enough to know that we wanted a lifetime. In April, with our families as witnesses, we got engaged — a promise to grow together, live together, and stand by each other through all that life brings.",
         location: "Kerala",
-        image: "/images/story/rings.jpg",
+        image: weddingImages.story.timeline.milestone03,
         imageAlt: "Hands intertwined with engagement rings",
         orientation: "portrait",
       },
@@ -130,7 +165,7 @@ export const weddingConfig: WeddingDataConfig = {
         description:
           "Looking back, it feels like something more than coincidence. Two people brought together by the people who knew them best, and perhaps by a little grace from above. And now, here we are — ready for a lifetime of togetherness.",
         location: "Thrissur · Kerala",
-        image: "/images/story/couple.jpg",
+        image: weddingImages.story.timeline.milestone04,
         imageAlt: "Nike and Ann walking forward into their lifetime together",
         orientation: "portrait",
       },
@@ -165,7 +200,7 @@ export const weddingConfig: WeddingDataConfig = {
         address: "NH 544, Puzhakkal, Thrissur, Kerala 680553",
         description:
           "With the blessings of our parents and surrounded by the warmth of family and friends, we will unite as one under God's grace.",
-        image: "/images/events/wedding-bow.svg",
+        image: weddingImages.events.wedding,
         imageAlt: "Ceremonial golden wedding bow and floral spray",
         dressCode: "Traditional Kerala Kasavu / Elegant Festive Formal",
         receptionVenue: "Grand Ballroom, Lulu Convention Center (12:30 PM IST onwards)",
@@ -192,7 +227,7 @@ export const weddingConfig: WeddingDataConfig = {
         address: "Palayoor, Chavakkad, Thrissur District, Kerala 680506",
         description:
           "The solemn crowning liturgy and prayer service celebrated according to the time-honored traditional Syrian Christian rite.",
-        image: "/images/events/church-arch.svg",
+        image: weddingImages.events.church,
         imageAlt: "Gothic church arches with glowing amber stained glass light",
         dressCode: "Modest Elegant Church Attire",
         parkingNotes:
@@ -215,7 +250,7 @@ export const weddingConfig: WeddingDataConfig = {
         address: "Thrissur Town, Kerala (Detailed private access provided upon arrival)",
         description:
           "An intimate festive evening of traditional Kerala songs, authentic feast, and blessings to celebrate the groom on the eve of the wedding.",
-        image: "/images/events/grooms-house.svg",
+        image: weddingImages.events.groomHouse,
         imageAlt: "Traditional Kerala Tharavadu gabled residence with hanging brass lamps",
         dressCode: "Comfortable Traditional / Ethnic Casual",
         parkingNotes:
@@ -259,7 +294,7 @@ export const weddingConfig: WeddingDataConfig = {
           "Direct buses depart regularly from Thrissur Shakthan Stand towards Chavakkad / Guruvayur.",
         travelNotes:
           "Please observe reverent silence within the church gates. Modest church attire requested.",
-        mapPreviewImage: "/images/travel/map-church.svg",
+        mapPreviewImage: weddingImages.directions.churchMap,
       },
       {
         id: "event-space",
@@ -287,7 +322,7 @@ export const weddingConfig: WeddingDataConfig = {
           "Regular KSRTC and private suburban buses run along the Thrissur–Kunnamkulam corridor.",
         travelNotes:
           "Expressway traffic can build during morning peak hours. Please allow 15 minutes buffer time.",
-        mapPreviewImage: "/images/travel/map-venue.svg",
+        mapPreviewImage: weddingImages.directions.eventSpaceMap,
       },
       {
         id: "grooms-house",
@@ -313,7 +348,7 @@ export const weddingConfig: WeddingDataConfig = {
           "Local town auto-rickshaws are familiar with the neighborhood landmark.",
         travelNotes:
           "Out-of-town guests may contact the family concierge for personalized pickup coordination.",
-        mapPreviewImage: "/images/travel/map-residence.svg",
+        mapPreviewImage: weddingImages.directions.groomHouseMap,
       },
     ],
   },
@@ -406,6 +441,7 @@ export const weddingConfig: WeddingDataConfig = {
     email: "mailto:celebration@nikeannwedding.com",
     phone: "+91 98765 43210",
   },
+  images: weddingImages,
 };
 
 

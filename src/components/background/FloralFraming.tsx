@@ -2,6 +2,7 @@
 
 import React from "react";
 import Image from "next/image";
+import { weddingConfig } from "@/config/wedding";
 
 /**
  * FloralFraming — High-Resolution Floral Canvas, Page-Long (per reference)
@@ -13,14 +14,11 @@ import Image from "next/image";
  * stretches to the full document height; a gentle darkening keeps lower
  * sections calm so the gold UI stays legible over the blooms.
  *
- * Two pre-composed variants keep every phone pixel-sharp:
- *   • floral-hero-desktop  (2560×1620, ~155KB AVIF) — landscape screens
- *   • floral-hero-mobile   (1200×2133, ~89KB AVIF) — portrait phones, 9:16
- *   • floral-band          (1200×2800, high-res pure-bloom field below the fold)
- * All graded to DARK BURGUNDY at build time: deep wine shadows, rich rose
- * blooms — the page reads burgundy, never black.
+ * All image assets are configured through weddingConfig.images.hero.
  */
 export const FloralFraming: React.FC = () => {
+  const { hero } = weddingConfig.images;
+
   return (
     <div
       className="absolute inset-0 overflow-hidden pointer-events-none select-none z-[1]"
@@ -32,7 +30,7 @@ export const FloralFraming: React.FC = () => {
       <div
         className="absolute inset-[-2%] scale-105"
         style={{
-          backgroundImage: "url(/images/wedding/hero/floral-hero-tiny.jpg)",
+          backgroundImage: `url(${hero.backgroundTiny})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
           filter: "blur(28px) saturate(1.2) brightness(1.05)",
@@ -54,7 +52,7 @@ export const FloralFraming: React.FC = () => {
         }}
       >
         <Image
-          src="/images/wedding/hero/floral-hero-desktop.avif"
+          src={hero.backgroundDesktop}
           alt=""
           fill
           sizes="100vw"
@@ -64,7 +62,7 @@ export const FloralFraming: React.FC = () => {
           fetchPriority="high"
         />
         <Image
-          src="/images/wedding/hero/floral-hero-mobile.avif"
+          src={hero.backgroundMobile}
           alt=""
           fill
           sizes="100vw"
@@ -92,7 +90,7 @@ export const FloralFraming: React.FC = () => {
           top: "100vh",
           height: "100vh",
           filter: "brightness(0.94) saturate(1.02)",
-          backgroundImage: "url(/images/wedding/hero/floral-band.jpg)",
+          backgroundImage: `url(${hero.backgroundBand})`,
           backgroundSize: "cover",
           backgroundPosition: "center 22%",
         }}
@@ -103,7 +101,7 @@ export const FloralFraming: React.FC = () => {
           top: "100vh",
           height: "110vh",
           filter: "brightness(0.9) saturate(1.02)",
-          backgroundImage: "url(/images/wedding/hero/floral-band.jpg)",
+          backgroundImage: `url(${hero.backgroundBand})`,
           backgroundSize: "cover",
           backgroundPosition: "center 18%",
         }}
@@ -115,7 +113,7 @@ export const FloralFraming: React.FC = () => {
         style={{
           top: "200vh",
           filter: "blur(1.2px) brightness(0.86) saturate(1.02)",
-          backgroundImage: "url(/images/wedding/hero/floral-band.jpg)",
+          backgroundImage: `url(${hero.backgroundBand})`,
           backgroundSize: "cover",
           backgroundPosition: "center 68%",
         }}
@@ -125,7 +123,7 @@ export const FloralFraming: React.FC = () => {
         style={{
           top: "210vh",
           filter: "blur(1.2px) brightness(0.84) saturate(1.02)",
-          backgroundImage: "url(/images/wedding/hero/floral-band.jpg)",
+          backgroundImage: `url(${hero.backgroundBand})`,
           backgroundSize: "cover",
           backgroundPosition: "center 60%",
         }}
@@ -150,7 +148,7 @@ export const FloralFraming: React.FC = () => {
         className="absolute -top-2 -left-2 w-56 h-64 opacity-25 hidden sm:block"
         style={{
           mixBlendMode: "screen",
-          backgroundImage: "url(/images/wedding/hero/floral-hero-desktop.jpg)",
+          backgroundImage: `url(${hero.backgroundDesktop})`,
           backgroundSize: "1600px auto",
           backgroundPosition: "-40px -30px",
           WebkitMaskImage:
@@ -163,7 +161,7 @@ export const FloralFraming: React.FC = () => {
         className="absolute -top-2 -right-2 w-56 h-64 opacity-25 hidden sm:block"
         style={{
           mixBlendMode: "screen",
-          backgroundImage: "url(/images/wedding/hero/floral-hero-desktop.jpg)",
+          backgroundImage: `url(${hero.backgroundDesktop})`,
           backgroundSize: "1600px auto",
           backgroundPosition: "calc(100% + 40px) -30px",
           WebkitMaskImage:

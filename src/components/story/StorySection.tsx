@@ -161,7 +161,7 @@ export const StorySection: React.FC = () => {
 
             <div className="relative aspect-[4/5] w-full overflow-hidden bg-[#180306]">
               <Image
-                src={storyIntro.polaroids?.top.image || "/images/story/couple/tree-sculpture.jpg"}
+                src={storyIntro.polaroids?.top.image || weddingConfig.images.story.editorial.polaroid01}
                 alt={storyIntro.polaroids?.top.alt || "Nike and Ann with sculpture"}
                 fill
                 sizes="250px"
@@ -185,7 +185,7 @@ export const StorySection: React.FC = () => {
 
             <div className="relative aspect-[4/5] w-full overflow-hidden bg-[#180306]">
               <Image
-                src={storyIntro.polaroids?.bottom.image || "/images/story/couple/festive-night.jpg"}
+                src={storyIntro.polaroids?.bottom.image || weddingConfig.images.story.editorial.polaroid02}
                 alt={storyIntro.polaroids?.bottom.alt || "Nike and Ann in festive evening attire"}
                 fill
                 sizes="250px"

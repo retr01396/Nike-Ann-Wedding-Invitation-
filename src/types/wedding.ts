@@ -268,6 +268,41 @@ export interface ContactConfig {
   phone?: string;
 }
 
+export interface WeddingImagesConfig {
+  hero: {
+    backgroundDesktop: string;
+    backgroundMobile: string;
+    backgroundBand: string;
+    backgroundTiny: string;
+    floralLeft: string;
+    floralRight: string;
+    waxSeal: string;
+    cardFloral: string;
+  };
+  story: {
+    editorial: {
+      polaroid01: string;
+      polaroid02: string;
+    };
+    timeline: {
+      milestone01: string;
+      milestone02: string;
+      milestone03: string;
+      milestone04: string;
+    };
+  };
+  events: {
+    wedding: string;
+    church: string;
+    groomHouse: string;
+  };
+  directions: {
+    churchMap: string;
+    eventSpaceMap: string;
+    groomHouseMap: string;
+  };
+}
+
 export interface WeddingDataConfig {
   couple: CoupleConfig;
   date: WeddingDateConfig;
@@ -280,7 +315,5 @@ export interface WeddingDataConfig {
   travel: TravelSectionConfig;
   rsvp: RSVPSectionConfig;
   contact?: ContactConfig;
+  images: WeddingImagesConfig;
 }
-
-
-
