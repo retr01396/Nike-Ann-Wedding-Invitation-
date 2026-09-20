@@ -442,6 +442,13 @@ export const weddingConfig: WeddingDataConfig = {
     phone: "+91 98765 43210",
   },
   images: weddingImages,
+  audio: {
+    src: "/audio/background-music.mp3",
+    title: "Nike & Ann Wedding Music",
+    autoplayOnInteraction: true,
+    defaultVolume: 0.45,
+    loop: true,
+  },
 };
 
 

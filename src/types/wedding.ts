@@ -303,6 +303,15 @@ export interface WeddingImagesConfig {
   };
 }
 
+export interface WeddingAudioConfig {
+  src: string;
+  title?: string;
+  artist?: string;
+  autoplayOnInteraction?: boolean;
+  defaultVolume?: number;
+  loop?: boolean;
+}
+
 export interface WeddingDataConfig {
   couple: CoupleConfig;
   date: WeddingDateConfig;
@@ -316,4 +325,5 @@ export interface WeddingDataConfig {
   rsvp: RSVPSectionConfig;
   contact?: ContactConfig;
   images: WeddingImagesConfig;
+  audio?: WeddingAudioConfig;
 }

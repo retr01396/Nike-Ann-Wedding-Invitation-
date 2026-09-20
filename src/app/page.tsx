@@ -11,6 +11,7 @@ import { EventsSection } from "@/components/events/EventsSection";
 import { RSVPSection } from "@/components/rsvp/RSVPSection";
 import { TravelSection } from "@/components/travel/TravelSection";
 import { StationeryFooter } from "@/components/footer/StationeryFooter";
+import { BackgroundMusic } from "@/components/audio/BackgroundMusic";
 
 export default function Home() {
   const [introFinished, setIntroFinished] = useState(false);
@@ -69,6 +70,9 @@ export default function Home() {
 
       {/* Section 5: Stationery Editorial Footer */}
       <StationeryFooter />
+
+      {/* Background Wedding Music Controller */}
+      <BackgroundMusic />
     </div>
   );
 }
