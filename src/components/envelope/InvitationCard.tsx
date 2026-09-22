@@ -3,6 +3,7 @@
 import React, { forwardRef } from "react";
 import Image from "next/image";
 import { weddingConfig } from "@/config/wedding";
+import { CleanDate } from "@/components/ui/CleanDate";
 
 interface InvitationCardProps {
   onEnterWedding?: () => void;
@@ -97,10 +98,10 @@ export const InvitationCard = forwardRef<HTMLDivElement, InvitationCardProps>(
           {/* Date, Time & Location Section */}
           <div ref={detailsRef} className="flex flex-col items-center">
             <p className="font-cinzel text-[8px] sm:text-[10.5px] md:text-[12.5px] tracking-[0.26em] text-[#fbf6ea] uppercase font-medium">
-              SUNDAY, 15 NOVEMBER 2026
+              <CleanDate value="SUNDAY, 15 NOVEMBER 2026" />
             </p>
             <p className="font-cinzel text-[7px] sm:text-[9.5px] md:text-[11px] tracking-[0.24em] text-[#eed8a1] uppercase mt-0.5 font-normal">
-              AT 3:00 PM IST
+              <CleanDate value="AT 3:00 PM IST" />
             </p>
             <p className="font-cinzel text-[7.5px] sm:text-[9.5px] md:text-[11.5px] tracking-[0.22em] text-[#e5c57b] uppercase mt-0.5 font-normal">
               THRISSUR, KERALA

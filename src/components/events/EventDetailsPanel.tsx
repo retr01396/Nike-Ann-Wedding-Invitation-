@@ -13,6 +13,7 @@ import {
   ExternalLink,
   Phone,
 } from "lucide-react";
+import { CleanDate } from "@/components/ui/CleanDate";
 
 interface EventDetailsPanelProps {
   event: WeddingEventDetailItem;
@@ -27,7 +28,7 @@ export const EventDetailsPanel: React.FC<EventDetailsPanelProps> = ({
     <div
       className={`pt-5 border-t border-[#caa24d]/20 mt-5 space-y-4 text-left ${className}`}
     >
-      {/* Date & Time Row — improved contrast and weight for readability */}
+      {/* Date & Time Row — improved contrast, weight, and clean modern lining numerals */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <div className="flex items-start gap-3 p-3 rounded-lg bg-[#180409]/90 border border-[#caa24d]/20 shadow-inner">
           <Calendar className="w-4 h-4 text-[#e5c57b] shrink-0 mt-0.5" />
@@ -36,7 +37,7 @@ export const EventDetailsPanel: React.FC<EventDetailsPanelProps> = ({
               Date
             </span>
             <p className="text-base sm:text-lg font-serif font-semibold text-[#fff7e6] leading-snug tracking-tight">
-              {event.date}
+              <CleanDate value={event.date} />
             </p>
           </div>
         </div>
@@ -48,7 +49,7 @@ export const EventDetailsPanel: React.FC<EventDetailsPanelProps> = ({
               Time
             </span>
             <p className="text-sm sm:text-base font-serif font-semibold text-[#fff7e6] leading-snug tracking-tight">
-              {event.time}
+              <CleanDate value={event.time} />
             </p>
           </div>
         </div>
@@ -75,7 +76,7 @@ export const EventDetailsPanel: React.FC<EventDetailsPanelProps> = ({
         {event.phone && (
           <div className="flex items-center gap-2 pt-1 text-[12px] font-sans text-[#e5c57b]/90">
             <Phone className="w-3.5 h-3.5 text-[#caa24d]" />
-            <span>{event.phone}</span>
+            <CleanDate value={event.phone} />
           </div>
         )}
 

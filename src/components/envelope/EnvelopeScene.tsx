@@ -12,6 +12,61 @@ import { WeddingCountdown } from "@/components/countdown/WeddingCountdown";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { RotateCcw, Lock } from "lucide-react";
 
+/**
+ * Calculates the presentation scale and yPercent for the card after emergence.
+ * - Desktop: width clamp(520px, 45vw, 700px), constrained by viewport height
+ * - Tablet: width min(72vw, 620px), constrained by viewport height
+ * - Mobile: 82vw - 88vw (~85vw, 290px to 360px), constrained by viewport height
+ */
+function getPresentationTarget(cardEl: HTMLElement | null): { scale: number; yPercent: number } {
+  if (typeof window === "undefined") {
+    return { scale: 1.5, yPercent: -20 };
+  }
+
+  const vw = window.innerWidth;
+  const vh = window.innerHeight;
+
+  const envelopeW =
+    vw >= 768
+      ? Math.min(640, Math.max(480, vw * 0.5))
+      : vw >= 640
+      ? Math.min(540, Math.max(440, vw * 0.56))
+      : Math.min(380, Math.max(310, vw * 0.86));
+
+  const baseWidth = cardEl?.offsetWidth && cardEl.offsetWidth > 50 ? cardEl.offsetWidth : envelopeW * 0.61;
+  const baseHeight = cardEl?.offsetHeight && cardEl.offsetHeight > 50 ? cardEl.offsetHeight : baseWidth * (296 / 273);
+
+  let targetWidth: number;
+  let targetMaxHeight: number;
+  let targetYP: number;
+
+  if (vw >= 1024) {
+    // DESKTOP: target width clamp(520px, 45vw, 700px)
+    targetWidth = Math.min(700, Math.max(520, vw * 0.45));
+    targetMaxHeight = Math.max(460, vh - 180);
+    targetYP = -20;
+  } else if (vw >= 640) {
+    // TABLET: target width min(72vw, 620px)
+    targetWidth = Math.min(620, Math.max(460, vw * 0.72));
+    targetMaxHeight = Math.max(440, vh - 160);
+    targetYP = -22;
+  } else {
+    // MOBILE: 82vw - 88vw
+    targetWidth = Math.min(360, Math.max(290, vw * 0.85));
+    targetMaxHeight = Math.max(380, vh - 140);
+    targetYP = -26;
+  }
+
+  const scaleX = targetWidth / baseWidth;
+  const scaleY = targetMaxHeight / baseHeight;
+  const finalScale = Math.min(scaleX, scaleY);
+
+  return {
+    scale: Math.round(finalScale * 100) / 100,
+    yPercent: targetYP,
+  };
+}
+
 export const EnvelopeScene: React.FC = () => {
   const [state, setState] = useState<EnvelopeAnimationState>("CLOSED");
   const isBusyRef = useRef(false);
@@ -85,12 +140,11 @@ export const EnvelopeScene: React.FC = () => {
       if (topHeaderRef.current) gsap.set(topHeaderRef.current, { opacity: 0, pointerEvents: "none" });
       if (envelopeContainerRef.current) gsap.set(envelopeContainerRef.current, { y: 0 });
       if (cardRef.current) {
-        const isMobile = typeof window !== "undefined" && window.innerWidth < 640;
-        const targetYP = isMobile ? -23 : -15;
+        const { scale: targetScale, yPercent: targetYP } = getPresentationTarget(cardRef.current);
         gsap.set(cardRef.current, {
           yPercent: targetYP,
           y: 0,
-          scale: 1.0,
+          scale: targetScale,
           zIndex: 40,
           boxShadow: "0 30px 80px -10px rgba(0,0,0,0.98), 0 0 35px rgba(212,175,55,0.18)",
         });
@@ -234,18 +288,34 @@ export const EnvelopeScene: React.FC = () => {
         "-=0.2"
       )
 
-      // 8. CARD EXPANDING: post-emergence resize to the large presentation width.
-      // The card's width is set by the .card-presented rule (viewport-aware clamp);
-      // the animation itself only needs to clear the transform so the CSS width wins,
-      // so the scale target is 1.0 on every device — the presentation width is already
-      // ~80-88% of the mobile viewport and framed on desktop.
+      // 8. CARD EXPANDING: Post-emergence graceful enlargement into the focal presentation card
+      // Smoothly scales the card and all its typography/artwork coherently up to the target presentation size
       .call(() => setState("CARD_EXPANDING"))
       .to(cardRef.current, {
-        scale: 1.0,
-        duration: 0.65,
-        ease: "power2.out",
+        scale: () => getPresentationTarget(cardRef.current).scale,
+        yPercent: () => getPresentationTarget(cardRef.current).yPercent,
+        duration: 0.85,
+        ease: "power3.out",
       });
   }, [state, reducedMotion]);
+
+  // Keep presentation scale responsive if window resizes while in OPENED state
+  useEffect(() => {
+    const handleResize = () => {
+      if (state === "OPENED" && cardRef.current && !isBusyRef.current) {
+        const { scale: targetScale, yPercent: targetYP } = getPresentationTarget(cardRef.current);
+        gsap.to(cardRef.current, {
+          scale: targetScale,
+          yPercent: targetYP,
+          duration: 0.35,
+          ease: "power2.out",
+        });
+      }
+    };
+
+    window.addEventListener("resize", handleResize, { passive: true });
+    return () => window.removeEventListener("resize", handleResize);
+  }, [state]);
 
   const handleEnterWedding = useCallback(() => {
     const target = document.getElementById("our-story") || document.getElementById("story");
@@ -387,7 +457,11 @@ export const EnvelopeScene: React.FC = () => {
         {/* BOTTOM: YOU'RE INVITED & TAP TO OPEN PROMPT OR LIVE WEDDING COUNTDOWN */}
         <div
           ref={teaserCtaRef}
-          className="w-full max-w-[420px] flex flex-col items-center text-center mt-3 sm:mt-5 z-20 pointer-events-auto min-h-[50px]"
+          className={`w-full max-w-[420px] flex flex-col items-center text-center z-20 pointer-events-auto min-h-[50px] transition-all duration-700 ${
+            state === "OPENED" || state === "CARD_EXPANDING"
+              ? "mt-8 sm:mt-12 md:mt-14"
+              : "mt-3 sm:mt-5"
+          }`}
         >
           {state === "CLOSED" && (
             <div className="flex flex-col items-center">

@@ -12,6 +12,7 @@ import {
   EveningDressIcon,
 } from "./EventIcons";
 import { X, ExternalLink, MapPin, Phone } from "lucide-react";
+import { CleanDate } from "@/components/ui/CleanDate";
 
 type DossierSectionKey = "wedding" | "reception" | "dress-code" | "programme" | "locations";
 
@@ -115,10 +116,10 @@ export const EventsSection: React.FC = () => {
                     WEDDING
                   </h4>
                   <p className="mt-1 font-serif text-xs text-[#ecd9b8]">
-                    {weddingConfig.date.formatted}
+                    <CleanDate value={weddingConfig.date.formatted} />
                   </p>
                   <p className="font-serif font-medium text-xs sm:text-[13px] tracking-wide text-[#caa24d] mt-0.5">
-                    {weddingConfig.date.time || "3:00 PM IST"}
+                    <CleanDate value={weddingConfig.date.time || "3:00 PM IST"} />
                   </p>
                 </div>
               </div>
@@ -225,7 +226,7 @@ export const EventsSection: React.FC = () => {
                         style={{ boxShadow: "0 0 8px rgba(233,196,124,0.35)" }}
                       />
                       <span className="font-cinzel text-[10.5px] sm:text-[11px] tracking-[0.14em] text-[#fff0c7] whitespace-nowrap">
-                        {item.time}
+                        <CleanDate value={item.time} />
                       </span>
                       <span className="font-serif text-[11.5px] sm:text-xs text-[#d9c5a3]/90">
                         {item.label}
@@ -439,7 +440,7 @@ export const EventsSection: React.FC = () => {
                         PROGRAMME SCHEDULE
                       </h4>
                       <p className="font-serif italic text-xs text-[#caa24d]/80 mt-0.5">
-                        Sunday, 15 November 2026
+                        <CleanDate value="Sunday, 15 November 2026" />
                       </p>
                     </div>
 
@@ -457,7 +458,7 @@ export const EventsSection: React.FC = () => {
                           />
                           <div className="space-y-0.5">
                             <span className="font-cinzel text-xs tracking-wider text-[#fff0c7] font-medium">
-                              {item.time}
+                              <CleanDate value={item.time} />
                             </span>
                             <p className="font-serif text-sm text-[#ecd9b8]">
                               {item.label}

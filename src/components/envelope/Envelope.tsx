@@ -87,7 +87,7 @@ export const Envelope = forwardRef<HTMLDivElement, EnvelopeProps>(
            ========================================================================= */}
         <div
           ref={cardRef}
-          className={`absolute left-0 right-0 mx-auto aspect-[273/296] pointer-events-auto z-20 card-emergence${state === "OPENED" ? " card-presented" : ""}`}
+          className="absolute left-0 right-0 mx-auto w-[61%] aspect-[273/296] pointer-events-auto z-20"
           style={{
             bottom: "5px",
             pointerEvents: isClosed ? "none" : "auto",
@@ -285,14 +285,6 @@ export const Envelope = forwardRef<HTMLDivElement, EnvelopeProps>(
             disabled={!isClosed}
           />
         </div>
-
-        {/* FINAL PRESENTED CARD SIZE — phone-only, applied only after emergence completes.
-            On 768px+ (tablets/desktop) the card keeps its natural 61% envelope width. */}
-        <style>{`
-          @media (max-width: 767px) {
-            .card-presented { width: clamp(290px, 82vw, 360px); }
-          }
-        `}</style>
       </div>
     );
   }

@@ -32,6 +32,19 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Clean modern lining numerals utility — forces normal non-swashed, non-oldstyle digits */
+.lining-nums-clean {
+  font-family: var(--font-playfair), var(--font-montserrat), serif;
+  font-variant-numeric: lining-nums tabular-nums;
+  font-feature-settings: "lnum" 1, "onum" 0, "cv02" 0, "cv03" 0, "cv04" 0, "cv11" 0;
+  letter-spacing: 0.02em;
+}
+
+.date-numerals-clean {
+  font-variant-numeric: lining-nums tabular-nums;
+  font-feature-settings: "lnum" 1, "onum" 0, "cv02" 0, "cv03" 0, "cv04" 0, "cv11" 0;
+}
+
 /* Luxury Gold Foil Text Utility */
 .gold-foil-text {
   background: linear-gradient(
