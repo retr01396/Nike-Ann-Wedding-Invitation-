@@ -30,7 +30,7 @@ export const TravelMapPreview: React.FC<TravelMapPreviewProps> = ({
       <div className="relative w-full h-full transform transition-transform duration-700 ease-out group-hover:scale-105">
         <Image
           src={mapPreviewImage}
-          alt={`Stylized cartographic map preview for ${title}`}
+          alt={`Map preview for ${title}`}
           fill
           sizes="(max-width: 768px) 100vw, 33vw"
           className="object-cover opacity-90 transition-opacity duration-500 group-hover:opacity-100"

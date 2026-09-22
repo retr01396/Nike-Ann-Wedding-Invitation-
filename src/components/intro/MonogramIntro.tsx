@@ -178,15 +178,20 @@ export const MonogramIntro: React.FC<MonogramIntroProps> = ({ onComplete }) => {
             />
           </svg>
 
-          {/* N & A Intertwined Serif Monogram */}
-          <div className="relative z-10 flex items-center justify-center overflow-hidden py-3">
-            <span className="font-serif text-5xl sm:text-6xl tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-[#fff6de] via-[#d4af37] to-[#997528] drop-shadow-[0_2px_12px_rgba(212,175,55,0.4)]">
+          {/* N / A Authentic Wax Seal Monogram Treatment */}
+          <div className="relative z-10 w-28 h-28 sm:w-36 sm:h-36 flex items-center justify-center overflow-hidden">
+            {/* Center Diagonal Divider Line matching wax seal */}
+            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+              <div className="w-[1.5px] h-14 sm:h-18 bg-gradient-to-b from-[#fdf4d8] via-[#d4af37] to-[#997528] transform rotate-45 opacity-85 shadow-[0_0_8px_rgba(212,175,55,0.4)]" />
+            </div>
+
+            {/* Upper-left 'N' */}
+            <span className="absolute top-3 left-4 sm:top-4 sm:left-6 font-cinzel text-3xl sm:text-4xl tracking-normal text-transparent bg-clip-text bg-gradient-to-b from-[#fff6de] via-[#d4af37] to-[#997528] drop-shadow-[0_2px_10px_rgba(212,175,55,0.45)] select-none">
               {weddingConfig.couple.groom.charAt(0)}
             </span>
-            <span className="font-serif italic text-2xl sm:text-3xl text-gold-300 mx-1 opacity-80">
-              &
-            </span>
-            <span className="font-serif text-5xl sm:text-6xl tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-[#fff6de] via-[#d4af37] to-[#997528] drop-shadow-[0_2px_12px_rgba(212,175,55,0.4)]">
+
+            {/* Lower-right 'A' */}
+            <span className="absolute bottom-3 right-4 sm:bottom-4 sm:right-6 font-cinzel text-3xl sm:text-4xl tracking-normal text-transparent bg-clip-text bg-gradient-to-b from-[#fff6de] via-[#d4af37] to-[#997528] drop-shadow-[0_2px_10px_rgba(212,175,55,0.45)] select-none">
               {weddingConfig.couple.bride.charAt(0)}
             </span>
 

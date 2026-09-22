@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import Image from "next/image";
 import { weddingConfig } from "@/config/wedding";
 import { GoldGlowFrame } from "@/components/ui/GoldGlowFrame";
-import { MapPin, ExternalLink, Car, ChevronDown, ChevronUp } from "lucide-react";
+import { MapPin, ExternalLink, Car, ChevronDown, ChevronUp, Phone } from "lucide-react";
 
 export const TravelSection: React.FC = () => {
   const destinations = weddingConfig.travel.destinations;
@@ -58,34 +58,44 @@ export const TravelSection: React.FC = () => {
         <div className="mt-5 relative w-full h-[150px] sm:h-[170px] rounded-none overflow-hidden border border-[#caa24d]/25 shadow-[0_10px_25px_rgba(0,0,0,0.8)] group">
           <Image
             src={selectedDest.mapPreviewImage || weddingConfig.images.directions.eventSpaceMap}
-            alt={`Dark cartography map preview for ${selectedDest.title}`}
+            alt={`Map preview for ${selectedDest.title}`}
             fill
             sizes="(max-width: 1024px) 100vw, 33vw"
             className="object-cover object-center filter contrast-110 brightness-95 group-hover:scale-105 transition-transform duration-700 ease-out"
           />
 
           {/* Map Info Overlay */}
-          <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-2 bg-black/35">
-            <div className="w-7 h-7 rounded-full bg-[#1b0408]/90 border border-[#caa24d]/60 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+          <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-3 bg-gradient-to-t from-[#140206]/95 via-[#140206]/80 to-[#140206]/50">
+            <div className="w-7 h-7 rounded-full bg-[#1b0408] border border-[#caa24d]/60 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
               <MapPin className="w-3.5 h-3.5 text-[#caa24d]" />
             </div>
-            <p className="mt-1.5 font-cinzel text-[9.5px] sm:text-[10px] tracking-[0.22em] text-[#fff0c7] uppercase font-medium drop-shadow-md leading-relaxed">
-              {selectedDest.title}
-              <span className="block mt-0.5 text-[#e5c57b]/85">
+            <div className="mt-2 px-3.5 py-1 rounded-sm bg-[#120205]/90 border border-[#caa24d]/30 shadow-md">
+              <p className="font-cinzel text-[9.5px] sm:text-[10px] tracking-[0.2em] text-[#fff0c7] uppercase font-medium leading-tight">
+                {selectedDest.title}
+              </p>
+              <span className="block mt-0.5 font-serif text-[9px] sm:text-[10px] tracking-[0.22em] text-[#e5c57b]/90 uppercase">
                 {selectedDest.cityLabel}
               </span>
-            </p>
+            </div>
           </div>
         </div>
 
-        {/* Key travel facts — matching the reference's icon rows */}
-        <div className="mt-5 space-y-3 text-left">
+        {/* Key travel facts */}
+        <div className="mt-5 space-y-2.5 text-left">
           <div className="flex items-start gap-2.5">
             <MapPin className="w-3.5 h-3.5 text-[#caa24d] shrink-0 mt-0.5" />
             <p className="font-sans text-[11px] text-[#ecd9b8]/85 font-light leading-relaxed">
               {selectedDest.address.replace(/\s*\[.*?\]\s*/g, " ").trim()}
             </p>
           </div>
+          {selectedDest.phone && (
+            <div className="flex items-center gap-2.5">
+              <Phone className="w-3.5 h-3.5 text-[#caa24d] shrink-0" />
+              <p className="font-sans text-[11px] text-[#ecd9b8]/85 font-light">
+                Phone: {selectedDest.phone}
+              </p>
+            </div>
+          )}
           {selectedDest.estimatedTravelTime && (
             <div className="flex items-start gap-2.5">
               <Car className="w-3.5 h-3.5 text-[#caa24d] shrink-0 mt-0.5" />
@@ -99,7 +109,7 @@ export const TravelSection: React.FC = () => {
         {/* Action Button: OPEN IN GOOGLE MAPS */}
         <div className="mt-6 flex flex-col items-center flex-1 justify-end">
           <a
-            href={selectedDest.mapUrl || "https://maps.google.com/?q=Thrissur+Kerala"}
+            href={selectedDest.mapUrl || "https://maps.app.goo.gl/xBtrb94kyKfe3rzd6"}
             target="_blank"
             rel="noopener noreferrer"
             className="w-full py-2.5 px-4 text-center border border-[#caa24d]/50 bg-transparent text-[#e5c57b] font-cinzel text-[9.5px] sm:text-[10px] tracking-[0.25em] uppercase hover:bg-[#caa24d]/10 hover:border-[#caa24d] hover:text-[#fff0c7] transition-all cursor-pointer flex items-center justify-center gap-2"
@@ -162,9 +172,9 @@ export const TravelSection: React.FC = () => {
               <p className="text-[11px] text-[#ecd9b8]/80 font-sans mt-0.5">
                 {dest.address.replace(/\s*\[.*?\]\s*/g, " ").trim()}
               </p>
-              {dest.parkingInfo && (
-                <p className="text-[10.5px] text-[#caa24d]/75 font-sans mt-1">
-                  <strong>Parking:</strong> {dest.parkingInfo}
+              {dest.phone && (
+                <p className="text-[10.5px] text-[#caa24d]/85 font-sans mt-1">
+                  Phone: {dest.phone}
                 </p>
               )}
             </div>

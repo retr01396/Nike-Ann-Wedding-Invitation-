@@ -21,6 +21,7 @@ export interface WeddingDateConfig {
   day: number;
   month: string;
   year: number;
+  time?: string;
   formatted: string;
   iso: string;
 }
@@ -30,6 +31,7 @@ export interface WeddingLocationConfig {
   state: string;
   country: string;
   venueName?: string;
+  address?: string;
   display: string;
 }
 
@@ -100,9 +102,14 @@ export interface StoryTimelineConfig {
   };
 }
 
+export interface WeddingDressCodeBreakdown {
+  men: string;
+  ladies: string;
+}
+
 export interface WeddingEventDetailItem {
   id: string;
-  type: "wedding" | "church" | "grooms-house" | string;
+  type: "wedding" | "church" | "reception" | "grooms-house" | string;
   badge?: string;
   title: string;
   subtitle?: string;
@@ -110,10 +117,12 @@ export interface WeddingEventDetailItem {
   time: string;
   venue: string;
   address: string;
+  phone?: string;
   description?: string;
   image: string;
   imageAlt: string;
   dressCode?: string;
+  dressCodeDetails?: WeddingDressCodeBreakdown;
   receptionVenue?: string;
   parkingNotes?: string;
   familyNotes?: string;
@@ -152,6 +161,7 @@ export interface TravelDestinationItem {
   subtitle?: string;
   address: string;
   cityLabel: string;
+  phone?: string;
   coordinates?: TravelCoordinates;
   mapUrl?: string;
   directionsButtonText?: string;

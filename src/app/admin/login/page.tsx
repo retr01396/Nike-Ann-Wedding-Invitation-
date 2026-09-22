@@ -1,13 +1,10 @@
-"use strict";
 "use client";
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { createClient, isSupabaseConfigured } from "@/lib/supabase/client";
 
 export default function AdminLoginPage() {
-  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -47,8 +44,10 @@ export default function AdminLoginPage() {
       }
 
       if (data.user) {
-        router.push("/admin");
-        router.refresh();
+        // Force full document navigation to bypass Next.js client router cache
+        // and ensure the new session cookies are transmitted in HTTP headers
+        window.location.href = "/admin";
+        return;
       }
     } catch {
       setErrorMessage("An unexpected authentication error occurred. Please try again.");

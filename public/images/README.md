@@ -75,9 +75,9 @@ These images appear inside the "GETTING THERE" smoked liquid glass panel when gu
 
 | Folder | Filename | Where It Appears | Recommended Aspect Ratio | Recommended Resolution | Description |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| `directions/church/` | `church-map.jpg` | Directions panel under "CHURCH" tab | 16:10 | 800 × 500 px | Dark cartography map preview or venue photo for St. Thomas Church. |
-| `directions/event-space/` | `event-space-map.jpg` | Directions panel under "EVENT SPACE" tab | 16:10 | 800 × 500 px | Dark cartography map preview or venue photo for Lulu Convention Center. |
-| `directions/groom-house/` | `groom-house-map.jpg` | Directions panel under "GROOM'S HOUSE" tab | 16:10 | 800 × 500 px | Dark cartography map preview or residence photo for Groom's Ancestral House. |
+| `directions/church/` | `church-map.jpg` | Directions panel under "CHURCH" tab | 16:10 | 800 × 500 px | Dark cartography map preview or venue photo for St. Joseph's Church, Kaveed. |
+| `directions/event-space/` | `event-space-map.jpg` | Directions panel under "EVENT SPACE" tab | 16:10 | 800 × 500 px | Dark cartography map preview or venue photo for New Pond Eventscape. |
+| `directions/groom-house/` | `groom-house-map.jpg` | Directions panel under "GROOM'S HOUSE" tab | 16:10 | 800 × 500 px | Dark cartography map preview or residence photo for The Gladwin's House. |
 
 ---
 

@@ -229,3 +229,153 @@ export const TharavaduIcon: React.FC<IconProps> = ({
     />
   </svg>
 );
+
+/**
+ * Line-art Suit / Tuxedo Icon for Men's Dress Code ("Suit Up").
+ */
+export const SuitTuxedoIcon: React.FC<IconProps> = ({
+  className = "text-[#caa24d]",
+  size = 28,
+}) => (
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 32 32"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    className={className}
+    aria-hidden="true"
+  >
+    {/* Suit shoulders and jacket contour */}
+    <path
+      d="M7 27V12L12 6H20L25 12V27"
+      stroke="currentColor"
+      strokeWidth="1.2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeOpacity="0.85"
+    />
+    {/* Left lapel */}
+    <path
+      d="M12 6L16 17L11 11Z"
+      stroke="currentColor"
+      strokeWidth="1.1"
+      strokeLinejoin="round"
+      strokeOpacity="0.85"
+    />
+    {/* Right lapel */}
+    <path
+      d="M20 6L16 17L21 11Z"
+      stroke="currentColor"
+      strokeWidth="1.1"
+      strokeLinejoin="round"
+      strokeOpacity="0.85"
+    />
+    {/* Bowtie */}
+    <path
+      d="M14 9L18 11L18 9L14 11Z"
+      fill="currentColor"
+      fillOpacity="0.75"
+      stroke="currentColor"
+      strokeWidth="0.8"
+    />
+    <circle cx="16" cy="10" r="1" fill="currentColor" />
+    {/* Front closure line and buttons */}
+    <line
+      x1="16"
+      y1="17"
+      x2="16"
+      y2="27"
+      stroke="currentColor"
+      strokeWidth="1.1"
+      strokeOpacity="0.6"
+    />
+    <circle cx="16" cy="20" r="0.8" fill="currentColor" fillOpacity="0.85" />
+    <circle cx="16" cy="23.5" r="0.8" fill="currentColor" fillOpacity="0.85" />
+  </svg>
+);
+
+/**
+ * Line-art Elegant Evening Gown / Dress Icon for Ladies' Dress Code ("Elegant Evening Wear").
+ */
+export const EveningDressIcon: React.FC<IconProps> = ({
+  className = "text-[#caa24d]",
+  size = 28,
+}) => (
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 32 32"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    className={className}
+    aria-hidden="true"
+  >
+    {/* Straps / Neckline */}
+    <path
+      d="M12 5L13.5 10M20 5L18.5 10"
+      stroke="currentColor"
+      strokeWidth="1.1"
+      strokeLinecap="round"
+      strokeOpacity="0.75"
+    />
+    {/* Bodice sweetheart neckline */}
+    <path
+      d="M13.5 10C14.5 11 15.5 11 16 10.5C16.5 11 17.5 11 18.5 10"
+      stroke="currentColor"
+      strokeWidth="1.2"
+      strokeLinecap="round"
+      strokeOpacity="0.85"
+    />
+    {/* Bodice sides tapering to waist */}
+    <path
+      d="M13.5 10L14 15.5H18L18.5 10"
+      stroke="currentColor"
+      strokeWidth="1.2"
+      strokeLinejoin="round"
+      strokeOpacity="0.85"
+    />
+    {/* Waistband cinch */}
+    <line
+      x1="13.5"
+      y1="15.5"
+      x2="18.5"
+      y2="15.5"
+      stroke="currentColor"
+      strokeWidth="1.2"
+      strokeLinecap="round"
+      strokeOpacity="0.9"
+    />
+    {/* Flared flowing evening gown skirt */}
+    <path
+      d="M14 15.5C13 20 8 25 7 27C11 27.5 21 27.5 25 27C24 25 19 20 18 15.5"
+      stroke="currentColor"
+      strokeWidth="1.2"
+      strokeLinejoin="round"
+      strokeOpacity="0.85"
+    />
+    {/* Elegant drape / fold lines in skirt */}
+    <path
+      d="M15 16C14.5 19.5 13 23.5 12.5 27"
+      stroke="currentColor"
+      strokeWidth="0.9"
+      strokeLinecap="round"
+      strokeOpacity="0.5"
+    />
+    <path
+      d="M17 16C17.5 19.5 19 23.5 19.5 27"
+      stroke="currentColor"
+      strokeWidth="0.9"
+      strokeLinecap="round"
+      strokeOpacity="0.5"
+    />
+    <path
+      d="M16 16V27"
+      stroke="currentColor"
+      strokeWidth="0.9"
+      strokeLinecap="round"
+      strokeOpacity="0.4"
+    />
+  </svg>
+);
+

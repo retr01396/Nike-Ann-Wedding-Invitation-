@@ -8,6 +8,7 @@ import { animationConfig } from "@/config/animations";
 import { EnvelopeAnimationState } from "@/types/wedding";
 import { Envelope } from "./Envelope";
 import { TapToOpenPrompt } from "./TapToOpenPrompt";
+import { WeddingCountdown } from "@/components/countdown/WeddingCountdown";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { RotateCcw, Lock } from "lucide-react";
 
@@ -81,13 +82,14 @@ export const EnvelopeScene: React.FC = () => {
     if (reducedMotion) {
       if (flapRef.current) gsap.set(flapRef.current, { rotateX: 180, zIndex: 12 });
       if (sealRef.current) gsap.set(sealRef.current, { opacity: 0, pointerEvents: "none" });
-      if (teaserCtaRef.current) gsap.set(teaserCtaRef.current, { opacity: 0, pointerEvents: "none" });
       if (topHeaderRef.current) gsap.set(topHeaderRef.current, { opacity: 0, pointerEvents: "none" });
       if (envelopeContainerRef.current) gsap.set(envelopeContainerRef.current, { y: 0 });
       if (cardRef.current) {
-        const targetScale = typeof window !== "undefined" && window.innerWidth < 640 ? 1.10 : 1.16;
+        const isMobile = typeof window !== "undefined" && window.innerWidth < 640;
+        const targetScale = isMobile ? 1.25 : 1.16;
+        const targetYP = isMobile ? -23 : -15;
         gsap.set(cardRef.current, {
-          yPercent: -15,
+          yPercent: targetYP,
           y: 0,
           scale: targetScale,
           zIndex: 40,
@@ -98,6 +100,7 @@ export const EnvelopeScene: React.FC = () => {
       if (cardNamesRef.current) gsap.set(cardNamesRef.current, { opacity: 1, filter: "none", scale: 1 });
       if (cardDetailsRef.current) gsap.set(cardDetailsRef.current, { opacity: 1, y: 0 });
       if (cardCtaRef.current) gsap.set(cardCtaRef.current, { opacity: 1, y: 0 });
+      if (teaserCtaRef.current) gsap.set(teaserCtaRef.current, { opacity: 1, y: 0, pointerEvents: "auto" });
       setState("OPENED");
       isBusyRef.current = false;
       return;
@@ -110,6 +113,9 @@ export const EnvelopeScene: React.FC = () => {
         isBusyRef.current = false;
         if (cardRef.current) {
           cardRef.current.style.zIndex = "40";
+        }
+        if (teaserCtaRef.current) {
+          gsap.to(teaserCtaRef.current, { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" });
         }
       },
     });
@@ -209,7 +215,7 @@ export const EnvelopeScene: React.FC = () => {
       // 6. CARD SETTLES TOWARD THE VIEWER (Resting gracefully in front of pocket)
       .call(() => setState("CARD_SETTLING"))
       .to(cardRef.current, {
-        yPercent: -15,
+        yPercent: typeof window !== "undefined" && window.innerWidth < 640 ? -23 : -15,
         scale: 1.0,
         duration: animationConfig.timings.cardSettling,
         ease: animationConfig.easings.cardSettle,
@@ -232,7 +238,7 @@ export const EnvelopeScene: React.FC = () => {
       // 8. CARD EXPANDING: Post-emergence graceful enlargement for maximum readability
       .call(() => setState("CARD_EXPANDING"))
       .to(cardRef.current, {
-        scale: typeof window !== "undefined" && window.innerWidth < 640 ? 1.10 : 1.16,
+        scale: typeof window !== "undefined" && window.innerWidth < 640 ? 1.25 : 1.16,
         duration: 0.65,
         ease: "power2.out",
       });
@@ -387,10 +393,10 @@ export const EnvelopeScene: React.FC = () => {
           />
         </div>
 
-        {/* BOTTOM: YOU'RE INVITED & TAP TO OPEN PROMPT */}
+        {/* BOTTOM: YOU'RE INVITED & TAP TO OPEN PROMPT OR LIVE WEDDING COUNTDOWN */}
         <div
           ref={teaserCtaRef}
-          className="w-full max-w-[340px] flex flex-col items-center text-center mt-3 sm:mt-5 z-20 pointer-events-auto min-h-[44px]"
+          className="w-full max-w-[420px] flex flex-col items-center text-center mt-3 sm:mt-5 z-20 pointer-events-auto min-h-[50px]"
         >
           {state === "CLOSED" && (
             <div className="flex flex-col items-center">
@@ -400,6 +406,12 @@ export const EnvelopeScene: React.FC = () => {
               <div className="mt-2">
                 <TapToOpenPrompt onClick={handleOpen} />
               </div>
+            </div>
+          )}
+
+          {state === "OPENED" && (
+            <div className="w-full flex justify-center animate-fadeIn">
+              <WeddingCountdown />
             </div>
           )}
         </div>

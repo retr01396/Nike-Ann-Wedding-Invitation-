@@ -67,59 +67,45 @@ export const InvitationCard = forwardRef<HTMLDivElement, InvitationCardProps>(
           />
         </div>
 
-        {/* Top-Left Corner Subtitle matching reference */}
-        <div className="absolute top-2 left-2 sm:top-3 sm:left-3 md:top-3.5 md:left-3.5 text-left z-10 pointer-events-none">
-          <span className="font-cinzel text-[5px] sm:text-[6.5px] md:text-[8px] tracking-[0.24em] text-[#caa24d] block leading-tight">
-            A
-          </span>
-          <span className="font-cinzel text-[5px] sm:text-[6.5px] md:text-[8px] tracking-[0.24em] text-[#caa24d] block leading-tight">
-            BRIGHTER
-          </span>
-          <span className="font-cinzel text-[5px] sm:text-[6.5px] md:text-[8px] tracking-[0.24em] text-[#caa24d] block leading-tight">
-            CHAPTER
-          </span>
-          <span className="font-cinzel text-[5px] sm:text-[6.5px] md:text-[8px] tracking-[0.24em] text-[#caa24d] block leading-tight">
-            TOGETHER
-          </span>
-          <div className="w-3 sm:w-4 md:w-5 h-[0.75px] bg-[#caa24d]/70 mt-0.5" />
-        </div>
-
         {/* Card Content Layout */}
-        <div className="relative z-10 flex flex-col items-center justify-between h-full text-center py-0.5 sm:py-1.5 md:py-2">
-          {/* Header Tag & Families Invite (Positioned with clearance below top-left subtitle) */}
-          <div ref={headerRef} className="pt-5 sm:pt-7 md:pt-9 flex flex-col items-center">
-            <p className="font-cinzel text-[6.5px] sm:text-[8.5px] md:text-[10.5px] tracking-[0.25em] text-[#e5c57b] uppercase font-light">
+        <div className="relative z-10 flex flex-col items-center justify-between h-full text-center py-1 sm:py-2 md:py-3">
+          {/* Header Tag & Families Invite (Centered and balanced) */}
+          <div ref={headerRef} className="pt-1.5 sm:pt-3 md:pt-4 flex flex-col items-center">
+            <p className="font-cinzel text-[7px] sm:text-[9px] md:text-[11px] tracking-[0.25em] text-[#e5c57b] uppercase font-light">
               TOGETHER WITH OUR FAMILIES
             </p>
-            <p className="font-cinzel text-[6px] sm:text-[7.5px] md:text-[9.5px] tracking-[0.22em] text-[#e5c57b]/80 uppercase mt-0.5 font-light">
+            <p className="font-cinzel text-[6.5px] sm:text-[8.5px] md:text-[10px] tracking-[0.22em] text-[#e5c57b]/80 uppercase mt-0.5 font-light">
               WE INVITE YOU TO THE WEDDING OF
             </p>
           </div>
 
-          {/* Couple Names Section (Refined Luxury Serif + Cursive Script - Comfortably Readable) */}
-          <div ref={namesRef} className="my-0.5 sm:my-1 flex flex-col items-center">
-            <h1 className="font-cinzel text-[20px] sm:text-3xl md:text-4xl lg:text-[46px] tracking-[0.32em] text-[#fbf6ea] font-normal leading-tight pl-1.5">
-              NIKE
+          {/* Couple Names Section (Refined Luxury Serif + Cursive & with Gold Breathing Glow) */}
+          <div ref={namesRef} className="my-0 sm:my-1 flex flex-col items-center">
+            <h1 className="font-cinzel text-[20px] sm:text-3xl md:text-4xl lg:text-[46px] tracking-[0.32em] text-[#fbf6ea] font-normal leading-tight pl-1.5 animate-gold-glow">
+              {weddingConfig.couple.groom}
             </h1>
 
-            <div className="font-script text-base sm:text-xl md:text-2xl text-[#d8b257] italic my-0 sm:my-0.5 font-normal">
-              and
+            <div className="font-script text-base sm:text-2xl md:text-3xl text-[#d8b257] italic my-0 sm:my-0.5 font-normal">
+              &amp;
             </div>
 
-            <h1 className="font-cinzel text-[20px] sm:text-3xl md:text-4xl lg:text-[46px] tracking-[0.32em] text-[#fbf6ea] font-normal leading-tight pl-1.5">
-              ANN
+            <h1 className="font-cinzel text-[20px] sm:text-3xl md:text-4xl lg:text-[46px] tracking-[0.32em] text-[#fbf6ea] font-normal leading-tight pl-1.5 animate-gold-glow">
+              {weddingConfig.couple.bride}
             </h1>
           </div>
 
-          {/* Date & Location Section */}
+          {/* Date, Time & Location Section */}
           <div ref={detailsRef} className="flex flex-col items-center">
-            <p className="font-cinzel text-[7.5px] sm:text-[9.5px] md:text-[11.5px] tracking-[0.26em] text-[#fbf6ea] uppercase font-medium">
+            <p className="font-cinzel text-[8px] sm:text-[10.5px] md:text-[12.5px] tracking-[0.26em] text-[#fbf6ea] uppercase font-medium">
               SUNDAY, 15 NOVEMBER 2026
             </p>
-            <p className="font-cinzel text-[7px] sm:text-[8.5px] md:text-[10.5px] tracking-[0.22em] text-[#e5c57b] uppercase mt-0.5 font-normal">
+            <p className="font-cinzel text-[7px] sm:text-[9.5px] md:text-[11px] tracking-[0.24em] text-[#eed8a1] uppercase mt-0.5 font-normal">
+              AT 3:00 PM IST
+            </p>
+            <p className="font-cinzel text-[7.5px] sm:text-[9.5px] md:text-[11.5px] tracking-[0.22em] text-[#e5c57b] uppercase mt-0.5 font-normal">
               THRISSUR, KERALA
             </p>
-            <div className="w-6 sm:w-10 md:w-14 h-[0.75px] bg-[#caa24d]/60 mx-auto my-1 sm:my-1.5 md:my-2" />
+            <div className="w-8 sm:w-12 md:w-16 h-[0.75px] bg-[#caa24d]/60 mx-auto my-0.5 sm:my-1.5 md:my-2" />
 
             {/* Presence Note */}
             <div className="font-cinzel text-[6.5px] sm:text-[8.5px] md:text-[10px] tracking-[0.2em] text-[#fbf6ea]/90 uppercase leading-snug font-normal">
@@ -134,7 +120,7 @@ export const InvitationCard = forwardRef<HTMLDivElement, InvitationCardProps>(
             <button
               type="button"
               onClick={onEnterWedding}
-              className="px-3 sm:px-5 md:px-7 py-1 sm:py-1.5 md:py-2 rounded-none border border-[#caa24d] bg-[#1a0307]/60 text-[#fbf6ea] font-cinzel text-[7px] sm:text-[8.5px] md:text-[10px] tracking-[0.22em] uppercase hover:bg-[#caa24d]/25 hover:border-[#fff0c7] hover:text-white transition-all cursor-pointer shadow-md"
+              className="px-3 sm:px-6 md:px-8 py-1 sm:py-1.5 md:py-2 rounded-none border border-[#caa24d] bg-[#1a0307]/70 text-[#fbf6ea] font-cinzel text-[7px] sm:text-[8.5px] md:text-[10px] tracking-[0.22em] uppercase hover:bg-[#caa24d]/25 hover:border-[#fff0c7] hover:text-white transition-all cursor-pointer shadow-md active:scale-95"
               aria-label="Enter our wedding invitation website"
             >
               ENTER OUR WEDDING →

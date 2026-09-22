@@ -138,8 +138,8 @@ export const StorySection: React.FC = () => {
       {/* Anchor alias for #story */}
       <span id="story" className="sr-only" aria-hidden="true" />
 
-      {/* Main Grid: Polaroids on Left | Intro Content | Vertical Timeline | Right Tagline */}
-      <div className="grid grid-cols-1 lg:grid-cols-[auto_1fr_1.1fr_auto] gap-8 sm:gap-10 lg:gap-12 items-start justify-center">
+      {/* Main Grid: Polaroids on Left | Intro Content | Vertical Timeline */}
+      <div className="grid grid-cols-1 lg:grid-cols-[auto_1fr_1.15fr] gap-8 sm:gap-10 lg:gap-14 items-start justify-center">
         
         {/* ═══ 1. LEFT: VINTAGE POLAROID PHOTO STACK (matching reference) ═══ */}
         <motion.div
@@ -275,26 +275,6 @@ export const StorySection: React.FC = () => {
             ))}
           </ol>
         </div>
-
-        {/* ═══ 4. RIGHT: EDITORIAL DESTINY TAGLINE (matching reference) ═══ */}
-        <motion.div
-          {...fadeSlide(0.28)}
-          className="hidden xl:flex order-4 items-start justify-center pt-8"
-          aria-hidden="true"
-        >
-          <div className="flex items-start gap-3">
-            <span className="w-[1px] h-32 bg-gradient-to-b from-[#caa24d]/60 via-[#caa24d]/20 to-transparent" />
-            <p className="font-sans text-[10px] tracking-[0.45em] text-[#e5c57b]/75 uppercase leading-[2.2] text-left">
-              {"SAME\nPEOPLE\nSAME VALUES\nA BRIGHTER\nTOMORROW"
-                .split("\n")
-                .map((line, i) => (
-                  <span key={i} className="block">
-                    {line}
-                  </span>
-                ))}
-            </p>
-          </div>
-        </motion.div>
       </div>
 
       {/* ═══ FULL STORY READING MODAL (Stationery Dossier Dialog) ═══ */}
