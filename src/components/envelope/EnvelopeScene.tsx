@@ -406,17 +406,6 @@ export const EnvelopeScene: React.FC = () => {
         </p>
       </div>
 
-      {/* Right Editorial Calligraphy: Perhaps It Was Grace */}
-      <div className="hidden lg:flex flex-col items-center absolute right-8 xl:right-16 top-1/3 -translate-y-1/2 z-20 pointer-events-none">
-        <p className="font-script text-3xl xl:text-4xl text-[#e5c57b]/90 -rotate-12 origin-center leading-tight drop-shadow-[0_2px_14px_rgba(202,162,77,0.3)]">
-          Perhaps
-          <br />
-          It Was
-          <br />
-          Grace
-        </p>
-      </div>
-
       {/* TOP HEADER: Right Private Invitation Badge */}
       <div
         ref={topHeaderRef}

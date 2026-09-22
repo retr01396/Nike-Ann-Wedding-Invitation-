@@ -175,12 +175,12 @@ export const MonogramIntro: React.FC<MonogramIntroProps> = ({ onComplete }) => {
             </div>
 
             {/* Upper-left 'N' */}
-            <span className="absolute top-2 left-8 sm:top-3 sm:left-11 font-cinzel text-3xl sm:text-4xl tracking-normal text-transparent bg-clip-text bg-gradient-to-b from-[#fff6de] via-[#d4af37] to-[#997528] drop-shadow-[0_2px_10px_rgba(212,175,55,0.45)] select-none">
+            <span className="absolute top-[22%] left-[22%] font-cinzel text-3xl sm:text-4xl tracking-normal text-transparent bg-clip-text bg-gradient-to-b from-[#fff6de] via-[#d4af37] to-[#997528] drop-shadow-[0_2px_10px_rgba(212,175,55,0.45)] select-none">
               {weddingConfig.couple.groom.charAt(0)}
             </span>
 
             {/* Lower-right 'A' */}
-            <span className="absolute bottom-2 right-8 sm:bottom-3 sm:right-11 font-cinzel text-3xl sm:text-4xl tracking-normal text-transparent bg-clip-text bg-gradient-to-b from-[#fff6de] via-[#d4af37] to-[#997528] drop-shadow-[0_2px_10px_rgba(212,175,55,0.45)] select-none">
+            <span className="absolute bottom-[22%] right-[22%] font-cinzel text-3xl sm:text-4xl tracking-normal text-transparent bg-clip-text bg-gradient-to-b from-[#fff6de] via-[#d4af37] to-[#997528] drop-shadow-[0_2px_10px_rgba(212,175,55,0.45)] select-none">
               {weddingConfig.couple.bride.charAt(0)}
             </span>
           </div>

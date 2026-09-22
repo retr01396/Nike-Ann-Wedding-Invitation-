@@ -231,6 +231,22 @@ export const StorySection: React.FC = () => {
             </button>
           </motion.div>
 
+          <motion.div
+            {...fadeSlide(0.24)}
+            className="mt-8 sm:mt-12 pt-4 border-t border-[#caa24d]/15 flex items-start gap-3"
+          >
+            <p
+              className="font-script text-2xl sm:text-3xl text-[#e5c57b]/90 leading-[1.35] -rotate-2 origin-left"
+              style={{ textShadow: "0 2px 16px rgba(202,162,77,0.25)" }}
+            >
+              Perhaps
+              <br />
+              It Was
+              <br />
+              Grace
+            </p>
+          </motion.div>
+
         </div>
 
         {/* ═══ 3. CENTER: ANIMATED VERTICAL TIMELINE ═══ */}
