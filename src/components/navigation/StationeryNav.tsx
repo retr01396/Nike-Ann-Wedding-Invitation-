@@ -16,29 +16,37 @@ export const StationeryNav: React.FC = () => {
   const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
+    let scrollFrame = 0;
     const handleScroll = () => {
-      const sections = [
-        { id: "our-story", el: document.getElementById("our-story") || document.getElementById("story") },
-        { id: "events", el: document.getElementById("events") },
-        { id: "directions", el: document.getElementById("directions") || document.getElementById("travel") },
-        { id: "rsvp", el: document.getElementById("rsvp") },
-      ];
-      const scrollPos = window.scrollY + 180;
+      if (scrollFrame) return;
+      scrollFrame = window.requestAnimationFrame(() => {
+        scrollFrame = 0;
+        const sections = [
+          { id: "our-story", el: document.getElementById("our-story") || document.getElementById("story") },
+          { id: "events", el: document.getElementById("events") },
+          { id: "directions", el: document.getElementById("directions") || document.getElementById("travel") },
+          { id: "rsvp", el: document.getElementById("rsvp") },
+        ];
+        const scrollPos = window.scrollY + 180;
 
-      for (const section of sections) {
-        if (section.el) {
-          const top = section.el.offsetTop;
-          const height = section.el.offsetHeight;
-          if (scrollPos >= top && scrollPos < top + height) {
-            setActiveSection(section.id);
-            break;
+        for (const section of sections) {
+          if (section.el) {
+            const top = section.el.offsetTop;
+            const height = section.el.offsetHeight;
+            if (scrollPos >= top && scrollPos < top + height) {
+              setActiveSection(section.id);
+              break;
+            }
           }
         }
-      }
+      });
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      if (scrollFrame) window.cancelAnimationFrame(scrollFrame);
+    };
   }, []);
 
   // Lock body scroll while the mobile drawer is open

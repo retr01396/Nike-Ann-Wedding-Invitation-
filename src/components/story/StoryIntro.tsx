@@ -110,7 +110,6 @@ export const StoryIntro: React.FC = () => {
                 fill
                 sizes="(max-width: 768px) 85vw, 360px"
                 className="object-cover"
-                priority
               />
               <div className="absolute inset-0 ring-1 ring-inset ring-[#caa24d]/20 pointer-events-none" />
             </div>

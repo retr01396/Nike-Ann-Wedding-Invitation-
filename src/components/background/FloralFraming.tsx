@@ -28,13 +28,11 @@ export const FloralFraming: React.FC = () => {
           A 486-byte 48px-wide blurred thumbnail painted on first frame so the
           canvas never flashes empty on slow connections. */}
       <div
-        className="absolute inset-[-2%] scale-105"
+        className="hero-lqip absolute inset-[-2%]"
         style={{
           backgroundImage: `url(${hero.backgroundTiny})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
-          filter: "blur(28px) saturate(1.2) brightness(1.05)",
-          transform: "translateZ(0)",
         }}
       />
 
@@ -58,8 +56,6 @@ export const FloralFraming: React.FC = () => {
           sizes="100vw"
           quality={90}
           className="object-cover object-center max-md:hidden"
-          priority
-          fetchPriority="high"
         />
         <Image
           src={hero.backgroundMobile}
@@ -68,8 +64,6 @@ export const FloralFraming: React.FC = () => {
           sizes="100vw"
           quality={90}
           className="object-cover md:hidden"
-          priority
-          fetchPriority="high"
           style={{
             objectPosition: "center 32%",
             // Zoom past the artwork's dark top strip so the fold opens on
@@ -190,6 +184,13 @@ export const FloralFraming: React.FC = () => {
             "radial-gradient(ellipse 92% 82% at 50% 44%, rgba(8,0,3,0) 55%, rgba(5,0,2,0.42) 100%)",
         }}
       />
+
+      <style>{`
+        .hero-lqip { filter: blur(20px) saturate(1.2) brightness(1.05); }
+        @media (max-width: 767px) {
+          .hero-lqip { filter: blur(20px) saturate(1.15) brightness(1.03); }
+        }
+      `}</style>
     </div>
   );
 };

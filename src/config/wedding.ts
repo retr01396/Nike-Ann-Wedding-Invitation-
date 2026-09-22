@@ -295,6 +295,7 @@ export const weddingConfig: WeddingDataConfig = {
         subtitle: "The Traditional Gathering & Family Residence",
         address: "J288+25M, Perakam, Keralam 680505",
         cityLabel: "PERAKAM, KERALA",
+        contacts: ["9495957777", "9159896134"],
         isConfirmed: true,
         mapUrl: "https://maps.app.goo.gl/qFGEFSNSgaVG1C6C6?g_st=iw",
         directionsButtonText: "OPEN IN GOOGLE MAPS",

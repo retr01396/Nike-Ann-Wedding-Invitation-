@@ -67,9 +67,6 @@ export const EventDetailsPanel: React.FC<EventDetailsPanelProps> = ({
           <p className="text-[15px] font-serif font-semibold text-[#fff5da] leading-snug">
             {event.venue}
           </p>
-          <p className="text-xs font-sans text-[#d1bfa7] leading-relaxed font-normal mt-1">
-            {event.address}
-          </p>
         </div>
 
         {/* Phone if available */}

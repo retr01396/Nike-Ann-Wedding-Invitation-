@@ -162,6 +162,7 @@ export interface TravelDestinationItem {
   address: string;
   cityLabel: string;
   phone?: string;
+  contacts?: string[];
   coordinates?: TravelCoordinates;
   mapUrl?: string;
   directionsButtonText?: string;

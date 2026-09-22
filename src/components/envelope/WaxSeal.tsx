@@ -34,6 +34,7 @@ export const WaxSeal = forwardRef<HTMLButtonElement, WaxSealProps>(
             sizes="96px"
             className="object-cover object-center"
             priority
+            unoptimized
           />
           {/* Subtle gold rim highlight */}
           <div className="absolute inset-0 rounded-full border border-gold-300/30 pointer-events-none group-hover:border-gold-300/60 transition-colors" />

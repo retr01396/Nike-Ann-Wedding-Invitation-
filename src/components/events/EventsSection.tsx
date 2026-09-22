@@ -147,9 +147,6 @@ export const EventsSection: React.FC = () => {
                   <p className="mt-1 font-serif text-xs font-medium text-[#ecd9b8]">
                     {weddingEvent.venue}
                   </p>
-                  <p className="font-sans text-[11px] text-[#caa24d]/85 font-light leading-relaxed">
-                    {weddingEvent.address}
-                  </p>
                 </div>
               </div>
 
@@ -219,13 +216,13 @@ export const EventsSection: React.FC = () => {
                     className="absolute left-[4px] top-2 bottom-2 w-[1px] bg-gradient-to-b from-[#caa24d]/45 via-[#caa24d]/25 to-transparent"
                   />
                   {programme.map((item) => (
-                    <li key={item.time} className="relative flex items-baseline gap-4 pl-5">
+                    <li key={item.time} className="relative grid grid-cols-[minmax(112px,auto)_1fr] sm:grid-cols-[minmax(150px,auto)_1fr] items-start gap-x-3 sm:gap-x-4 gap-y-1 pl-5">
                       <span
                         aria-hidden="true"
                         className="absolute left-0 top-[7px] w-[9px] h-[9px] rounded-full border border-[#e5c57b]/70 bg-[#2a070e]"
                         style={{ boxShadow: "0 0 8px rgba(233,196,124,0.35)" }}
                       />
-                      <span className="font-cinzel text-[10.5px] sm:text-[11px] tracking-[0.14em] text-[#fff0c7] whitespace-nowrap">
+                      <span className="font-cinzel text-[10px] sm:text-[11px] tracking-[0.1em] text-[#fff0c7] whitespace-nowrap">
                         <CleanDate value={item.time} />
                       </span>
                       <span className="font-serif text-[11.5px] sm:text-xs text-[#d9c5a3]/90">
@@ -450,20 +447,14 @@ export const EventsSection: React.FC = () => {
                         className="absolute left-[7px] top-3 bottom-3 w-[1px] bg-gradient-to-b from-[#caa24d]/50 via-[#caa24d]/30 to-transparent"
                       />
                       {programme.map((item) => (
-                        <div key={item.time} className="relative flex items-start gap-4">
+                      <div key={item.time} className="relative grid grid-cols-[minmax(130px,auto)_1fr] gap-x-4 gap-y-1 items-start">
                           <span
                             aria-hidden="true"
                             className="absolute -left-[19px] top-[4px] w-[11px] h-[11px] rounded-full border border-[#e5c57b] bg-[#2a070e]"
                             style={{ boxShadow: "0 0 10px rgba(233,196,124,0.4)" }}
                           />
-                          <div className="space-y-0.5">
-                            <span className="font-cinzel text-xs tracking-wider text-[#fff0c7] font-medium">
-                              <CleanDate value={item.time} />
-                            </span>
-                            <p className="font-serif text-sm text-[#ecd9b8]">
-                              {item.label}
-                            </p>
-                          </div>
+                          <span className="font-cinzel text-xs tracking-wider text-[#fff0c7] font-medium"><CleanDate value={item.time} /></span>
+                          <p className="font-serif text-sm text-[#ecd9b8]">{item.label}</p>
                         </div>
                       ))}
                     </div>
@@ -520,9 +511,7 @@ export const EventsSection: React.FC = () => {
 
                           <div className="flex items-start gap-2 pt-0.5">
                             <MapPin className="w-3.5 h-3.5 text-[#caa24d] shrink-0 mt-0.5" />
-                            <p className="font-sans text-xs text-[#d1bfa7] leading-relaxed font-light">
-                              {dest.address}
-                            </p>
+                            <p className="font-sans text-xs text-[#d1bfa7] leading-relaxed font-light">{dest.cityLabel}</p>
                           </div>
 
                           {dest.phone && (
@@ -531,6 +520,12 @@ export const EventsSection: React.FC = () => {
                               <span>Phone: {dest.phone}</span>
                             </div>
                           )}
+                          {dest.contacts?.map((contact) => (
+                            <div key={contact} className="flex items-center gap-2 pt-0.5 text-xs font-sans text-[#e5c57b]/90">
+                              <Phone className="w-3.5 h-3.5 text-[#caa24d]" />
+                              <span>{contact}</span>
+                            </div>
+                          ))}
                         </div>
                       ))}
                     </div>

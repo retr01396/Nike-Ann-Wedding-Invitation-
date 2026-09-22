@@ -105,7 +105,9 @@ export const StoryTimeline: React.FC = () => {
             return progress >= milestoneThreshold;
           });
 
-          setActiveIndices(newActives);
+          setActiveIndices((current) =>
+            current.some((isActive, idx) => isActive !== newActives[idx]) ? newActives : current
+          );
         },
       });
 

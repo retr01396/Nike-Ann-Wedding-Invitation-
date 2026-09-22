@@ -24,8 +24,9 @@ export const TravelCard: React.FC<TravelCardProps> = ({
     category,
     title,
     subtitle,
-    address,
     cityLabel,
+    phone,
+    contacts,
     mapUrl,
     directionsButtonText = "GET DIRECTIONS →",
     mapPreviewImage,
@@ -74,11 +75,10 @@ export const TravelCard: React.FC<TravelCardProps> = ({
           )}
         </div>
 
-        {/* Address */}
-        <div className="px-2">
-          <p className="font-sans text-[11px] sm:text-[12px] leading-relaxed text-[#f3e5c8]/75 font-light">
-            {address}
-          </p>
+        <div className="px-2 space-y-1">
+          <p className="font-sans text-[11px] sm:text-[12px] leading-relaxed text-[#f3e5c8]/75 font-light">{cityLabel}</p>
+          {phone && <p className="font-sans text-[11px] text-[#e5c57b]/85">Phone: {phone}</p>}
+          {contacts?.map((contact) => <p key={contact} className="font-sans text-[11px] text-[#e5c57b]/85">{contact}</p>)}
         </div>
 
         {/* Action Button: GET DIRECTIONS → (Matching Reference Box Button) */}

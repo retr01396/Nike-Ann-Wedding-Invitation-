@@ -17,10 +17,8 @@ interface Particle {
 /**
  * GoldenEmbers — ambient gold micro-particles drifting upward.
  *
- * Performance fix: Per-element `boxShadow` was creating a separate GPU
- * compositing layer per particle (22 layers). Replaced with a single
- * CSS `filter: drop-shadow()` on the container element — one layer total.
- * Mobile particle count reduced from 22 → 14 via a CSS class.
+ * Mobile particle count is reduced from 22 to 14. The glow is part of each
+ * tiny radial fill rather than a filter on the full-screen particle layer.
  */
 export const GoldenEmbers: React.FC = () => {
   const reducedMotion = useReducedMotion();
@@ -47,12 +45,7 @@ export const GoldenEmbers: React.FC = () => {
   if (reducedMotion) return null;
 
   return (
-    <div
-      className="absolute inset-0 pointer-events-none overflow-hidden select-none z-[4]"
-      // Single drop-shadow on the container replaces 22 individual boxShadow
-      // declarations, collapsing GPU layer count from 22 → 1.
-      style={{ filter: "drop-shadow(0 0 3px rgba(202, 162, 77, 0.35))" }}
-    >
+    <div className="absolute inset-0 pointer-events-none overflow-hidden select-none z-[4]">
       {particles.map((p) => (
         <span
           key={p.id}
@@ -64,7 +57,7 @@ export const GoldenEmbers: React.FC = () => {
             top: `${p.y}%`,
             width: `${p.size}px`,
             height: `${p.size}px`,
-            backgroundColor: "#d9c08a",
+            background: "radial-gradient(circle, rgba(230,205,151,0.8) 0%, rgba(217,192,138,0.4) 45%, rgba(217,192,138,0) 78%)",
             opacity: p.opacity,
             animation: `floatParticle ${p.duration}s cubic-bezier(0.4, 0, 0.2, 1) infinite`,
             animationDelay: `${p.delay}s`,

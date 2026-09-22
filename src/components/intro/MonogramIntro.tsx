@@ -15,7 +15,6 @@ export const MonogramIntro: React.FC<MonogramIntroProps> = ({ onComplete }) => {
   const crestRef = useRef<HTMLDivElement>(null);
   const ringRef = useRef<SVGSVGElement>(null);
   const textRef = useRef<HTMLDivElement>(null);
-  const sheenRef = useRef<HTMLDivElement>(null);
   const hasDismissedRef = useRef(false);
   const reducedMotion = useReducedMotion();
 
@@ -29,7 +28,6 @@ export const MonogramIntro: React.FC<MonogramIntroProps> = ({ onComplete }) => {
         crestRef.current,
         ringRef.current,
         textRef.current,
-        sheenRef.current,
       ]);
       gsap.to(containerRef.current, {
         opacity: 0,
@@ -64,7 +62,6 @@ export const MonogramIntro: React.FC<MonogramIntroProps> = ({ onComplete }) => {
       gsap.set(crestRef.current, { opacity: 0, scale: 0.92, y: 10 });
       gsap.set(ringRef.current, { rotation: -25 });
       gsap.set(textRef.current, { opacity: 0, y: 8 });
-      gsap.set(sheenRef.current, { x: "-120%", opacity: 0 });
 
       // 1. Crest & Ring entrance
       tl.to(crestRef.current, {
@@ -93,20 +90,12 @@ export const MonogramIntro: React.FC<MonogramIntroProps> = ({ onComplete }) => {
           },
           "-=0.7"
         )
-        // 2. Golden sheen sweep
-        .to(sheenRef.current, {
-          opacity: 0.85,
-          x: "120%",
-          duration: 1.4,
-          ease: "power2.inOut",
-        })
-        // 3. Hold luxury monogram
+        // 2. Hold the circular monogram treatment
         .to({}, { duration: animationConfig.timings.introHold })
-        // 4. Elegant dissolve
+        // 3. Elegant dissolve
         .to(containerRef.current, {
           opacity: 0,
           scale: 1.05,
-          filter: "blur(6px)",
           duration: animationConfig.timings.introFadeOut,
           ease: "power2.inOut",
         });
@@ -119,7 +108,7 @@ export const MonogramIntro: React.FC<MonogramIntroProps> = ({ onComplete }) => {
     <div
       ref={containerRef}
       onClick={handleDismiss}
-      className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#0d0104]/95 backdrop-blur-md cursor-pointer select-none px-6"
+      className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#0d0104]/95 cursor-pointer select-none px-6"
       role="button"
       aria-label="Skip opening monogram"
       tabIndex={0}
@@ -132,7 +121,7 @@ export const MonogramIntro: React.FC<MonogramIntroProps> = ({ onComplete }) => {
         className="relative flex flex-col items-center justify-center p-8 max-w-[340px] text-center"
       >
         {/* Decorative Ring Crest */}
-        <div className="relative w-36 h-36 sm:w-44 sm:h-44 flex items-center justify-center">
+        <div className="relative w-36 h-36 sm:w-44 sm:h-44 flex items-center justify-center overflow-hidden rounded-full">
           <svg
             ref={ringRef}
             viewBox="0 0 200 200"
@@ -179,27 +168,21 @@ export const MonogramIntro: React.FC<MonogramIntroProps> = ({ onComplete }) => {
           </svg>
 
           {/* N / A Authentic Wax Seal Monogram Treatment */}
-          <div className="relative z-10 w-28 h-28 sm:w-36 sm:h-36 flex items-center justify-center overflow-hidden">
+          <div className="relative z-10 w-28 h-28 sm:w-36 sm:h-36 flex items-center justify-center">
             {/* Center Diagonal Divider Line matching wax seal */}
             <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
               <div className="w-[1.5px] h-14 sm:h-18 bg-gradient-to-b from-[#fdf4d8] via-[#d4af37] to-[#997528] transform rotate-45 opacity-85 shadow-[0_0_8px_rgba(212,175,55,0.4)]" />
             </div>
 
             {/* Upper-left 'N' */}
-            <span className="absolute top-3 left-4 sm:top-4 sm:left-6 font-cinzel text-3xl sm:text-4xl tracking-normal text-transparent bg-clip-text bg-gradient-to-b from-[#fff6de] via-[#d4af37] to-[#997528] drop-shadow-[0_2px_10px_rgba(212,175,55,0.45)] select-none">
+            <span className="absolute top-2 left-5 sm:top-3 sm:left-7 font-cinzel text-3xl sm:text-4xl tracking-normal text-transparent bg-clip-text bg-gradient-to-b from-[#fff6de] via-[#d4af37] to-[#997528] drop-shadow-[0_2px_10px_rgba(212,175,55,0.45)] select-none">
               {weddingConfig.couple.groom.charAt(0)}
             </span>
 
             {/* Lower-right 'A' */}
-            <span className="absolute bottom-3 right-4 sm:bottom-4 sm:right-6 font-cinzel text-3xl sm:text-4xl tracking-normal text-transparent bg-clip-text bg-gradient-to-b from-[#fff6de] via-[#d4af37] to-[#997528] drop-shadow-[0_2px_10px_rgba(212,175,55,0.45)] select-none">
+            <span className="absolute bottom-2 right-5 sm:bottom-3 sm:right-7 font-cinzel text-3xl sm:text-4xl tracking-normal text-transparent bg-clip-text bg-gradient-to-b from-[#fff6de] via-[#d4af37] to-[#997528] drop-shadow-[0_2px_10px_rgba(212,175,55,0.45)] select-none">
               {weddingConfig.couple.bride.charAt(0)}
             </span>
-
-            {/* Sweep sheen bar */}
-            <div
-              ref={sheenRef}
-              className="absolute inset-0 w-full h-full pointer-events-none bg-gradient-to-r from-transparent via-white/40 to-transparent skew-x-[-25deg]"
-            />
           </div>
         </div>
 

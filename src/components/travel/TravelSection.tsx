@@ -85,7 +85,7 @@ export const TravelSection: React.FC = () => {
           <div className="flex items-start gap-2.5">
             <MapPin className="w-3.5 h-3.5 text-[#caa24d] shrink-0 mt-0.5" />
             <p className="font-sans text-[11px] text-[#ecd9b8]/85 font-light leading-relaxed">
-              {selectedDest.address.replace(/\s*\[.*?\]\s*/g, " ").trim()}
+              {selectedDest.cityLabel}
             </p>
           </div>
           {selectedDest.phone && (
@@ -96,6 +96,12 @@ export const TravelSection: React.FC = () => {
               </p>
             </div>
           )}
+          {selectedDest.contacts?.map((contact) => (
+            <div key={contact} className="flex items-center gap-2.5">
+              <Phone className="w-3.5 h-3.5 text-[#caa24d] shrink-0" />
+              <p className="font-sans text-[11px] text-[#ecd9b8]/85 font-light">{contact}</p>
+            </div>
+          ))}
           {selectedDest.estimatedTravelTime && (
             <div className="flex items-start gap-2.5">
               <Car className="w-3.5 h-3.5 text-[#caa24d] shrink-0 mt-0.5" />
@@ -169,14 +175,15 @@ export const TravelSection: React.FC = () => {
               <p className="font-serif italic text-[11px] text-[#caa24d]/85">
                 {dest.subtitle}
               </p>
-              <p className="text-[11px] text-[#ecd9b8]/80 font-sans mt-0.5">
-                {dest.address.replace(/\s*\[.*?\]\s*/g, " ").trim()}
-              </p>
+              <p className="text-[11px] text-[#ecd9b8]/80 font-sans mt-0.5">{dest.cityLabel}</p>
               {dest.phone && (
                 <p className="text-[10.5px] text-[#caa24d]/85 font-sans mt-1">
                   Phone: {dest.phone}
                 </p>
               )}
+              {dest.contacts?.map((contact) => (
+                <p key={contact} className="text-[10.5px] text-[#caa24d]/85 font-sans mt-1">{contact}</p>
+              ))}
             </div>
           ))}
         </div>

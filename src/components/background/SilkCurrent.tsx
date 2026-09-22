@@ -25,7 +25,7 @@ export const SilkCurrent: React.FC = () => {
     >
       {/* 1. ROLLING WAVE BANDS — diagonal swells of light crossing the screen */}
       <div
-        className="absolute will-change-transform"
+        className="silk-wave absolute will-change-transform"
         style={{
           width: "200vw",
           height: "240vh",
@@ -34,14 +34,13 @@ export const SilkCurrent: React.FC = () => {
           backgroundImage:
             "repeating-linear-gradient(112deg, transparent 0px, transparent 150px, rgba(120,30,44,0.05) 240px, rgba(150,42,58,0.08) 330px, rgba(120,30,44,0.05) 420px, transparent 510px)",
           mixBlendMode: "screen",
-          filter: "blur(4px)",
           animation: "silkWaveRoll 22s linear infinite",
         }}
       />
 
       {/* 2. CAUSTIC RIPPLES — flowing water interference (blur reduced 6px → 2px) */}
       <div
-        className="absolute will-change-transform"
+        className="silk-caustic absolute will-change-transform"
         style={{
           width: "130vw",
           height: "130vh",
@@ -51,7 +50,6 @@ export const SilkCurrent: React.FC = () => {
           backgroundSize: "900px 900px",
           mixBlendMode: "screen",
           opacity: 0.25,
-          filter: "blur(2px)",
           animation: "silkCausticDrift 38s linear infinite",
         }}
       />
@@ -89,6 +87,12 @@ export const SilkCurrent: React.FC = () => {
       />
 
       <style>{`
+        .silk-wave { filter: blur(4px); }
+        .silk-caustic { filter: blur(2px); }
+        @media (max-width: 767px) {
+          .silk-wave { filter: blur(1.5px); }
+          .silk-caustic { filter: blur(0.75px); }
+        }
         @keyframes silkWaveRoll {
           0%   { transform: translate3d(0, -4%, 0); }
           100% { transform: translate3d(-14%, 4%, 0); }

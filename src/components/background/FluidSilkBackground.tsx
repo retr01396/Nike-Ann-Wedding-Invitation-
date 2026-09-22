@@ -166,8 +166,6 @@ export const FluidSilkBackground: React.FC<FluidSilkBackgroundProps> = ({ classN
     if (!canvas) return;
 
     let animationFrameId: number | null = null;
-    let isVisible = true;
-    let isTabActive = true;
     let startTime = performance.now();
 
     // 1. Initialize WebGL Context
@@ -193,12 +191,8 @@ export const FluidSilkBackground: React.FC<FluidSilkBackgroundProps> = ({ classN
       if (!ctx) return;
 
       const render2DFallback = () => {
-        if (!isVisible || !isTabActive) {
-          if (!reducedMotion) {
-            animationFrameId = requestAnimationFrame(render2DFallback);
-          }
-          return;
-        }
+        animationFrameId = null;
+        if (document.visibilityState !== "visible") return;
 
         const t = (performance.now() - startTime) * 0.0003;
         const w = canvas.width;
@@ -237,14 +231,30 @@ export const FluidSilkBackground: React.FC<FluidSilkBackgroundProps> = ({ classN
           ctx.fill();
         }
 
-        if (!reducedMotion) {
+        if (!reducedMotion && document.visibilityState === "visible") {
           animationFrameId = requestAnimationFrame(render2DFallback);
         }
       };
 
-      animationFrameId = requestAnimationFrame(render2DFallback);
+      const handleVisibilityChange = () => {
+        if (document.visibilityState !== "visible") {
+          if (animationFrameId !== null) cancelAnimationFrame(animationFrameId);
+          animationFrameId = null;
+        } else if (reducedMotion) {
+          render2DFallback();
+        } else if (animationFrameId === null) {
+          animationFrameId = requestAnimationFrame(render2DFallback);
+        }
+      };
+
+      document.addEventListener("visibilitychange", handleVisibilityChange);
+      if (document.visibilityState === "visible") {
+        if (reducedMotion) render2DFallback();
+        else animationFrameId = requestAnimationFrame(render2DFallback);
+      }
       return () => {
-        if (animationFrameId) cancelAnimationFrame(animationFrameId);
+        document.removeEventListener("visibilitychange", handleVisibilityChange);
+        if (animationFrameId !== null) cancelAnimationFrame(animationFrameId);
       };
     }
 
@@ -328,22 +338,24 @@ export const FluidSilkBackground: React.FC<FluidSilkBackgroundProps> = ({ classN
     handleResize();
     window.addEventListener("resize", handleResize, { passive: true });
 
-    // 5. Visibility & Intersection Observers (0% GPU when hero is scrolled out of view)
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        isVisible = entry.isIntersecting;
-      },
-      { threshold: 0.05 }
-    );
-    observer.observe(canvas);
-
+    // The canvas is fixed to the viewport and remains the page background as
+    // the guest scrolls, so viewport intersection is not a useful pause signal.
+    // Stop its RAF entirely while the document is hidden instead.
     const handleVisibilityChange = () => {
-      isTabActive = document.visibilityState === "visible";
+      if (document.visibilityState !== "visible") {
+        if (animationFrameId !== null) cancelAnimationFrame(animationFrameId);
+        animationFrameId = null;
+      } else if (reducedMotion) {
+        gl!.uniform1f(uTimeLoc, 1.2);
+        gl!.drawArrays(gl!.TRIANGLES, 0, 6);
+      } else if (animationFrameId === null) {
+        animationFrameId = requestAnimationFrame(render);
+      }
     };
-    document.addEventListener("visibilitychange", handleVisibilityChange);    // 6. Master Render Loop
+    // 6. Master Render Loop
     const render = () => {
-
-      if (isVisible && isTabActive && gl) {
+      animationFrameId = null;
+      if (document.visibilityState === "visible" && gl) {
         // Drive time from performance.now(), NOT the rAF timestamp: some
         // compositing environments deliver frozen rAF timestamps, which
         // would freeze the water. performance.now() is monotonic everywhere.
@@ -352,25 +364,28 @@ export const FluidSilkBackground: React.FC<FluidSilkBackgroundProps> = ({ classN
         gl.drawArrays(gl.TRIANGLES, 0, 6);
       }
 
-      if (!reducedMotion) {
+      if (!reducedMotion && document.visibilityState === "visible") {
         animationFrameId = requestAnimationFrame(render);
       }
     };
 
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+
     // If reduced motion is preferred, render a single frame and halt
     if (reducedMotion) {
-      gl.uniform1f(uTimeLoc, 1.2);
-      gl.drawArrays(gl.TRIANGLES, 0, 6);
-    } else {
+      if (document.visibilityState === "visible") {
+        gl.uniform1f(uTimeLoc, 1.2);
+        gl.drawArrays(gl.TRIANGLES, 0, 6);
+      }
+    } else if (document.visibilityState === "visible") {
       animationFrameId = requestAnimationFrame(render);
     }
 
     // 7. Cleanup
     return () => {
-      if (animationFrameId) cancelAnimationFrame(animationFrameId);
+      if (animationFrameId !== null) cancelAnimationFrame(animationFrameId);
       window.removeEventListener("resize", handleResize);
       document.removeEventListener("visibilitychange", handleVisibilityChange);
-      observer.disconnect();
 
       if (gl) {
         gl.deleteProgram(program);
