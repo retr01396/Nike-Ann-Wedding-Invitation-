@@ -118,7 +118,7 @@ export const MonogramIntro: React.FC<MonogramIntroProps> = ({ onComplete }) => {
     >
       <div
         ref={crestRef}
-        className="relative flex flex-col items-center justify-center p-8 max-w-[340px] text-center"
+        className="relative flex flex-col items-center justify-center px-8 py-5 sm:py-6 max-w-[340px] text-center"
       >
         {/* Decorative Ring Crest */}
         <div className="relative w-36 h-36 sm:w-44 sm:h-44 flex items-center justify-center overflow-hidden rounded-full">
@@ -175,29 +175,29 @@ export const MonogramIntro: React.FC<MonogramIntroProps> = ({ onComplete }) => {
             </div>
 
             {/* Upper-left 'N' */}
-            <span className="absolute top-2 left-5 sm:top-3 sm:left-7 font-cinzel text-3xl sm:text-4xl tracking-normal text-transparent bg-clip-text bg-gradient-to-b from-[#fff6de] via-[#d4af37] to-[#997528] drop-shadow-[0_2px_10px_rgba(212,175,55,0.45)] select-none">
+            <span className="absolute top-2 left-8 sm:top-3 sm:left-11 font-cinzel text-3xl sm:text-4xl tracking-normal text-transparent bg-clip-text bg-gradient-to-b from-[#fff6de] via-[#d4af37] to-[#997528] drop-shadow-[0_2px_10px_rgba(212,175,55,0.45)] select-none">
               {weddingConfig.couple.groom.charAt(0)}
             </span>
 
             {/* Lower-right 'A' */}
-            <span className="absolute bottom-2 right-5 sm:bottom-3 sm:right-7 font-cinzel text-3xl sm:text-4xl tracking-normal text-transparent bg-clip-text bg-gradient-to-b from-[#fff6de] via-[#d4af37] to-[#997528] drop-shadow-[0_2px_10px_rgba(212,175,55,0.45)] select-none">
+            <span className="absolute bottom-2 right-8 sm:bottom-3 sm:right-11 font-cinzel text-3xl sm:text-4xl tracking-normal text-transparent bg-clip-text bg-gradient-to-b from-[#fff6de] via-[#d4af37] to-[#997528] drop-shadow-[0_2px_10px_rgba(212,175,55,0.45)] select-none">
               {weddingConfig.couple.bride.charAt(0)}
             </span>
           </div>
         </div>
 
         {/* Caption Names & Tag */}
-        <div ref={textRef} className="mt-6 flex flex-col items-center gap-1.5">
+        <div ref={textRef} className="mt-4 sm:mt-5 flex flex-col items-center gap-1">
           <p className="font-sans text-[11px] sm:text-xs tracking-[0.35em] text-gold-300/85 uppercase">
             {weddingConfig.couple.groom} &amp; {weddingConfig.couple.bride}
           </p>
-          <div className="w-10 h-[1px] bg-gradient-to-r from-transparent via-gold-400 to-transparent my-1" />
+          <div className="w-10 h-[1px] bg-gradient-to-r from-transparent via-gold-400 to-transparent my-0.5" />
           <p className="font-serif italic text-xs sm:text-sm text-gold-200/60 tracking-wider">
             {weddingConfig.date.year}
           </p>
         </div>
 
-        <p className="mt-8 text-[9px] text-gold-200/30 uppercase tracking-[0.25em]">
+        <p className="mt-5 sm:mt-6 text-[9px] text-gold-200/30 uppercase tracking-[0.25em]">
           Tap anywhere to skip
         </p>
       </div>
