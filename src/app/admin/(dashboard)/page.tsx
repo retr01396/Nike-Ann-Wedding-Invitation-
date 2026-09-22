@@ -28,8 +28,6 @@ export default function AdminDashboardPage() {
     search: "",
     attendance: "all",
     accommodation: "all",
-    dietary: "all",
-    transportation: "all",
     sortBy: "newest",
   });
 
@@ -87,19 +85,6 @@ export default function AdminDashboardPage() {
           return false;
         }
 
-        // Dietary Filter
-        if (filters.dietary !== "all" && item.dietary_preference !== filters.dietary) {
-          return false;
-        }
-
-        // Transportation Filter
-        if (filters.transportation === "required") {
-          if (!item.transportation || item.transportation === "none") return false;
-        }
-        if (filters.transportation === "none") {
-          if (item.transportation && item.transportation !== "none") return false;
-        }
-
         return true;
       })
       .sort((a, b) => {
@@ -134,8 +119,6 @@ export default function AdminDashboardPage() {
       "Email",
       "Attendance",
       "Guest Count",
-      "Dietary Preference",
-      "Dietary Notes",
       "Accommodation Required",
       "Stay Guest Name",
       "Contact Phone",
@@ -143,9 +126,6 @@ export default function AdminDashboardPage() {
       "Arrival Date",
       "Departure Date",
       "Rooms Required",
-      "Transportation",
-      "Transportation Notes",
-      "Special Requirements",
       "Personal Message",
       "Status",
       "Submitted At",
@@ -168,8 +148,6 @@ export default function AdminDashboardPage() {
       escapeCsv(r.email),
       escapeCsv(r.attendance),
       escapeCsv(r.guest_count),
-      escapeCsv(r.dietary_preference),
-      escapeCsv(r.dietary_other),
       escapeCsv(r.accommodation_required ? "YES" : "NO"),
       escapeCsv(r.stay_guest_name),
       escapeCsv(r.phone),
@@ -177,9 +155,6 @@ export default function AdminDashboardPage() {
       escapeCsv(r.arrival_date),
       escapeCsv(r.departure_date),
       escapeCsv(r.rooms_required),
-      escapeCsv(r.transportation),
-      escapeCsv(r.transportation_other),
-      escapeCsv(r.special_requirements),
       escapeCsv(r.message),
       escapeCsv(r.status),
       escapeCsv(r.created_at),

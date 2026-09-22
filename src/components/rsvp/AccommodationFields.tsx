@@ -6,7 +6,6 @@ import {
   BedHotelIcon,
   CalendarDateIcon,
   PhoneIcon,
-  CarShuttleIcon,
 } from "./RSVPIcons";
 
 interface AccommodationFieldsProps {
@@ -24,12 +23,6 @@ interface AccommodationFieldsProps {
   onDepartureDateChange: (val: string) => void;
   roomsRequired: number;
   onRoomsRequiredChange: (val: number) => void;
-  transportation?: string;
-  onTransportationChange?: (val: string) => void;
-  transportationOther?: string;
-  onTransportationOtherChange?: (val: string) => void;
-  specialRequirements: string;
-  onSpecialRequirementsChange: (val: string) => void;
   errors?: {
     stayGuestName?: string;
     phone?: string;
@@ -55,8 +48,6 @@ export const AccommodationFields: React.FC<AccommodationFieldsProps> = ({
   onDepartureDateChange,
   roomsRequired,
   onRoomsRequiredChange,
-  specialRequirements,
-  onSpecialRequirementsChange,
   errors,
 }) => {
   return (
@@ -255,20 +246,6 @@ export const AccommodationFields: React.FC<AccommodationFieldsProps> = ({
                 </p>
               )}
             </div>
-          </div>
-
-          {/* 5. SPECIAL REQUIREMENTS */}
-          <div className="space-y-1.5 pt-1">
-            <label className="block font-sans text-[9px] sm:text-[10px] uppercase tracking-[0.25em] text-[#caa24d]/90 font-medium">
-              {config.specialRequirementsLabel}
-            </label>
-            <textarea
-              rows={2}
-              value={specialRequirements}
-              onChange={(e) => onSpecialRequirementsChange(e.target.value)}
-              placeholder={config.specialRequirementsPlaceholder}
-              className="w-full px-3.5 py-2.5 bg-white/[0.05] border border-[#f3e5c8]/15 text-[#fff0c7] text-xs font-sans placeholder-[#caa24d]/40 focus:outline-none focus:border-[#e5c57b]/70 focus:bg-white/[0.075] rounded-md transition-colors resize-none backdrop-blur-sm"
-            />
           </div>
         </div>
       </div>

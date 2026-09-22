@@ -5,7 +5,6 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { RSVPRow } from "@/types/database";
-import { weddingConfig } from "@/config/wedding";
 import { EditRSVPModal } from "@/components/admin/EditRSVPModal";
 import { DeleteConfirmModal } from "@/components/admin/DeleteConfirmModal";
 
@@ -19,8 +18,6 @@ export default function RSVPDetailPage({ params }: { params: { id: string } }) {
   const [isDeletingModalOpen, setIsDeletingModalOpen] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const [deleteError, setDeleteError] = useState<string | null>(null);
-
-  const { rsvp: rsvpConfig } = weddingConfig;
 
   useEffect(() => {
     async function loadRsvp() {
@@ -70,22 +67,6 @@ export default function RSVPDetailPage({ params }: { params: { id: string } }) {
     } finally {
       setIsDeleting(false);
     }
-  };
-
-  const getDietaryLabel = (slug: string) => {
-    return (
-      rsvpConfig.dietaryOptions.find((o) => o.value === slug)?.label ||
-      slug ||
-      "None"
-    );
-  };
-
-  const getTransitLabel = (slug: string | null) => {
-    if (!slug || slug === "none") return "No transportation required";
-    return (
-      rsvpConfig.accommodation.transportationOptions.find((o) => o.value === slug)?.label ||
-      slug
-    );
   };
 
   const formatDate = (dateStr: string | null) => {
@@ -200,7 +181,7 @@ export default function RSVPDetailPage({ params }: { params: { id: string } }) {
 
         {/* Dossier Grid */}
         <div className="space-y-6 text-xs font-serif divide-y divide-[#caa24d]/15">
-          {/* Section 1: Guest Count & Dietary */}
+          {/* Section 1: Guest Count & Accommodation Status */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-1">
             <div className="p-3.5 border border-[#caa24d]/15 bg-[#180308]">
               <span className="block font-sans text-[9px] uppercase tracking-wider text-[#caa24d]/75">
@@ -213,20 +194,15 @@ export default function RSVPDetailPage({ params }: { params: { id: string } }) {
 
             <div className="p-3.5 border border-[#caa24d]/15 bg-[#180308]">
               <span className="block font-sans text-[9px] uppercase tracking-wider text-[#caa24d]/75">
-                Dietary Preference
+                Accommodation Status
               </span>
               <span className="text-[#fff0c7] text-base mt-0.5 block">
-                {isAttending ? getDietaryLabel(rsvp.dietary_preference) : "—"}
+                {rsvp.accommodation_required ? "Staying for Wedding" : "Not Staying"}
               </span>
-              {isAttending && rsvp.dietary_other && (
-                <p className="text-[11px] text-[#e5c57b] italic mt-1">
-                  Allergy Notes: {rsvp.dietary_other}
-                </p>
-              )}
             </div>
           </div>
 
-          {/* Section 2: Accommodation & Hospitality */}
+          {/* Section 2: Accommodation & Stay Coordination */}
           <div className="pt-6 space-y-3">
             <span className="font-sans text-[9.5px] uppercase tracking-[0.2em] text-[#caa24d] font-medium block">
               Accommodation & Stay Coordination
@@ -234,6 +210,24 @@ export default function RSVPDetailPage({ params }: { params: { id: string } }) {
 
             {isAttending && rsvp.accommodation_required ? (
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                <div className="col-span-1 sm:col-span-2 p-3 border border-[#caa24d]/15 bg-[#180308]">
+                  <span className="block font-sans text-[8.5px] uppercase tracking-wider text-[#caa24d]/75">
+                    Guest Name for Stay
+                  </span>
+                  <span className="text-[#fff0c7] font-sans text-sm block mt-0.5 font-medium">
+                    {rsvp.stay_guest_name || rsvp.name}
+                  </span>
+                </div>
+
+                <div className="col-span-1 sm:col-span-2 p-3 border border-[#caa24d]/15 bg-[#180308]">
+                  <span className="block font-sans text-[8.5px] uppercase tracking-wider text-[#caa24d]/75">
+                    Contact Phone Number
+                  </span>
+                  <span className="text-[#fff0c7] font-sans text-sm block mt-0.5">
+                    {rsvp.phone || "—"}
+                  </span>
+                </div>
+
                 <div className="p-3 border border-[#caa24d]/15 bg-[#180308]">
                   <span className="block font-sans text-[8.5px] uppercase tracking-wider text-[#caa24d]/75">
                     Rooms Required
@@ -269,36 +263,11 @@ export default function RSVPDetailPage({ params }: { params: { id: string } }) {
                     {formatDate(rsvp.departure_date)}
                   </span>
                 </div>
-
-                <div className="col-span-1 sm:col-span-2 p-3 border border-[#caa24d]/15 bg-[#180308]">
-                  <span className="block font-sans text-[8.5px] uppercase tracking-wider text-[#caa24d]/75">
-                    Transportation Assistance
-                  </span>
-                  <span className="text-[#fff0c7] text-sm block mt-0.5">
-                    {getTransitLabel(rsvp.transportation)}
-                  </span>
-                  {rsvp.transportation_other && (
-                    <p className="text-[#caa24d]/80 italic mt-1 text-[11px]">
-                      Travel Coordinates: {rsvp.transportation_other}
-                    </p>
-                  )}
-                </div>
-
-                {rsvp.special_requirements && (
-                  <div className="col-span-1 sm:col-span-2 p-3 border border-[#caa24d]/15 bg-[#180308]">
-                    <span className="block font-sans text-[8.5px] uppercase tracking-wider text-[#caa24d]/75">
-                      Special Requirements & Accessibility
-                    </span>
-                    <p className="text-[#f3e5c8]/90 italic mt-0.5 text-xs">
-                      {rsvp.special_requirements}
-                    </p>
-                  </div>
-                )}
               </div>
             ) : (
               <div className="p-4 border border-[#caa24d]/15 bg-[#180308] text-[#caa24d]/70 italic">
                 {isAttending
-                  ? "Guest is arranging their own independent lodging."
+                  ? "Guest is not staying for the wedding."
                   : "No accommodation requested."}
               </div>
             )}

@@ -198,11 +198,6 @@ export interface RSVPAccommodationConfig {
   roomsRequiredLabel: string;
   minRooms: number;
   maxRooms: number;
-  transportationLabel: string;
-  transportationOptions: RSVPOption[];
-  transportationOtherPlaceholder: string;
-  specialRequirementsLabel: string;
-  specialRequirementsPlaceholder: string;
 }
 
 export interface RSVPConfirmationConfig {
@@ -227,9 +222,6 @@ export interface RSVPSectionConfig {
   guestCountQuestion: string;
   minGuests: number;
   maxGuests: number;
-  dietaryQuestion: string;
-  dietaryOptions: RSVPOption[];
-  dietaryOtherPlaceholder: string;
   accommodation: RSVPAccommodationConfig;
   messageLabel: string;
   messagePlaceholder: string;
@@ -243,8 +235,6 @@ export interface RSVPSubmission {
   email?: string;
   attendance: AttendanceOptionValue;
   guestCount?: number;
-  dietaryPreference?: string;
-  dietaryOther?: string;
   accommodation?: {
     staying: boolean;
     stayGuestName?: string;
@@ -253,9 +243,6 @@ export interface RSVPSubmission {
     arrivalDate?: string;
     departureDate?: string;
     roomsRequired?: number;
-    transportation?: string;
-    transportationOther?: string;
-    specialRequirements?: string;
   };
   message?: string;
   submittedAt: string;

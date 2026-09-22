@@ -45,7 +45,7 @@ export const DeleteConfirmModal: React.FC<DeleteConfirmModalProps> = ({
           <p className="font-serif text-xs text-[#f3e5c8]/80 leading-relaxed">
             Are you sure you want to permanently delete the response for{" "}
             <span className="text-[#fff0c7] font-semibold">{rsvp.name}</span>?
-            This will remove all associated guest count, dietary, and lodging data from the database.
+            This will remove all associated guest count and lodging data from the database.
           </p>
         </div>
 

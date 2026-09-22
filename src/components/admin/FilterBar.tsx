@@ -1,14 +1,11 @@
 "use strict";
 
 import React from "react";
-import { weddingConfig } from "@/config/wedding";
 
 export interface FilterState {
   search: string;
   attendance: "all" | "attending" | "declined";
   accommodation: "all" | "staying" | "not-staying";
-  dietary: string;
-  transportation: "all" | "required" | "none";
   sortBy: "newest" | "oldest" | "name-asc" | "arrival-asc" | "departure-asc";
 }
 
@@ -27,8 +24,6 @@ export const FilterBar: React.FC<FilterBarProps> = ({
   filteredCount,
   totalCount,
 }) => {
-  const { rsvp } = weddingConfig;
-
   const update = (key: keyof FilterState, val: string) => {
     onFilterChange({ ...filters, [key]: val });
   };
@@ -37,8 +32,6 @@ export const FilterBar: React.FC<FilterBarProps> = ({
     filters.search ||
     filters.attendance !== "all" ||
     filters.accommodation !== "all" ||
-    filters.dietary !== "all" ||
-    filters.transportation !== "all" ||
     filters.sortBy !== "newest";
 
   const resetFilters = () => {
@@ -46,8 +39,6 @@ export const FilterBar: React.FC<FilterBarProps> = ({
       search: "",
       attendance: "all",
       accommodation: "all",
-      dietary: "all",
-      transportation: "all",
       sortBy: "newest",
     });
   };
@@ -89,7 +80,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
       </div>
 
       {/* Filter Selectors Grid */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2.5 pt-1">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 pt-1">
         {/* Attendance Filter */}
         <div className="space-y-1">
           <label className="block font-sans text-[8.5px] uppercase tracking-[0.2em] text-[#caa24d]/80">
@@ -122,43 +113,8 @@ export const FilterBar: React.FC<FilterBarProps> = ({
           </select>
         </div>
 
-        {/* Dietary Filter */}
-        <div className="space-y-1">
-          <label className="block font-sans text-[8.5px] uppercase tracking-[0.2em] text-[#caa24d]/80">
-            Dietary
-          </label>
-          <select
-            value={filters.dietary}
-            onChange={(e) => update("dietary", e.target.value)}
-            className="w-full px-2.5 py-2 bg-[#190308] border border-[#caa24d]/25 text-[#fff0c7] text-xs font-sans focus:outline-none focus:border-[#caa24d]"
-          >
-            <option value="all">All Dietary</option>
-            {rsvp.dietaryOptions.map((opt) => (
-              <option key={opt.value} value={opt.value}>
-                {opt.label}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        {/* Transportation Filter */}
-        <div className="space-y-1">
-          <label className="block font-sans text-[8.5px] uppercase tracking-[0.2em] text-[#caa24d]/80">
-            Transit
-          </label>
-          <select
-            value={filters.transportation}
-            onChange={(e) => update("transportation", e.target.value)}
-            className="w-full px-2.5 py-2 bg-[#190308] border border-[#caa24d]/25 text-[#fff0c7] text-xs font-sans focus:outline-none focus:border-[#caa24d]"
-          >
-            <option value="all">All Transit</option>
-            <option value="required">Transit Required</option>
-            <option value="none">No Transit</option>
-          </select>
-        </div>
-
         {/* Sort By */}
-        <div className="space-y-1 col-span-2 sm:col-span-1 lg:col-span-1">
+        <div className="space-y-1">
           <label className="block font-sans text-[8.5px] uppercase tracking-[0.2em] text-[#caa24d]/80">
             Sort By
           </label>

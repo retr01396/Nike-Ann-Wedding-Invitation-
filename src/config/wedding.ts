@@ -376,15 +376,6 @@ export const weddingConfig: WeddingDataConfig = {
     guestCountQuestion: "HOW MANY GUESTS WILL BE ATTENDING?",
     minGuests: 1,
     maxGuests: 10,
-    dietaryQuestion: "DIETARY PREFERENCES",
-    dietaryOptions: [
-      { value: "no-preference", label: "No preference" },
-      { value: "kerala-sadhya", label: "Traditional Kerala Sadhya (Vegetarian)" },
-      { value: "non-vegetarian", label: "Non-vegetarian" },
-      { value: "vegan-jain", label: "Vegan / Jain" },
-      { value: "other", label: "Other" },
-    ],
-    dietaryOtherPlaceholder: "Please specify allergies, dietary restrictions, or notes...",
     accommodation: {
       question: "WILL YOU BE STAYING WITH US?",
       phoneLabel: "PHONE NUMBER",
@@ -397,28 +388,6 @@ export const weddingConfig: WeddingDataConfig = {
       roomsRequiredLabel: "ROOMS REQUIRED",
       minRooms: 1,
       maxRooms: 5,
-      transportationLabel: "TRANSPORTATION REQUIREMENTS",
-      transportationOptions: [
-        { value: "none", label: "No transportation required" },
-        {
-          value: "airport-cochin",
-          label: "Airport pickup (Cochin International Airport · COK)",
-        },
-        {
-          value: "railway-thrissur",
-          label: "Railway station pickup (Thrissur Station · TCR)",
-        },
-        {
-          value: "local-shuttle",
-          label: "Local venue shuttle & transit assistance",
-        },
-        { value: "other", label: "Other transportation assistance" },
-      ],
-      transportationOtherPlaceholder:
-        "Please specify flight/train number, timing, or details...",
-      specialRequirementsLabel: "SPECIAL REQUIREMENTS",
-      specialRequirementsPlaceholder:
-        "Please let us know if there is anything else we can arrange for your stay (e.g. accessibility, elder care, child amenities)...",
     },
     messageLabel: "LEAVE A NOTE FOR THE COUPLE",
     messagePlaceholder: "Share your blessings, prayers, or memories with Nike & Ann...",

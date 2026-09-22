@@ -16,8 +16,6 @@ export interface Database {
           email: string | null;
           attendance: "attending" | "declined";
           guest_count: number;
-          dietary_preference: string;
-          dietary_other: string | null;
           accommodation_required: boolean;
           stay_guest_name: string | null;
           phone: string | null;
@@ -25,9 +23,6 @@ export interface Database {
           arrival_date: string | null;
           departure_date: string | null;
           rooms_required: number | null;
-          transportation: string | null;
-          transportation_other: string | null;
-          special_requirements: string | null;
           message: string | null;
           status: "received" | "confirmed" | "archived";
           created_at: string;
@@ -39,8 +34,6 @@ export interface Database {
           email?: string | null;
           attendance: "attending" | "declined";
           guest_count?: number;
-          dietary_preference?: string;
-          dietary_other?: string | null;
           accommodation_required?: boolean;
           stay_guest_name?: string | null;
           phone?: string | null;
@@ -48,9 +41,6 @@ export interface Database {
           arrival_date?: string | null;
           departure_date?: string | null;
           rooms_required?: number | null;
-          transportation?: string | null;
-          transportation_other?: string | null;
-          special_requirements?: string | null;
           message?: string | null;
           status?: "received" | "confirmed" | "archived";
           created_at?: string;
@@ -62,8 +52,6 @@ export interface Database {
           email?: string | null;
           attendance?: "attending" | "declined";
           guest_count?: number;
-          dietary_preference?: string;
-          dietary_other?: string | null;
           accommodation_required?: boolean;
           stay_guest_name?: string | null;
           phone?: string | null;
@@ -71,9 +59,6 @@ export interface Database {
           arrival_date?: string | null;
           departure_date?: string | null;
           rooms_required?: number | null;
-          transportation?: string | null;
-          transportation_other?: string | null;
-          special_requirements?: string | null;
           message?: string | null;
           status?: "received" | "confirmed" | "archived";
           created_at?: string;

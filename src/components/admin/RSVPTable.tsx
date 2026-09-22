@@ -2,7 +2,6 @@
 
 import React from "react";
 import { RSVPRow } from "@/types/database";
-import { weddingConfig } from "@/config/wedding";
 
 interface RSVPTableProps {
   rsvps: RSVPRow[];
@@ -17,15 +16,6 @@ export const RSVPTable: React.FC<RSVPTableProps> = ({
   onEdit,
   onDelete,
 }) => {
-  const { rsvp } = weddingConfig;
-
-  const getDietaryLabel = (slug: string) => {
-    return (
-      rsvp.dietaryOptions.find((o) => o.value === slug)?.label ||
-      slug ||
-      "None"
-    );
-  };
 
   const formatDate = (dateStr: string | null) => {
     if (!dateStr) return "—";
@@ -80,7 +70,6 @@ export const RSVPTable: React.FC<RSVPTableProps> = ({
               <th className="py-3.5 px-4 font-medium">Guest Name</th>
               <th className="py-3.5 px-3 font-medium">Attendance</th>
               <th className="py-3.5 px-3 font-medium">Guests</th>
-              <th className="py-3.5 px-3 font-medium">Dietary</th>
               <th className="py-3.5 px-3 font-medium">Stay & Lodging</th>
               <th className="py-3.5 px-3 font-medium">Arrival / Departure</th>
               <th className="py-3.5 px-3 font-medium">Submitted</th>
@@ -124,15 +113,6 @@ export const RSVPTable: React.FC<RSVPTableProps> = ({
                   {/* Guest Count */}
                   <td className="py-3.5 px-3 font-serif text-xs text-[#fff0c7]">
                     {isAttending ? `${row.guest_count || 1}` : "—"}
-                  </td>
-
-                  {/* Dietary */}
-                  <td className="py-3.5 px-3 font-serif text-xs text-[#f3e5c8]/85 max-w-[160px] truncate">
-                    {isAttending
-                      ? row.dietary_preference === "other"
-                        ? row.dietary_other || "Other"
-                        : getDietaryLabel(row.dietary_preference)
-                      : "—"}
                   </td>
 
                   {/* Accommodation */}
@@ -249,19 +229,6 @@ export const RSVPTable: React.FC<RSVPTableProps> = ({
                     </span>
                     <span className="text-[#fff0c7]">
                       {row.guest_count} {row.guest_count === 1 ? "Person" : "People"}
-                    </span>
-                  </div>
-                )}
-
-                {isAttending && (
-                  <div>
-                    <span className="block font-sans text-[8.5px] uppercase tracking-wider text-[#caa24d]/75">
-                      Dietary
-                    </span>
-                    <span className="text-[#f3e5c8]/90 truncate block">
-                      {row.dietary_preference === "other"
-                        ? row.dietary_other || "Other"
-                        : getDietaryLabel(row.dietary_preference)}
                     </span>
                   </div>
                 )}

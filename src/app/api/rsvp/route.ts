@@ -76,7 +76,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const { name, email, attendance, guestCount, dietaryPreference, dietaryOther, accommodation, message } = payload;
+    const { name, email, attendance, guestCount, accommodation, message } = payload;
 
     // 3. Runtime Input Validations & Length Bounds
     if (typeof name !== "string" || !name.trim()) {
@@ -125,38 +125,6 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    // Dietary validations
-    let validatedDietary = "no-preference";
-    if (isAttending && dietaryPreference) {
-      if (typeof dietaryPreference !== "string" || dietaryPreference.length > 50) {
-        return NextResponse.json(
-          { success: false, error: "Invalid dietary preference selection." },
-          { status: 400 }
-        );
-      }
-      validatedDietary = dietaryPreference;
-    }
-
-    let validatedDietaryOther: string | null = null;
-    if (isAttending && dietaryOther) {
-      if (typeof dietaryOther !== "string") {
-        return NextResponse.json(
-          { success: false, error: "Invalid dietary details." },
-          { status: 400 }
-        );
-      }
-      const trimmedDietaryOther = dietaryOther.trim();
-      if (trimmedDietaryOther.length > 200) {
-        return NextResponse.json(
-          { success: false, error: "Dietary details cannot exceed 200 characters." },
-          { status: 400 }
-        );
-      }
-      if (trimmedDietaryOther) {
-        validatedDietaryOther = trimmedDietaryOther;
-      }
-    }
-
     // Accommodation validations
     const isStaying = isAttending && typeof accommodation === "object" && accommodation !== null && !!accommodation.staying;
 
@@ -166,9 +134,6 @@ export async function POST(request: NextRequest) {
     let validatedDeparture: string | null = null;
     let validatedRooms: number | null = null;
     let validatedPeopleStaying: number | null = null;
-    let validatedTransportation: string | null = null;
-    let validatedTransportationOther: string | null = null;
-    let validatedSpecialReqs: string | null = null;
 
     if (isStaying) {
       // Guest Full Name for Stay
@@ -250,51 +215,6 @@ export async function POST(request: NextRequest) {
       } else {
         validatedPeopleStaying = validatedGuestCount;
       }
-
-      // Transit & Special Reqs
-      if (accommodation.transportation) {
-        if (typeof accommodation.transportation !== "string" || accommodation.transportation.length > 50) {
-          return NextResponse.json(
-            { success: false, error: "Invalid transportation selection." },
-            { status: 400 }
-          );
-        }
-        validatedTransportation = accommodation.transportation;
-      }
-
-      if (accommodation.transportationOther) {
-        if (typeof accommodation.transportationOther !== "string") {
-          return NextResponse.json(
-            { success: false, error: "Invalid transportation notes." },
-            { status: 400 }
-          );
-        }
-        const trimmedTransitOther = accommodation.transportationOther.trim();
-        if (trimmedTransitOther.length > 200) {
-          return NextResponse.json(
-            { success: false, error: "Transportation notes cannot exceed 200 characters." },
-            { status: 400 }
-          );
-        }
-        if (trimmedTransitOther) validatedTransportationOther = trimmedTransitOther;
-      }
-
-      if (accommodation.specialRequirements) {
-        if (typeof accommodation.specialRequirements !== "string") {
-          return NextResponse.json(
-            { success: false, error: "Invalid special requirements." },
-            { status: 400 }
-          );
-        }
-        const trimmedReqs = accommodation.specialRequirements.trim();
-        if (trimmedReqs.length > 500) {
-          return NextResponse.json(
-            { success: false, error: "Special requirements cannot exceed 500 characters." },
-            { status: 400 }
-          );
-        }
-        if (trimmedReqs) validatedSpecialReqs = trimmedReqs;
-      }
     }
 
     // Message validation
@@ -324,18 +244,13 @@ export async function POST(request: NextRequest) {
       email: validatedEmail,
       attendance: isAttending ? "attending" : "declined",
       guest_count: validatedGuestCount,
-      dietary_preference: validatedDietary,
-      dietary_other: validatedDietaryOther,
       accommodation_required: isStaying,
-      stay_guest_name: validatedStayGuestName,
-      phone: validatedPhone,
-      people_staying: validatedPeopleStaying,
-      arrival_date: validatedArrival,
-      departure_date: validatedDeparture,
-      rooms_required: validatedRooms,
-      transportation: validatedTransportation,
-      transportation_other: validatedTransportationOther,
-      special_requirements: validatedSpecialReqs,
+      stay_guest_name: isStaying ? validatedStayGuestName : null,
+      phone: isStaying ? validatedPhone : null,
+      people_staying: isStaying ? validatedPeopleStaying : null,
+      arrival_date: isStaying ? validatedArrival : null,
+      departure_date: isStaying ? validatedDeparture : null,
+      rooms_required: isStaying ? validatedRooms : null,
       message: validatedMessage,
       status: "received",
     };

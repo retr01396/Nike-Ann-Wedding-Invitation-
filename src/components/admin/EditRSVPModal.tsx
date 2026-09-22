@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect } from "react";
 import { RSVPRow, RSVPUpdate } from "@/types/database";
-import { weddingConfig } from "@/config/wedding";
 
 interface EditRSVPModalProps {
   rsvp: RSVPRow | null;
@@ -17,23 +16,17 @@ export const EditRSVPModal: React.FC<EditRSVPModalProps> = ({
   onClose,
   onSave,
 }) => {
-  const { rsvp: config } = weddingConfig;
-
   // Form State
   const [name, setName] = useState("");
   const [attendance, setAttendance] = useState<"attending" | "declined">("attending");
   const [guestCount, setGuestCount] = useState(1);
-  const [dietaryPreference, setDietaryPreference] = useState("no-preference");
-  const [dietaryOther, setDietaryOther] = useState("");
   const [accommodationRequired, setAccommodationRequired] = useState(false);
+  const [stayGuestName, setStayGuestName] = useState("");
   const [phone, setPhone] = useState("");
   const [peopleStaying, setPeopleStaying] = useState(1);
   const [arrivalDate, setArrivalDate] = useState("");
   const [departureDate, setDepartureDate] = useState("");
   const [roomsRequired, setRoomsRequired] = useState(1);
-  const [transportation, setTransportation] = useState("none");
-  const [transportationOther, setTransportationOther] = useState("");
-  const [specialRequirements, setSpecialRequirements] = useState("");
   const [message, setMessage] = useState("");
 
   const [isSaving, setIsSaving] = useState(false);
@@ -44,17 +37,13 @@ export const EditRSVPModal: React.FC<EditRSVPModalProps> = ({
       setName(rsvp.name || "");
       setAttendance(rsvp.attendance);
       setGuestCount(rsvp.guest_count || 1);
-      setDietaryPreference(rsvp.dietary_preference || "no-preference");
-      setDietaryOther(rsvp.dietary_other || "");
       setAccommodationRequired(rsvp.accommodation_required || false);
+      setStayGuestName(rsvp.stay_guest_name || "");
       setPhone(rsvp.phone || "");
       setPeopleStaying(rsvp.people_staying || 1);
       setArrivalDate(rsvp.arrival_date || "");
       setDepartureDate(rsvp.departure_date || "");
       setRoomsRequired(rsvp.rooms_required || 1);
-      setTransportation(rsvp.transportation || "none");
-      setTransportationOther(rsvp.transportation_other || "");
-      setSpecialRequirements(rsvp.special_requirements || "");
       setMessage(rsvp.message || "");
       setFormError(null);
     }
@@ -100,23 +89,16 @@ export const EditRSVPModal: React.FC<EditRSVPModalProps> = ({
       name: name.trim(),
       attendance,
       guest_count: attendance === "attending" ? guestCount : 1,
-      dietary_preference: attendance === "attending" ? dietaryPreference : "no-preference",
-      dietary_other: attendance === "attending" && dietaryOther.trim() ? dietaryOther.trim() : null,
       accommodation_required: attendance === "attending" ? accommodationRequired : false,
+      stay_guest_name:
+        attendance === "attending" && accommodationRequired
+          ? stayGuestName.trim() || name.trim()
+          : null,
       phone: attendance === "attending" && accommodationRequired ? phone.trim() : null,
       people_staying: attendance === "attending" && accommodationRequired ? peopleStaying : null,
       arrival_date: attendance === "attending" && accommodationRequired ? arrivalDate : null,
       departure_date: attendance === "attending" && accommodationRequired ? departureDate : null,
       rooms_required: attendance === "attending" && accommodationRequired ? roomsRequired : null,
-      transportation: attendance === "attending" && accommodationRequired ? transportation : null,
-      transportation_other:
-        attendance === "attending" && accommodationRequired && transportationOther.trim()
-          ? transportationOther.trim()
-          : null,
-      special_requirements:
-        attendance === "attending" && accommodationRequired && specialRequirements.trim()
-          ? specialRequirements.trim()
-          : null,
       message: message.trim() ? message.trim() : null,
     };
 
@@ -211,54 +193,20 @@ export const EditRSVPModal: React.FC<EditRSVPModalProps> = ({
           {/* Conditional Attending Fields */}
           {isAttending && (
             <div className="space-y-4 pt-2 border-t border-[#caa24d]/15 animate-fadeIn">
-              {/* Guests Count & Dietary */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <div className="space-y-1">
-                  <label className="block font-sans text-[9px] uppercase tracking-wider text-[#caa24d]/90 font-medium">
-                    Total Attending Guests
-                  </label>
-                  <input
-                    type="number"
-                    min={1}
-                    max={10}
-                    value={guestCount}
-                    onChange={(e) => setGuestCount(parseInt(e.target.value) || 1)}
-                    className="w-full px-3 py-2 bg-[#190308] border border-[#caa24d]/30 text-[#fff0c7] text-xs font-sans focus:outline-none focus:border-[#caa24d]"
-                  />
-                </div>
-
-                <div className="space-y-1">
-                  <label className="block font-sans text-[9px] uppercase tracking-wider text-[#caa24d]/90 font-medium">
-                    Dietary Preference
-                  </label>
-                  <select
-                    value={dietaryPreference}
-                    onChange={(e) => setDietaryPreference(e.target.value)}
-                    className="w-full px-3 py-2 bg-[#190308] border border-[#caa24d]/30 text-[#fff0c7] text-xs font-sans focus:outline-none focus:border-[#caa24d]"
-                  >
-                    {config.dietaryOptions.map((opt) => (
-                      <option key={opt.value} value={opt.value}>
-                        {opt.label}
-                      </option>
-                    ))}
-                  </select>
-                </div>
+              {/* Guests Count */}
+              <div className="space-y-1">
+                <label className="block font-sans text-[9px] uppercase tracking-wider text-[#caa24d]/90 font-medium">
+                  Total Attending Guests
+                </label>
+                <input
+                  type="number"
+                  min={1}
+                  max={10}
+                  value={guestCount}
+                  onChange={(e) => setGuestCount(parseInt(e.target.value) || 1)}
+                  className="w-full px-3 py-2 bg-[#190308] border border-[#caa24d]/30 text-[#fff0c7] text-xs font-sans focus:outline-none focus:border-[#caa24d]"
+                />
               </div>
-
-              {dietaryPreference === "other" && (
-                <div className="space-y-1">
-                  <label className="block font-sans text-[9px] uppercase tracking-wider text-[#caa24d]/90 font-medium">
-                    Dietary Details / Allergies
-                  </label>
-                  <input
-                    type="text"
-                    value={dietaryOther}
-                    onChange={(e) => setDietaryOther(e.target.value)}
-                    placeholder="Specify allergy notes..."
-                    className="w-full px-3 py-2 bg-[#190308] border border-[#caa24d]/30 text-[#fff0c7] text-xs font-sans focus:outline-none focus:border-[#caa24d]"
-                  />
-                </div>
-              )}
 
               {/* Accommodation Toggle */}
               <div className="pt-2">
@@ -278,6 +226,19 @@ export const EditRSVPModal: React.FC<EditRSVPModalProps> = ({
               {/* Accommodation Details */}
               {accommodationRequired && (
                 <div className="space-y-3 p-3.5 border border-[#caa24d]/20 bg-[#1a0308] animate-fadeIn">
+                  <div className="space-y-1">
+                    <label className="block font-sans text-[8.5px] uppercase tracking-wider text-[#caa24d]/90">
+                      Stay Guest Name
+                    </label>
+                    <input
+                      type="text"
+                      value={stayGuestName}
+                      onChange={(e) => setStayGuestName(e.target.value)}
+                      placeholder="Full Name of Guest Staying"
+                      className="w-full px-3 py-2 bg-[#120205] border border-[#caa24d]/30 text-[#fff0c7] text-xs font-sans focus:outline-none focus:border-[#caa24d]"
+                    />
+                  </div>
+
                   <div className="space-y-1">
                     <label className="block font-sans text-[8.5px] uppercase tracking-wider text-[#caa24d]/90">
                       Contact Phone *
@@ -345,23 +306,6 @@ export const EditRSVPModal: React.FC<EditRSVPModalProps> = ({
                         className="w-full px-3 py-2 bg-[#120205] border border-[#caa24d]/30 text-[#fff0c7] text-xs font-sans focus:outline-none focus:border-[#caa24d]"
                       />
                     </div>
-                  </div>
-
-                  <div className="space-y-1">
-                    <label className="block font-sans text-[8.5px] uppercase tracking-wider text-[#caa24d]/90">
-                      Transportation Assistance
-                    </label>
-                    <select
-                      value={transportation}
-                      onChange={(e) => setTransportation(e.target.value)}
-                      className="w-full px-3 py-2 bg-[#120205] border border-[#caa24d]/30 text-[#fff0c7] text-xs font-sans focus:outline-none focus:border-[#caa24d]"
-                    >
-                      {config.accommodation.transportationOptions.map((opt) => (
-                        <option key={opt.value} value={opt.value}>
-                          {opt.label}
-                        </option>
-                      ))}
-                    </select>
                   </div>
                 </div>
               )}

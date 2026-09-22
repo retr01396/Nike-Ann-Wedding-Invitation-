@@ -14,8 +14,6 @@ export const RSVPForm: React.FC = () => {
   const [name, setName] = useState("");
   const [attendance, setAttendance] = useState<AttendanceOptionValue | null>("yes");
   const [guestCount, setGuestCount] = useState<number>(1);
-  const [dietaryPreference, setDietaryPreference] = useState<string>("no-preference");
-  const [dietaryOther, setDietaryOther] = useState("");
   const [staying, setStaying] = useState<"yes" | "no">("no");
   const [stayGuestName, setStayGuestName] = useState("");
   const [phone, setPhone] = useState("");
@@ -23,14 +21,10 @@ export const RSVPForm: React.FC = () => {
   const [arrivalDate, setArrivalDate] = useState("");
   const [departureDate, setDepartureDate] = useState("");
   const [roomsRequired, setRoomsRequired] = useState<number>(1);
-  const [transportation, setTransportation] = useState<string>("none");
-  const [transportationOther, setTransportationOther] = useState("");
-  const [specialRequirements, setSpecialRequirements] = useState("");
   const [message, setMessage] = useState("");
 
   // Dropdown open states
   const [attendanceOpen, setAttendanceOpen] = useState(false);
-  const [dietaryOpen, setDietaryOpen] = useState(false);
 
   // UI Flow State
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -75,6 +69,9 @@ export const RSVPForm: React.FC = () => {
         if (peopleStaying < 1) {
           errs.peopleStaying = "Please select at least 1 guest.";
         }
+        if (roomsRequired < 1) {
+          errs.roomsRequired = "Please select at least 1 room.";
+        }
       }
     }
 
@@ -100,10 +97,6 @@ export const RSVPForm: React.FC = () => {
       submittedAt: new Date().toISOString(),
       ...(isAttending && {
         guestCount,
-        dietaryPreference,
-        ...(dietaryPreference === "other" && {
-          dietaryOther: dietaryOther.trim(),
-        }),
         accommodation: {
           staying: staying === "yes",
           ...(staying === "yes" && {
@@ -113,13 +106,6 @@ export const RSVPForm: React.FC = () => {
             arrivalDate,
             departureDate,
             roomsRequired,
-            transportation,
-            ...(transportation === "other" && {
-              transportationOther: transportationOther.trim(),
-            }),
-            ...(specialRequirements.trim() && {
-              specialRequirements: specialRequirements.trim(),
-            }),
           }),
         },
       }),
@@ -202,10 +188,7 @@ export const RSVPForm: React.FC = () => {
         <div className="relative">
           <button
             type="button"
-            onClick={() => {
-              setAttendanceOpen(!attendanceOpen);
-              setDietaryOpen(false);
-            }}
+            onClick={() => setAttendanceOpen(!attendanceOpen)}
             className="w-full px-3 py-2.5 bg-white/[0.045] border border-[#f3e5c8]/15 text-xs font-serif flex items-center justify-between rounded-md focus:outline-none focus:border-[#e5c57b]/70 focus:bg-white/[0.07] text-left cursor-pointer backdrop-blur-sm"
           >
             <span className={attendance ? "text-[#fff0c7]" : "text-[#caa24d]/50"}>
@@ -254,7 +237,7 @@ export const RSVPForm: React.FC = () => {
           )}
         </div>
 
-        {/* ATTENDING-ONLY GUEST FLOW (Items 3, 4, 5, 6) */}
+        {/* ATTENDING-ONLY GUEST FLOW (Items 3, 4, 5) */}
         {isAttending && (
           <>
             {/* 3. NUMBER OF GUESTS */}
@@ -285,64 +268,7 @@ export const RSVPForm: React.FC = () => {
               </div>
             </div>
 
-            {/* 4. DIETARY PREFERENCES */}
-            <div className="relative">
-              <button
-                id="rsvp-dietary-btn"
-                type="button"
-                onClick={() => {
-                  setDietaryOpen(!dietaryOpen);
-                  setAttendanceOpen(false);
-                }}
-                className="w-full px-3 py-2.5 bg-white/[0.045] border border-[#f3e5c8]/15 text-xs font-serif flex items-center justify-between rounded-md focus:outline-none focus:border-[#e5c57b]/70 focus:bg-white/[0.07] text-left cursor-pointer backdrop-blur-sm transition-colors"
-              >
-                <span className="text-[#fff0c7] truncate">
-                  {rsvp.dietaryOptions.find((opt) => opt.value === dietaryPreference)?.label || "Dietary Preferences"}
-                </span>
-                <ChevronDown className="w-3.5 h-3.5 text-[#caa24d]/70 shrink-0 ml-2" />
-              </button>
-
-              {dietaryOpen && (
-                <div className="absolute top-full left-0 right-0 mt-1 z-30 bg-[#200510]/95 backdrop-blur-xl border border-[#caa24d]/40 rounded-md shadow-[0_18px_40px_rgba(0,0,0,0.8)] overflow-hidden py-1">
-                  {rsvp.dietaryOptions.map((opt) => (
-                    <button
-                      key={opt.value}
-                      type="button"
-                      onClick={() => {
-                        setDietaryPreference(opt.value);
-                        setDietaryOpen(false);
-                      }}
-                      className={`w-full px-3 py-2 text-left text-xs font-serif transition-colors cursor-pointer flex items-center justify-between ${
-                        dietaryPreference === opt.value
-                          ? "bg-[#caa24d]/25 text-[#fff0c7] font-medium"
-                          : "text-[#fbf6ea] hover:bg-[#caa24d]/20"
-                      }`}
-                    >
-                      <span className="truncate">{opt.label}</span>
-                      {dietaryPreference === opt.value && (
-                        <span className="text-[#e5c57b] text-xs shrink-0 ml-2">✓</span>
-                      )}
-                    </button>
-                  ))}
-                </div>
-              )}
-
-              {/* Conditional "Other" Dietary Text Input */}
-              {dietaryPreference === "other" && (
-                <div className="pt-2">
-                  <input
-                    id="rsvp-dietary-other"
-                    type="text"
-                    value={dietaryOther}
-                    onChange={(e) => setDietaryOther(e.target.value)}
-                    placeholder={rsvp.dietaryOtherPlaceholder}
-                    className="w-full px-3 py-2 bg-white/[0.045] border border-[#f3e5c8]/15 text-[#fff0c7] text-xs font-serif placeholder-[#caa24d]/45 focus:outline-none focus:border-[#e5c57b]/70 focus:bg-white/[0.07] rounded-md transition-colors backdrop-blur-sm"
-                  />
-                </div>
-              )}
-            </div>
-
-            {/* 5. ACCOMMODATION / STAYING */}
+            {/* 4. ACCOMMODATION / STAYING */}
             <div className="pt-1 space-y-2">
               <label className="block font-cinzel text-[9px] sm:text-[10px] tracking-[0.25em] text-[#caa24d]/90 uppercase font-medium text-center sm:text-left">
                 ARE YOU STAYING FOR THE WEDDING?
@@ -376,7 +302,7 @@ export const RSVPForm: React.FC = () => {
               </div>
             </div>
 
-            {/* 6. CONDITIONAL STAY DETAILS */}
+            {/* 5. CONDITIONAL STAY DETAILS */}
             <AccommodationFields
               config={rsvp.accommodation}
               isExpanded={staying === "yes"}
@@ -392,12 +318,6 @@ export const RSVPForm: React.FC = () => {
               onDepartureDateChange={setDepartureDate}
               roomsRequired={roomsRequired}
               onRoomsRequiredChange={setRoomsRequired}
-              transportation={transportation}
-              onTransportationChange={setTransportation}
-              transportationOther={transportationOther}
-              onTransportationOtherChange={setTransportationOther}
-              specialRequirements={specialRequirements}
-              onSpecialRequirementsChange={setSpecialRequirements}
               errors={errors}
             />
           </>

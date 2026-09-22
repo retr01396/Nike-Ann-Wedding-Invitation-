@@ -93,7 +93,7 @@ export const BedHotelIcon: React.FC<IconProps> = ({ className = "w-4 h-4", size 
 );
 
 /**
- * Fork & Plate Line-Art Icon for dietary preferences
+ * Fork & Plate Line-Art Icon
  */
 export const ForkPlateIcon: React.FC<IconProps> = ({ className = "w-4 h-4", size }) => (
   <svg

@@ -2,7 +2,6 @@
 
 import React from "react";
 import { RSVPConfirmationConfig, RSVPSubmission } from "@/types/wedding";
-import { weddingConfig } from "@/config/wedding";
 import { CheckSealIcon, HeartSealIcon } from "./RSVPIcons";
 
 interface RSVPConfirmationProps {
@@ -81,19 +80,6 @@ export const RSVPConfirmation: React.FC<RSVPConfirmationProps> = ({
             <span className="text-[#caa24d]/80 uppercase tracking-wider text-[9.5px]">TOTAL GUESTS</span>
             <span className="text-[#fff0c7] font-serif">
               {submission.guestCount} {submission.guestCount === 1 ? "Guest" : "Guests"}
-            </span>
-          </div>
-        )}
-
-        {isAttending && submission.dietaryPreference && (
-          <div className="flex justify-between border-b border-[#caa24d]/15 pb-1.5">
-            <span className="text-[#caa24d]/80 uppercase tracking-wider text-[9.5px]">DIETARY</span>
-            <span className="text-[#fff0c7] font-serif">
-              {submission.dietaryPreference === "other"
-                ? submission.dietaryOther || "Custom requirements noted"
-                : weddingConfig.rsvp.dietaryOptions.find(
-                    (o) => o.value === submission.dietaryPreference
-                  )?.label || submission.dietaryPreference}
             </span>
           </div>
         )}

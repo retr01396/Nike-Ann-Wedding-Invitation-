@@ -103,12 +103,24 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
       body.arrival_date = null;
       body.departure_date = null;
       body.rooms_required = null;
-      body.transportation = null;
-      body.transportation_other = null;
-      body.special_requirements = null;
+    }
+
+    if (body.accommodation_required === false) {
+      body.stay_guest_name = null;
+      body.phone = null;
+      body.people_staying = null;
+      body.arrival_date = null;
+      body.departure_date = null;
+      body.rooms_required = null;
     }
 
     if (body.accommodation_required === true) {
+      if (body.stay_guest_name !== undefined && body.stay_guest_name !== null) {
+        if (typeof body.stay_guest_name !== "string" || !body.stay_guest_name.trim() || body.stay_guest_name.trim().length > 100) {
+          return NextResponse.json({ success: false, error: "Stay guest name must be between 1 and 100 characters." }, { status: 400 });
+        }
+        body.stay_guest_name = body.stay_guest_name.trim();
+      }
       if (body.phone !== undefined && (typeof body.phone !== "string" || !body.phone.trim() || body.phone.trim().length < 5 || body.phone.trim().length > 30)) {
         return NextResponse.json({ success: false, error: "Phone number must be between 5 and 30 characters." }, { status: 400 });
       }
@@ -137,9 +149,6 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
       }
     }
 
-    if (body.dietary_other && body.dietary_other.length > 200) {
-      return NextResponse.json({ success: false, error: "Dietary details cannot exceed 200 characters." }, { status: 400 });
-    }
     if (body.message && body.message.length > 1000) {
       return NextResponse.json({ success: false, error: "Message cannot exceed 1000 characters." }, { status: 400 });
     }

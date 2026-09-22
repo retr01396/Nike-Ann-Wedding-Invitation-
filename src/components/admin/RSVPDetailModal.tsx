@@ -2,7 +2,6 @@
 
 import React from "react";
 import { RSVPRow } from "@/types/database";
-import { weddingConfig } from "@/config/wedding";
 
 interface RSVPDetailModalProps {
   rsvp: RSVPRow | null;
@@ -21,24 +20,7 @@ export const RSVPDetailModal: React.FC<RSVPDetailModalProps> = ({
 }) => {
   if (!isOpen || !rsvp) return null;
 
-  const { rsvp: rsvpConfig } = weddingConfig;
   const isAttending = rsvp.attendance === "attending";
-
-  const getDietaryLabel = (slug: string) => {
-    return (
-      rsvpConfig.dietaryOptions.find((o) => o.value === slug)?.label ||
-      slug ||
-      "None"
-    );
-  };
-
-  const getTransitLabel = (slug: string | null) => {
-    if (!slug || slug === "none") return "No transportation required";
-    return (
-      rsvpConfig.accommodation.transportationOptions.find((o) => o.value === slug)?.label ||
-      slug
-    );
-  };
 
   const formatDate = (dateStr: string | null) => {
     if (!dateStr) return "—";
@@ -109,7 +91,7 @@ export const RSVPDetailModal: React.FC<RSVPDetailModalProps> = ({
         {/* Details Grid */}
         <div className="space-y-4 text-xs font-serif divide-y divide-[#caa24d]/15">
           {/* Section 1: Guest Attendance & Count */}
-          <div className="grid grid-cols-2 gap-3 pt-2">
+          <div className="pt-2">
             <div>
               <span className="block font-sans text-[9px] uppercase tracking-wider text-[#caa24d]/75">
                 Total Guests
@@ -117,20 +99,6 @@ export const RSVPDetailModal: React.FC<RSVPDetailModalProps> = ({
               <span className="text-[#fff0c7] text-sm">
                 {isAttending ? `${rsvp.guest_count} Person` : "—"}
               </span>
-            </div>
-
-            <div>
-              <span className="block font-sans text-[9px] uppercase tracking-wider text-[#caa24d]/75">
-                Dietary Preference
-              </span>
-              <span className="text-[#fff0c7] text-sm">
-                {isAttending ? getDietaryLabel(rsvp.dietary_preference) : "—"}
-              </span>
-              {isAttending && rsvp.dietary_other && (
-                <p className="font-serif text-[11px] text-[#e5c57b] italic mt-0.5">
-                  Note: {rsvp.dietary_other}
-                </p>
-              )}
             </div>
           </div>
 
@@ -187,31 +155,6 @@ export const RSVPDetailModal: React.FC<RSVPDetailModalProps> = ({
                     {formatDate(rsvp.departure_date)}
                   </span>
                 </div>
-
-                <div className="col-span-2">
-                  <span className="block font-sans text-[8.5px] uppercase tracking-wider text-[#caa24d]/75">
-                    Transportation Assistance
-                  </span>
-                  <span className="text-[#fff0c7]">
-                    {getTransitLabel(rsvp.transportation)}
-                  </span>
-                  {rsvp.transportation_other && (
-                    <p className="text-[#caa24d]/80 italic mt-0.5">
-                      Details: {rsvp.transportation_other}
-                    </p>
-                  )}
-                </div>
-
-                {rsvp.special_requirements && (
-                  <div className="col-span-2">
-                    <span className="block font-sans text-[8.5px] uppercase tracking-wider text-[#caa24d]/75">
-                      Special Requirements / Accessibility
-                    </span>
-                    <p className="text-[#f3e5c8]/90 italic mt-0.5">
-                      {rsvp.special_requirements}
-                    </p>
-                  </div>
-                )}
               </div>
             ) : (
               <p className="text-[#caa24d]/60 italic text-xs">

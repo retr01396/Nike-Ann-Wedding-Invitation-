@@ -25,10 +25,6 @@ export const StatsOverview: React.FC<StatsOverviewProps> = ({ rsvps }) => {
     0
   );
 
-  const transportationRequests = attendingRsvps.filter(
-    (r) => r.transportation && r.transportation !== "none"
-  ).length;
-
   if (totalResponses === 0) {
     return (
       <div className="p-6 border border-[#caa24d]/25 bg-[#140206] text-center space-y-2">
@@ -81,11 +77,6 @@ export const StatsOverview: React.FC<StatsOverviewProps> = ({ rsvps }) => {
       label: "PEOPLE STAYING",
       value: totalPeopleStaying,
       sublabel: "Need lodging",
-    },
-    {
-      label: "TRANSPORTATION REQUESTS",
-      value: transportationRequests,
-      sublabel: "Airport / station / shuttle",
     },
   ];
 
