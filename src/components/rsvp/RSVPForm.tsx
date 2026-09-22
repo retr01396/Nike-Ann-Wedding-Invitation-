@@ -10,9 +10,9 @@ import { ChevronDown, Plus, Minus, User } from "lucide-react";
 export const RSVPForm: React.FC = () => {
   const { rsvp } = weddingConfig;
 
-  // Form State
+  // Form State — defaulted to "yes" so full attending suite is immediately visible
   const [name, setName] = useState("");
-  const [attendance, setAttendance] = useState<AttendanceOptionValue | null>(null);
+  const [attendance, setAttendance] = useState<AttendanceOptionValue | null>("yes");
   const [guestCount, setGuestCount] = useState<number>(1);
   const [dietaryPreference, setDietaryPreference] = useState<string>("no-preference");
   const [dietaryOther, setDietaryOther] = useState("");
@@ -28,8 +28,9 @@ export const RSVPForm: React.FC = () => {
   const [specialRequirements, setSpecialRequirements] = useState("");
   const [message, setMessage] = useState("");
 
-  // Dropdown open state
+  // Dropdown open states
   const [attendanceOpen, setAttendanceOpen] = useState(false);
+  const [dietaryOpen, setDietaryOpen] = useState(false);
 
   // UI Flow State
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -42,16 +43,16 @@ export const RSVPForm: React.FC = () => {
     const errs: Record<string, string> = {};
 
     if (!name.trim()) {
-      errs.name = "Please enter your name.";
+      errs.name = "Please enter your full name.";
     }
 
     if (!attendance) {
-      errs.attendance = "Please select whether you will attend.";
+      errs.attendance = "Please indicate whether you will be attending.";
     }
 
     if (attendance === "yes") {
       if (guestCount < rsvp.minGuests || guestCount > rsvp.maxGuests) {
-        errs.guestCount = `Please enter between ${rsvp.minGuests} and ${rsvp.maxGuests} guests.`;
+        errs.guestCount = `Please select between ${rsvp.minGuests} and ${rsvp.maxGuests} guests.`;
       }
 
       if (staying === "yes") {
@@ -92,11 +93,12 @@ export const RSVPForm: React.FC = () => {
     setIsSubmitting(true);
     setSubmissionError(null);
 
+    const isAttending = attendance === "yes";
     const payload: RSVPSubmission = {
       name: name.trim(),
       attendance: attendance!,
       submittedAt: new Date().toISOString(),
-      ...(attendance === "yes" && {
+      ...(isAttending && {
         guestCount,
         dietaryPreference,
         ...(dietaryPreference === "other" && {
@@ -168,14 +170,11 @@ export const RSVPForm: React.FC = () => {
       id="rsvp-form"
       onSubmit={handleSubmit}
       noValidate
-      className="relative w-full text-left space-y-4 select-none"
+      className="relative w-full text-left space-y-3.5 select-none"
     >
-      {/* Panel header (KINDLY / RSVP / subtitle) is rendered by RSVPSection;
-          the form owns only the fields. */}
-
       {/* Inputs Stack */}
       <div className="space-y-3">
-        {/* Field 1: Your Name */}
+        {/* 1. NAME */}
         <div>
           <div className="relative">
             <input
@@ -199,18 +198,21 @@ export const RSVPForm: React.FC = () => {
           )}
         </div>
 
-        {/* Field 2: Will you be attending? (Dropdown matching reference) */}
+        {/* 2. ATTENDANCE (Dropdown matching reference) */}
         <div className="relative">
           <button
             type="button"
-            onClick={() => setAttendanceOpen(!attendanceOpen)}
+            onClick={() => {
+              setAttendanceOpen(!attendanceOpen);
+              setDietaryOpen(false);
+            }}
             className="w-full px-3 py-2.5 bg-white/[0.045] border border-[#f3e5c8]/15 text-xs font-serif flex items-center justify-between rounded-md focus:outline-none focus:border-[#e5c57b]/70 focus:bg-white/[0.07] text-left cursor-pointer backdrop-blur-sm"
           >
             <span className={attendance ? "text-[#fff0c7]" : "text-[#caa24d]/50"}>
               {attendance === "yes"
                 ? "Yes, I'll be attending"
                 : attendance === "no"
-                ? "Regretfully decline"
+                ? "No, I won't be attending"
                 : "Will you be attending?"}
             </span>
             <ChevronDown className="w-3.5 h-3.5 text-[#caa24d]/70" />
@@ -225,9 +227,10 @@ export const RSVPForm: React.FC = () => {
                   setAttendanceOpen(false);
                   if (errors.attendance) setErrors((prev) => ({ ...prev, attendance: "" }));
                 }}
-                className="w-full px-3 py-2 text-left text-xs font-serif text-[#fbf6ea] hover:bg-[#caa24d]/20 transition-colors cursor-pointer"
+                className="w-full px-3 py-2 text-left text-xs font-serif text-[#fbf6ea] hover:bg-[#caa24d]/20 transition-colors cursor-pointer flex items-center justify-between"
               >
-                Yes, I&apos;ll be attending
+                <span>Yes, I&apos;ll be attending</span>
+                {attendance === "yes" && <span className="text-[#e5c57b] text-xs">✓</span>}
               </button>
               <button
                 type="button"
@@ -236,9 +239,10 @@ export const RSVPForm: React.FC = () => {
                   setAttendanceOpen(false);
                   if (errors.attendance) setErrors((prev) => ({ ...prev, attendance: "" }));
                 }}
-                className="w-full px-3 py-2 text-left text-xs font-serif text-[#fbf6ea] hover:bg-[#caa24d]/20 transition-colors cursor-pointer"
+                className="w-full px-3 py-2 text-left text-xs font-serif text-[#fbf6ea] hover:bg-[#caa24d]/20 transition-colors cursor-pointer flex items-center justify-between"
               >
-                Regretfully decline
+                <span>No, I won&apos;t be attending</span>
+                {attendance === "no" && <span className="text-[#e5c57b] text-xs">✓</span>}
               </button>
             </div>
           )}
@@ -250,49 +254,97 @@ export const RSVPForm: React.FC = () => {
           )}
         </div>
 
-        {/* Field 3: Number of guests */}
-        <div className="flex items-center justify-between px-3 py-2 bg-white/[0.045] border border-[#f3e5c8]/15 rounded-md backdrop-blur-sm">
-          <span className="text-xs font-serif text-[#caa24d]/70">Number of guests</span>
-          <div className="flex items-center gap-3">
-            <button
-              type="button"
-              onClick={() => setGuestCount(Math.max(rsvp.minGuests, guestCount - 1))}
-              disabled={guestCount <= rsvp.minGuests || !isAttending}
-              className="w-5 h-5 rounded-full border border-[#caa24d]/40 flex items-center justify-center text-[#caa24d] hover:text-white disabled:opacity-30 cursor-pointer"
-            >
-              <Minus className="w-2.5 h-2.5" />
-            </button>
-            <span className="font-cinzel text-xs text-[#fff0c7] w-4 text-center">
-              {isAttending ? guestCount : 0}
-            </span>
-            <button
-              type="button"
-              onClick={() => setGuestCount(Math.min(rsvp.maxGuests, guestCount + 1))}
-              disabled={guestCount >= rsvp.maxGuests || !isAttending}
-              className="w-5 h-5 rounded-full border border-[#caa24d]/40 flex items-center justify-center text-[#caa24d] hover:text-white disabled:opacity-30 cursor-pointer"
-            >
-              <Plus className="w-2.5 h-2.5" />
-            </button>
-          </div>
-        </div>
-
-        {/* Field 4: A message for us (optional) */}
-        <div>
-          <textarea
-            id="rsvp-message"
-            rows={2}
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
-            placeholder="A message for us (optional)"
-            className="w-full px-3 py-2 bg-white/[0.045] border border-[#f3e5c8]/15 text-[#fff0c7] text-xs font-serif placeholder-[#caa24d]/45 focus:outline-none focus:border-[#e5c57b]/70 focus:bg-white/[0.07] rounded-md transition-colors resize-none backdrop-blur-sm"
-          />
-        </div>
-
-        {/* Conditional Accommodation Question if Attending */}
+        {/* ATTENDING-ONLY GUEST FLOW (Items 3, 4, 5, 6) */}
         {isAttending && (
-          <div className="pt-2 space-y-3">
-            <div>
-              <label className="block font-cinzel text-[9px] sm:text-[10px] tracking-[0.25em] text-[#caa24d]/90 uppercase font-medium mb-1.5 text-center sm:text-left">
+          <>
+            {/* 3. NUMBER OF GUESTS */}
+            <div className="flex items-center justify-between px-3 py-2 bg-white/[0.045] border border-[#f3e5c8]/15 rounded-md backdrop-blur-sm">
+              <span className="text-xs font-serif text-[#caa24d]/70">Number of guests</span>
+              <div className="flex items-center gap-3">
+                <button
+                  type="button"
+                  onClick={() => setGuestCount(Math.max(rsvp.minGuests, guestCount - 1))}
+                  disabled={guestCount <= rsvp.minGuests}
+                  className="w-5 h-5 rounded-full border border-[#caa24d]/40 flex items-center justify-center text-[#caa24d] hover:text-white disabled:opacity-30 cursor-pointer transition-colors"
+                  aria-label="Decrease guest count"
+                >
+                  <Minus className="w-2.5 h-2.5" />
+                </button>
+                <span className="font-cinzel text-xs text-[#fff0c7] w-4 text-center select-none">
+                  {guestCount}
+                </span>
+                <button
+                  type="button"
+                  onClick={() => setGuestCount(Math.min(rsvp.maxGuests, guestCount + 1))}
+                  disabled={guestCount >= rsvp.maxGuests}
+                  className="w-5 h-5 rounded-full border border-[#caa24d]/40 flex items-center justify-center text-[#caa24d] hover:text-white disabled:opacity-30 cursor-pointer transition-colors"
+                  aria-label="Increase guest count"
+                >
+                  <Plus className="w-2.5 h-2.5" />
+                </button>
+              </div>
+            </div>
+
+            {/* 4. DIETARY PREFERENCES */}
+            <div className="relative">
+              <button
+                id="rsvp-dietary-btn"
+                type="button"
+                onClick={() => {
+                  setDietaryOpen(!dietaryOpen);
+                  setAttendanceOpen(false);
+                }}
+                className="w-full px-3 py-2.5 bg-white/[0.045] border border-[#f3e5c8]/15 text-xs font-serif flex items-center justify-between rounded-md focus:outline-none focus:border-[#e5c57b]/70 focus:bg-white/[0.07] text-left cursor-pointer backdrop-blur-sm transition-colors"
+              >
+                <span className="text-[#fff0c7] truncate">
+                  {rsvp.dietaryOptions.find((opt) => opt.value === dietaryPreference)?.label || "Dietary Preferences"}
+                </span>
+                <ChevronDown className="w-3.5 h-3.5 text-[#caa24d]/70 shrink-0 ml-2" />
+              </button>
+
+              {dietaryOpen && (
+                <div className="absolute top-full left-0 right-0 mt-1 z-30 bg-[#200510]/95 backdrop-blur-xl border border-[#caa24d]/40 rounded-md shadow-[0_18px_40px_rgba(0,0,0,0.8)] overflow-hidden py-1">
+                  {rsvp.dietaryOptions.map((opt) => (
+                    <button
+                      key={opt.value}
+                      type="button"
+                      onClick={() => {
+                        setDietaryPreference(opt.value);
+                        setDietaryOpen(false);
+                      }}
+                      className={`w-full px-3 py-2 text-left text-xs font-serif transition-colors cursor-pointer flex items-center justify-between ${
+                        dietaryPreference === opt.value
+                          ? "bg-[#caa24d]/25 text-[#fff0c7] font-medium"
+                          : "text-[#fbf6ea] hover:bg-[#caa24d]/20"
+                      }`}
+                    >
+                      <span className="truncate">{opt.label}</span>
+                      {dietaryPreference === opt.value && (
+                        <span className="text-[#e5c57b] text-xs shrink-0 ml-2">✓</span>
+                      )}
+                    </button>
+                  ))}
+                </div>
+              )}
+
+              {/* Conditional "Other" Dietary Text Input */}
+              {dietaryPreference === "other" && (
+                <div className="pt-2">
+                  <input
+                    id="rsvp-dietary-other"
+                    type="text"
+                    value={dietaryOther}
+                    onChange={(e) => setDietaryOther(e.target.value)}
+                    placeholder={rsvp.dietaryOtherPlaceholder}
+                    className="w-full px-3 py-2 bg-white/[0.045] border border-[#f3e5c8]/15 text-[#fff0c7] text-xs font-serif placeholder-[#caa24d]/45 focus:outline-none focus:border-[#e5c57b]/70 focus:bg-white/[0.07] rounded-md transition-colors backdrop-blur-sm"
+                  />
+                </div>
+              )}
+            </div>
+
+            {/* 5. ACCOMMODATION / STAYING */}
+            <div className="pt-1 space-y-2">
+              <label className="block font-cinzel text-[9px] sm:text-[10px] tracking-[0.25em] text-[#caa24d]/90 uppercase font-medium text-center sm:text-left">
                 ARE YOU STAYING FOR THE WEDDING?
               </label>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
@@ -324,7 +376,7 @@ export const RSVPForm: React.FC = () => {
               </div>
             </div>
 
-            {/* Accommodation In-flow Fields (Revealed when YES) */}
+            {/* 6. CONDITIONAL STAY DETAILS */}
             <AccommodationFields
               config={rsvp.accommodation}
               isExpanded={staying === "yes"}
@@ -348,19 +400,31 @@ export const RSVPForm: React.FC = () => {
               onSpecialRequirementsChange={setSpecialRequirements}
               errors={errors}
             />
-          </div>
+          </>
         )}
+
+        {/* 7. MESSAGE */}
+        <div>
+          <textarea
+            id="rsvp-message"
+            rows={2}
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            placeholder="A message for us (optional)"
+            className="w-full px-3 py-2 bg-white/[0.045] border border-[#f3e5c8]/15 text-[#fff0c7] text-xs font-serif placeholder-[#caa24d]/45 focus:outline-none focus:border-[#e5c57b]/70 focus:bg-white/[0.07] rounded-md transition-colors resize-none backdrop-blur-sm"
+          />
+        </div>
       </div>
 
       {/* Submission Error Banner */}
       {submissionError && (
-        <div className="p-2 border border-[#caa24d]/50 bg-[#2d0710] text-[#fff0c7] font-serif text-[11px] text-center">
+        <div className="p-2 border border-[#caa24d]/50 bg-[#2d0710] text-[#fff0c7] font-serif text-[11px] text-center rounded-md">
           {submissionError}
         </div>
       )}
 
-      {/* Submit Button (Matching solid champagne/warm gold satin button from reference) */}
-      <div className="pt-3 text-center">
+      {/* 8. SUBMIT */}
+      <div className="pt-2.5 text-center">
         <button
           type="submit"
           disabled={isSubmitting}
@@ -369,7 +433,7 @@ export const RSVPForm: React.FC = () => {
           {isSubmitting ? "SENDING RSVP..." : "SEND RSVP →"}
         </button>
 
-        <p className="mt-2.5 font-serif italic text-[11px] text-[#caa24d]/85">
+        <p className="mt-2 font-serif italic text-[11px] text-[#caa24d]/85">
           Your response helps us plan a better celebration
         </p>
       </div>

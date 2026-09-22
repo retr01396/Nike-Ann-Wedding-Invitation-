@@ -317,7 +317,9 @@ export async function POST(request: NextRequest) {
     }
 
     // 4. Map to Normalized Database Row
+    const rsvpId = crypto.randomUUID();
     const rsvpRow: RSVPInsert = {
+      id: rsvpId,
       name: trimmedName,
       email: validatedEmail,
       attendance: isAttending ? "attending" : "declined",
@@ -341,11 +343,16 @@ export async function POST(request: NextRequest) {
     // 5. Persistence Execution
     if (isServerSupabaseConfigured()) {
       const supabase = createClient();
-      const { data, error } = await supabase.from("rsvps").insert(rsvpRow).select("id").single();
+      const { error } = await supabase.from("rsvps").insert(rsvpRow);
 
       if (error) {
-        // Privacy rule: Never log personal guest details or PII
-        console.error("[RSVP API Insert Error] Code:", error.code);
+        // Detailed server-side error diagnostics without exposing secrets or guest PII
+        console.error("[RSVP API Insert Error]", {
+          message: error.message,
+          details: error.details,
+          hint: error.hint,
+          code: error.code,
+        });
         return NextResponse.json(
           {
             success: false,
@@ -355,7 +362,7 @@ export async function POST(request: NextRequest) {
         );
       }
 
-      return NextResponse.json({ success: true, id: data?.id });
+      return NextResponse.json({ success: true, id: rsvpId });
     } else {
       // Local development fallback when Supabase credentials are not yet configured
       console.warn(
@@ -370,7 +377,10 @@ export async function POST(request: NextRequest) {
     }
   } catch (err: unknown) {
     const error = err as Error;
-    console.error("[RSVP API Exception] Code:", error?.name || "UnhandledException");
+    console.error("[RSVP API Exception]", {
+      name: error?.name || "UnhandledException",
+      message: error?.message,
+    });
     return NextResponse.json(
       {
         success: false,

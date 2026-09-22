@@ -18,7 +18,7 @@ const WhatsAppIcon: React.FC<{ className?: string }> = ({ className = "w-4 h-4" 
 /**
  * StationeryFooter — the closing band from the approved reference:
  * "NIKE & ANN 2026" | centered "A BRIGHTER CHAPTER TOGETHER" over the
- * N / A monogram | nav links + "MADE WITH LOVE ❤" on the right.
+ * N / A monogram | nav links on the right.
  */
 export const StationeryFooter: React.FC = () => {
   const contact = weddingConfig.contact;
@@ -80,7 +80,7 @@ export const StationeryFooter: React.FC = () => {
           </p>
         </div>
 
-        {/* Right: nav links + MADE WITH LOVE */}
+        {/* Right: nav links */}
         <div className="flex flex-col items-center sm:items-end gap-2 order-3">
           <nav
             aria-label="Footer navigation"
@@ -96,12 +96,6 @@ export const StationeryFooter: React.FC = () => {
               </a>
             ))}
           </nav>
-          <div className="flex items-center gap-3">
-            <span className="font-cinzel text-[8.5px] tracking-[0.25em] text-[#caa24d]/75 uppercase flex items-center gap-1.5">
-              <span>MADE WITH LOVE</span>
-              <span className="text-[#a8354b]">♥</span>
-            </span>
-          </div>
         </div>
       </div>
     </footer>
