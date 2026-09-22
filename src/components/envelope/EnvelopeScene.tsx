@@ -67,8 +67,23 @@ function getPresentationTarget(cardEl: HTMLElement | null): { scale: number; yPe
   };
 }
 
+/** Places the countdown below the visually transformed card without affecting the envelope layout. */
+function getCountdownOffset(cardEl: HTMLElement | null): number {
+  if (typeof window === "undefined") return 0;
+
+  const { scale, yPercent } = getPresentationTarget(cardEl);
+  const cardHeight = cardEl?.offsetHeight && cardEl.offsetHeight > 50 ? cardEl.offsetHeight : 0;
+  const visualCardOverflow = Math.max(0, cardHeight * (scale - 1) / 2 + cardHeight * yPercent / 100 - 5);
+  const width = window.innerWidth;
+  const flowMargin = width < 640 ? 32 : width < 768 ? 48 : 56;
+  const desiredGap = width < 640 ? 36 : width < 1024 ? 40 : 44;
+
+  return Math.max(0, visualCardOverflow + desiredGap - flowMargin);
+}
+
 export const EnvelopeScene: React.FC = () => {
   const [state, setState] = useState<EnvelopeAnimationState>("CLOSED");
+  const [countdownOffset, setCountdownOffset] = useState(0);
   const isBusyRef = useRef(false);
   const timelineRef = useRef<gsap.core.Timeline | null>(null);
 
@@ -95,6 +110,7 @@ export const EnvelopeScene: React.FC = () => {
     }
     isBusyRef.current = false;
     setState("CLOSED");
+    setCountdownOffset(0);
 
     if (topHeaderRef.current) gsap.set(topHeaderRef.current, { opacity: 1, y: 0, pointerEvents: "auto" });
     if (teaserCtaRef.current) gsap.set(teaserCtaRef.current, { opacity: 1, y: 0, scale: 1, pointerEvents: "auto" });
@@ -149,6 +165,7 @@ export const EnvelopeScene: React.FC = () => {
           boxShadow: "0 30px 80px -10px rgba(0,0,0,0.98), 0 0 35px rgba(212,175,55,0.18)",
         });
       }
+      setCountdownOffset(getCountdownOffset(cardRef.current));
       if (cardHeaderRef.current) gsap.set(cardHeaderRef.current, { opacity: 1, y: 0 });
       if (cardNamesRef.current) gsap.set(cardNamesRef.current, { opacity: 1, filter: "none", scale: 1 });
       if (cardDetailsRef.current) gsap.set(cardDetailsRef.current, { opacity: 1, y: 0 });
@@ -162,6 +179,7 @@ export const EnvelopeScene: React.FC = () => {
     // Full Cinematic GSAP Timeline
     const tl = gsap.timeline({
       onComplete: () => {
+        setCountdownOffset(getCountdownOffset(cardRef.current));
         setState("OPENED");
         isBusyRef.current = false;
         if (cardRef.current) {
@@ -304,6 +322,7 @@ export const EnvelopeScene: React.FC = () => {
     const handleResize = () => {
       if (state === "OPENED" && cardRef.current && !isBusyRef.current) {
         const { scale: targetScale, yPercent: targetYP } = getPresentationTarget(cardRef.current);
+        setCountdownOffset(getCountdownOffset(cardRef.current));
         gsap.to(cardRef.current, {
           scale: targetScale,
           yPercent: targetYP,
@@ -451,6 +470,7 @@ export const EnvelopeScene: React.FC = () => {
               ? "mt-8 sm:mt-12 md:mt-14"
               : "mt-3 sm:mt-5"
           }`}
+          style={{ position: "relative", top: countdownOffset }}
         >
           {state === "CLOSED" && (
             <div className="flex flex-col items-center">
