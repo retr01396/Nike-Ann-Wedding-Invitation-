@@ -37,14 +37,14 @@ export interface WeddingLocationConfig {
 
 export interface WeddingTeaserConfig {
   badge: string;
-  supertitle: string[];
+  supertitle?: string[];
   subtitle: string;
   openButtonText: string;
   scrollHint?: string;
 }
 
 export interface WeddingInvitationConfig {
-  headerTag: string;
+  headerTag?: string;
   inviteLine1: string;
   inviteLine2: string;
   presenceNote: string[];

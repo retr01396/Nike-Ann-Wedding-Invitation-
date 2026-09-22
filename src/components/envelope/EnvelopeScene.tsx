@@ -86,12 +86,11 @@ export const EnvelopeScene: React.FC = () => {
       if (envelopeContainerRef.current) gsap.set(envelopeContainerRef.current, { y: 0 });
       if (cardRef.current) {
         const isMobile = typeof window !== "undefined" && window.innerWidth < 640;
-        const targetScale = isMobile ? 1.25 : 1.16;
         const targetYP = isMobile ? -23 : -15;
         gsap.set(cardRef.current, {
           yPercent: targetYP,
           y: 0,
-          scale: targetScale,
+          scale: 1.0,
           zIndex: 40,
           boxShadow: "0 30px 80px -10px rgba(0,0,0,0.98), 0 0 35px rgba(212,175,55,0.18)",
         });
@@ -235,10 +234,14 @@ export const EnvelopeScene: React.FC = () => {
         "-=0.2"
       )
 
-      // 8. CARD EXPANDING: Post-emergence graceful enlargement for maximum readability
+      // 8. CARD EXPANDING: post-emergence resize to the large presentation width.
+      // The card's width is set by the .card-presented rule (viewport-aware clamp);
+      // the animation itself only needs to clear the transform so the CSS width wins,
+      // so the scale target is 1.0 on every device — the presentation width is already
+      // ~80-88% of the mobile viewport and framed on desktop.
       .call(() => setState("CARD_EXPANDING"))
       .to(cardRef.current, {
-        scale: typeof window !== "undefined" && window.innerWidth < 640 ? 1.25 : 1.16,
+        scale: 1.0,
         duration: 0.65,
         ease: "power2.out",
       });
@@ -344,27 +347,15 @@ export const EnvelopeScene: React.FC = () => {
         </p>
       </div>
 
-      {/* TOP HEADER: Center Title & Right Private Invitation Badge (matching reference) */}
+      {/* TOP HEADER: Right Private Invitation Badge */}
       <div
         ref={topHeaderRef}
-        className="absolute top-4 sm:top-6 md:top-8 left-0 right-0 w-full flex flex-col sm:flex-row items-center justify-center px-4 sm:px-8 z-30 pointer-events-auto"
+        className="absolute top-4 sm:top-6 md:top-8 left-0 right-0 w-full flex items-center justify-end px-4 sm:px-8 z-30 pointer-events-auto"
       >
         {/* TOP RIGHT: 🔒 PRIVATE INVITATION */}
-        <div className="sm:absolute sm:top-0 sm:right-6 md:right-10 flex items-center gap-1.5 text-[#caa24d]/85 font-cinzel text-[7.5px] sm:text-[9.5px] tracking-[0.25em] uppercase font-light mb-1.5 sm:mb-0">
+        <div className="flex items-center gap-1.5 text-[#caa24d]/85 font-cinzel text-[7.5px] sm:text-[9.5px] tracking-[0.25em] uppercase font-light">
           <Lock className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-[#caa24d]" />
           <span>PRIVATE INVITATION</span>
-        </div>
-
-        {/* TOP CENTER: "A BRIGHTER / CHAPTER / TOGETHER" */}
-        <div className="flex flex-col items-center text-center">
-          <h2 className="font-cinzel text-xs sm:text-sm tracking-[0.35em] text-[#e5c57b] uppercase font-medium leading-relaxed">
-            A BRIGHTER
-            <br />
-            CHAPTER
-            <br />
-            TOGETHER
-          </h2>
-          <div className="w-6 h-[1px] bg-[#caa24d]/60 mt-1.5" />
         </div>
       </div>
 

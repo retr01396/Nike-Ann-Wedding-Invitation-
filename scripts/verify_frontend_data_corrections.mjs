@@ -60,7 +60,7 @@ async function run() {
       hasEveningWear: text.includes("Elegant Evening Wear"),
       hasGroomHouseProg: text.includes("02:00 PM") && text.includes("Groom's House"),
       hasChurchProg: text.includes("03:00 PM") && text.includes("St. Joseph's Church, Kaveed"),
-      hasReceptionProg: text.includes("06:00 PM – 10:00 PM") && text.includes("Reception • New Pond Eventscape"),
+      hasReceptionProg: text.includes("06:00 PM – 10:00 PM") && text.includes("New Pond Eventscape"),
       hasCelebrationClosing: text.includes("WE CAN'T WAIT") && text.includes("TO CELEBRATE WITH YOU"),
       hasOldLulu: text.includes("Lulu"),
       hasOldKasavu: text.includes("Kasavu"),

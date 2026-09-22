@@ -17,8 +17,7 @@ const WhatsAppIcon: React.FC<{ className?: string }> = ({ className = "w-4 h-4" 
 
 /**
  * StationeryFooter — the closing band from the approved reference:
- * "NIKE & ANN 2026" | centered "A BRIGHTER CHAPTER TOGETHER" over the
- * N / A monogram | nav links on the right.
+ * "NIKE & ANN 2026" | centered N / A monogram | nav links on the right.
  */
 export const StationeryFooter: React.FC = () => {
   const contact = weddingConfig.contact;
@@ -66,16 +65,9 @@ export const StationeryFooter: React.FC = () => {
           </p>
         </div>
 
-        {/* Center: A BRIGHTER CHAPTER TOGETHER + N / A monogram */}
+        {/* Center: N / A monogram */}
         <div className="flex flex-col items-center order-1 sm:order-2">
-          <p className="font-cinzel text-[9px] sm:text-[10px] tracking-[0.4em] text-[#e5c57b]/85 uppercase text-center">
-            A BRIGHTER CHAPTER TOGETHER
-          </p>
-          <span
-            aria-hidden="true"
-            className="block w-[1px] h-6 bg-gradient-to-b from-[#caa24d]/70 to-transparent mt-2"
-          />
-          <p className="mt-1 font-cinzel text-base sm:text-lg tracking-[0.35em] text-[#d8b257]">
+          <p className="font-cinzel text-base sm:text-lg tracking-[0.35em] text-[#d8b257]">
             N <span className="font-serif italic text-xs text-[#d8b257]/70">/</span> A
           </p>
         </div>

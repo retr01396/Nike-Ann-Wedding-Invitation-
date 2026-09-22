@@ -180,7 +180,7 @@ export const FluidSilkBackground: React.FC<FluidSilkBackgroundProps> = ({ classN
           depth: false,
           stencil: false,
           powerPreference: "low-power",
-          preserveDrawingBuffer: true,
+          preserveDrawingBuffer: false,
         }) ||
         (canvas.getContext("experimental-webgl") as WebGLRenderingContext | null);
     } catch {

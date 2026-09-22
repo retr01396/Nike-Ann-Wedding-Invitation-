@@ -80,10 +80,14 @@ export const Envelope = forwardRef<HTMLDivElement, EnvelopeProps>(
             - Emergence: Glides up from y: 0 to y: -190. While currentY > -155, stays at z-20
               behind FrontPocket (z-30) so the front pocket physically occludes its lower body.
             - Once cleared (currentY <= -155), flips to z-40 and settles to y: -75 in front of pocket.
+           - FINAL PRESENTATION: once the card has fully emerged and settled (state === OPENED),
+             it switches to a viewport-aware presentation width so the invitation reads large on
+             mobile (~80-88% of viewport on 375/390/414) while remaining framed, readable, and
+             free of horizontal overflow. The physical emergence animation itself is unchanged.
            ========================================================================= */}
         <div
           ref={cardRef}
-          className="absolute left-0 right-0 mx-auto w-[61%] aspect-[273/296] pointer-events-auto z-20"
+          className={`absolute left-0 right-0 mx-auto aspect-[273/296] pointer-events-auto z-20 card-emergence${state === "OPENED" ? " card-presented" : ""}`}
           style={{
             bottom: "5px",
             pointerEvents: isClosed ? "none" : "auto",
@@ -281,6 +285,14 @@ export const Envelope = forwardRef<HTMLDivElement, EnvelopeProps>(
             disabled={!isClosed}
           />
         </div>
+
+        {/* FINAL PRESENTED CARD SIZE — phone-only, applied only after emergence completes.
+            On 768px+ (tablets/desktop) the card keeps its natural 61% envelope width. */}
+        <style>{`
+          @media (max-width: 767px) {
+            .card-presented { width: clamp(290px, 82vw, 360px); }
+          }
+        `}</style>
       </div>
     );
   }

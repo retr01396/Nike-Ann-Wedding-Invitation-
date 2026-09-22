@@ -35,36 +35,34 @@ export default function Home() {
       {/* Section 3: Our Story — Cinematic Vertical Timeline */}
       <StorySection />
 
-      {/* Section 4: Lower Suite — The Celebration | Kindly RSVP | Getting There
-          Three smoked-burgundy liquid-glass panels. The dark crimson bloom
-          tint lives ONLY here — never behind the hero envelope. */}
+      {/* Section 4: Lower Suite — The Celebration | Getting There | Kindly RSVP
+          Three smoked-burgundy liquid-glass panels. Atmospheric tint is a
+          pure radial-gradient (no CSS filter) so it composites without
+          triggering full-page GPU raster repaints on every scroll frame. */}
       <section
         id="events-rsvp-travel-suite"
-        aria-label="Wedding Celebration, RSVP, and Directions"
+        aria-label="Wedding Celebration, Getting There, and RSVP"
         className="relative w-full max-w-6xl mx-auto my-10 sm:my-16 px-4 sm:px-0 select-none z-20"
       >
-        {/* Scoped atmospheric tint: blurred dark-crimson bloom + gentle radial
-            darkness hugging the panel band; background florals stay visible
-            around it. */}
+        {/* Scoped atmospheric tint — pure gradient, no filter, zero raster cost */}
         <div
           aria-hidden="true"
-          className="absolute -inset-x-6 -inset-y-10 sm:-inset-x-10 sm:-inset-y-14 pointer-events-none"
+          className="absolute -inset-x-6 -inset-y-10 sm:-inset-x-10 sm:-inset-y-14 pointer-events-none rounded-[60px]"
           style={{
             background:
-              "radial-gradient(ellipse 72% 62% at 50% 45%, rgba(74,8,18,0.55) 0%, rgba(40,4,10,0.35) 55%, rgba(20,2,6,0.0) 82%)",
-            filter: "blur(30px)",
+              "radial-gradient(ellipse 85% 70% at 50% 48%, rgba(74,8,18,0.52) 0%, rgba(50,5,13,0.38) 38%, rgba(28,3,8,0.18) 62%, rgba(10,1,3,0.0) 80%)",
           }}
         />
 
         <div className="relative grid grid-cols-1 lg:grid-cols-3 gap-5 sm:gap-6 items-stretch">
-          {/* The Celebration */}
+          {/* Column 1: The Celebration (Event Details) */}
           <EventsSection />
 
-          {/* Kindly RSVP — liquid glass panel */}
-          <RSVPSection />
-
-          {/* Getting There (Travel) */}
+          {/* Column 2: Getting There (Travel & Directions) */}
           <TravelSection />
+
+          {/* Column 3: Kindly RSVP */}
+          <RSVPSection />
         </div>
       </section>
 

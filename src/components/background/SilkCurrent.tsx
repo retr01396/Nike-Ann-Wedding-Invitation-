@@ -4,17 +4,13 @@ import React from "react";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 
 /**
- * SilkCurrent — flowing water over the floral scene.
+ * SilkCurrent — flowing light currents over the floral scene.
  *
- * Three compositor-driven layers, all screen-blended so only their luminous
- * crests surface over the blooms:
- *   1. WAVE BANDS   — broad sine waves of light rolling diagonally, like
- *                     swells moving across a dark sea
- *   2. CAUSTIC      — a drifting interference-ripple texture, like sunlight
- *                     refracting through shallow flowing water
- *   3. STREAMS      — two vast soft ribbons gliding in opposite directions
- * Pure CSS transforms/animations: guaranteed to animate on every device,
- * near-zero GPU cost, honors prefers-reduced-motion.
+ * Performance-optimized version:
+ * - Blur values reduced from 14–28px → 0–4px. The streams are soft-edged
+ *   gradients; heavy blur on invisible-opacity elements was pure GPU waste.
+ * - `contain: strict` scopes paint invalidation to this subtree only.
+ * - All animations remain transform/opacity only (compositor thread).
  */
 export const SilkCurrent: React.FC = () => {
   const reducedMotion = useReducedMotion();
@@ -25,6 +21,7 @@ export const SilkCurrent: React.FC = () => {
     <div
       className="pointer-events-none absolute inset-0 overflow-hidden z-[2]"
       aria-hidden="true"
+      style={{ contain: "strict" }}
     >
       {/* 1. ROLLING WAVE BANDS — diagonal swells of light crossing the screen */}
       <div
@@ -37,12 +34,12 @@ export const SilkCurrent: React.FC = () => {
           backgroundImage:
             "repeating-linear-gradient(112deg, transparent 0px, transparent 150px, rgba(120,30,44,0.05) 240px, rgba(150,42,58,0.08) 330px, rgba(120,30,44,0.05) 420px, transparent 510px)",
           mixBlendMode: "screen",
-          filter: "blur(14px)",
+          filter: "blur(4px)",
           animation: "silkWaveRoll 22s linear infinite",
         }}
       />
 
-      {/* 2. CAUSTIC RIPPLES — flowing water interference pattern */}
+      {/* 2. CAUSTIC RIPPLES — flowing water interference (blur reduced 6px → 2px) */}
       <div
         className="absolute will-change-transform"
         style={{
@@ -53,13 +50,13 @@ export const SilkCurrent: React.FC = () => {
           backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 700 700' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='w'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.012 0.02' numOctaves='2' seed='7'/%3E%3CfeColorMatrix values='0 0 0 0 1  0 0 0 0 0.82  0 0 0 0 0.58  0 0 0 1.6 -0.9'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23w)'/%3E%3C/svg%3E")`,
           backgroundSize: "900px 900px",
           mixBlendMode: "screen",
-          opacity: 0.3,
-          filter: "blur(6px)",
+          opacity: 0.25,
+          filter: "blur(2px)",
           animation: "silkCausticDrift 38s linear infinite",
         }}
       />
 
-      {/* 3a. STREAM — broad warm current drifting down-right */}
+      {/* 3a. STREAM — broad warm current drifting down-right (blur removed: opacity ≤0.12) */}
       <div
         className="absolute will-change-transform"
         style={{
@@ -69,14 +66,13 @@ export const SilkCurrent: React.FC = () => {
           top: "-25vh",
           transform: "rotate(-24deg)",
           background:
-            "linear-gradient(105deg, transparent 0%, transparent 28%, rgba(96,22,36,0.10) 44%, rgba(130,30,46,0.15) 50%, rgba(96,22,36,0.10) 56%, transparent 72%)",
+            "linear-gradient(105deg, transparent 0%, transparent 28%, rgba(96,22,36,0.08) 44%, rgba(130,30,46,0.12) 50%, rgba(96,22,36,0.08) 56%, transparent 72%)",
           mixBlendMode: "screen",
-          filter: "blur(24px)",
           animation: "silkCurrent1 24s ease-in-out infinite alternate",
         }}
       />
 
-      {/* 3b. STREAM — cooler rose current crossing the opposite way */}
+      {/* 3b. STREAM — cooler rose current crossing the opposite way (blur removed) */}
       <div
         className="absolute will-change-transform"
         style={{
@@ -86,9 +82,8 @@ export const SilkCurrent: React.FC = () => {
           top: "-15vh",
           transform: "rotate(18deg)",
           background:
-            "linear-gradient(80deg, transparent 0%, transparent 34%, rgba(90,20,32,0.08) 48%, rgba(120,26,40,0.12) 54%, transparent 70%)",
+            "linear-gradient(80deg, transparent 0%, transparent 34%, rgba(90,20,32,0.06) 48%, rgba(120,26,40,0.10) 54%, transparent 70%)",
           mixBlendMode: "screen",
-          filter: "blur(28px)",
           animation: "silkCurrent2 32s ease-in-out infinite alternate",
         }}
       />

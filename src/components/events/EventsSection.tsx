@@ -125,14 +125,14 @@ export const EventsSection: React.FC = () => {
 
               {/* Row 2: Venue */}
               <div
-                onClick={() => setActiveDossierTab("reception")}
+                onClick={() => setActiveDossierTab("wedding")}
                 className="flex items-start gap-4 p-2 rounded-sm hover:bg-[#caa24d]/5 transition-colors cursor-pointer group"
                 role="button"
                 tabIndex={0}
                 aria-label="View Venue details"
                 onKeyDown={(e) => {
                   if (e.key === "Enter" || e.key === " ") {
-                    setActiveDossierTab("reception");
+                    setActiveDossierTab("wedding");
                   }
                 }}
               >
@@ -144,10 +144,10 @@ export const EventsSection: React.FC = () => {
                     VENUE
                   </h4>
                   <p className="mt-1 font-serif text-xs font-medium text-[#ecd9b8]">
-                    {weddingConfig.location.venueName || "New Pond Eventscape"}
+                    {weddingEvent.venue}
                   </p>
                   <p className="font-sans text-[11px] text-[#caa24d]/85 font-light leading-relaxed">
-                    {weddingConfig.location.address || "Kandanassery Rd, Guruvayur, Keralam 680102"}
+                    {weddingEvent.address}
                   </p>
                 </div>
               </div>
