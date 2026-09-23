@@ -239,12 +239,12 @@ export const weddingConfig: WeddingDataConfig = {
         subtitle: "Family Gathering & Welcome",
         date: "Sunday, 15 November 2026",
         time: "02:00 PM",
-        venue: "The Gladwin's House",
+        venue: "The Gladwin's",
         address: "J288+25M, Perakam, Keralam 680505",
         description:
           "An auspicious pre-ceremony gathering with close family and dear friends at the residence before departing for the church.",
         image: weddingImages.events.groomHouse,
-        imageAlt: "The Gladwin's House family gathering",
+        imageAlt: "The Gladwin's family gathering",
         dressCode: "MEN: Suit Up · LADIES: Elegant Evening Wear",
         dressCodeDetails: {
           men: "Suit Up",
@@ -291,7 +291,7 @@ export const weddingConfig: WeddingDataConfig = {
         id: "grooms-house",
         type: "residence",
         category: "GROOM'S HOUSE",
-        title: "The Gladwin's House",
+        title: "The Gladwin's",
         subtitle: "The Traditional Gathering & Family Residence",
         address: "J288+25M, Perakam, Keralam 680505",
         cityLabel: "PERAKAM, KERALA",

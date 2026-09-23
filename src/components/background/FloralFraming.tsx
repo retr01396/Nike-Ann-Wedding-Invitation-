@@ -1,23 +1,21 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { weddingConfig } from "@/config/wedding";
 
 /**
  * FloralFraming — High-Resolution Floral Canvas, Page-Long (per reference)
  *
- * The approved design-reference artwork is the literal page background and,
- * exactly as in the reference, the florals flow continuously down the ENTIRE
- * page (hero → story → panels → footer) instead of being pinned to the first
- * viewport. The artwork is displayed as a tall, softly repeating canvas that
- * stretches to the full document height; a gentle darkening keeps lower
- * sections calm so the gold UI stays legible over the blooms.
- *
- * All image assets are configured through weddingConfig.images.hero.
+ * Performance notes:
+ * - The LQIP underlay (hero-lqip) has a filter:blur(20px) that creates an
+ *   expensive GPU compositing layer. After the hero image loads, we fade it
+ *   out so the blurred layer is removed from the compositor.
+ * - Static band divs have contain:paint to isolate their paint area.
  */
 export const FloralFraming: React.FC = () => {
   const { hero } = weddingConfig.images;
+  const [heroLoaded, setHeroLoaded] = useState(false);
 
   return (
     <div
@@ -26,13 +24,17 @@ export const FloralFraming: React.FC = () => {
     >
       {/* ── 0. INSTANT-PAINT LQIP UNDERLAY ───────────────────────────────────
           A 486-byte 48px-wide blurred thumbnail painted on first frame so the
-          canvas never flashes empty on slow connections. */}
+          canvas never flashes empty on slow connections.
+          Fades out after the hero image loads to free the GPU blur layer. */}
       <div
         className="hero-lqip absolute inset-[-2%]"
         style={{
           backgroundImage: `url(${hero.backgroundTiny})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
+          opacity: heroLoaded ? 0 : 1,
+          transition: "opacity 0.8s ease",
+          pointerEvents: "none",
         }}
       />
 
@@ -56,6 +58,8 @@ export const FloralFraming: React.FC = () => {
           sizes="100vw"
           quality={90}
           className="object-cover object-center max-md:hidden"
+          priority
+          onLoad={() => setHeroLoaded(true)}
         />
         <Image
           src={hero.backgroundMobile}
@@ -64,6 +68,7 @@ export const FloralFraming: React.FC = () => {
           sizes="100vw"
           quality={90}
           className="object-cover md:hidden"
+          priority
           style={{
             objectPosition: "center 32%",
             // Zoom past the artwork's dark top strip so the fold opens on
@@ -83,6 +88,7 @@ export const FloralFraming: React.FC = () => {
         style={{
           top: "100vh",
           height: "100vh",
+          contain: "paint",
           filter: "brightness(0.94) saturate(1.02)",
           backgroundImage: `url(${hero.backgroundBand})`,
           backgroundSize: "cover",
@@ -94,6 +100,7 @@ export const FloralFraming: React.FC = () => {
         style={{
           top: "100vh",
           height: "110vh",
+          contain: "paint",
           filter: "brightness(0.9) saturate(1.02)",
           backgroundImage: `url(${hero.backgroundBand})`,
           backgroundSize: "cover",
@@ -106,6 +113,7 @@ export const FloralFraming: React.FC = () => {
         className="absolute left-0 right-0 bottom-0 max-md:hidden"
         style={{
           top: "200vh",
+          contain: "paint",
           filter: "blur(1.2px) brightness(0.86) saturate(1.02)",
           backgroundImage: `url(${hero.backgroundBand})`,
           backgroundSize: "cover",
@@ -116,6 +124,7 @@ export const FloralFraming: React.FC = () => {
         className="absolute left-0 right-0 bottom-0 md:hidden"
         style={{
           top: "210vh",
+          contain: "paint",
           filter: "blur(1.2px) brightness(0.84) saturate(1.02)",
           backgroundImage: `url(${hero.backgroundBand})`,
           backgroundSize: "cover",

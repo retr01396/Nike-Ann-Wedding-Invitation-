@@ -15,28 +15,41 @@ export const StoryTimeline: React.FC = () => {
   const bgPathRef = useRef<SVGPathElement>(null);
   const sparkRef = useRef<SVGCircleElement>(null);
 
+  // Refs for RAF-batching scroll-driven state updates
+  const pendingActiveRef = useRef<boolean[] | null>(null);
+  const rafActiveRef = useRef<number>(0);
+
   const { storyTimeline } = weddingConfig;
   const [activeIndices, setActiveIndices] = useState<boolean[]>(
     new Array(storyTimeline.milestones.length).fill(false)
   );
   const [lineHeight, setLineHeight] = useState<number>(1000);
 
-  // Measure timeline height to size SVG path accurately
+  // Measure timeline height — debounced to avoid layout thrashing on resize
   useEffect(() => {
-    const updateDimensions = () => {
+    let debounceTimer: ReturnType<typeof setTimeout>;
+
+    const measureHeight = () => {
       if (trackRef.current) {
         const height = trackRef.current.offsetHeight;
         setLineHeight(Math.max(height, 500));
       }
     };
 
-    updateDimensions();
-    window.addEventListener("resize", updateDimensions);
-    // Extra checks after images potentially load
-    const timer = setTimeout(updateDimensions, 500);
+    const updateDimensions = () => {
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(measureHeight, 150);
+    };
+
+    measureHeight(); // measure immediately on mount
+    window.addEventListener("resize", updateDimensions, { passive: true });
+
+    // Extra check after images potentially load and shift layout
+    const timer = setTimeout(measureHeight, 500);
 
     return () => {
       window.removeEventListener("resize", updateDimensions);
+      clearTimeout(debounceTimer);
       clearTimeout(timer);
     };
   }, [storyTimeline.milestones.length]);
@@ -97,17 +110,35 @@ export const StoryTimeline: React.FC = () => {
             }
           }
 
-          // Compute which milestones are passed by the drawing line
+          // Compute which milestones are passed by the drawing line.
+          // RAF-batch the React setState so it doesn't run synchronously on
+          // every scroll tick — only fires once per animation frame when
+          // something actually changed.
           const totalMilestones = storyTimeline.milestones.length;
           const newActives = storyTimeline.milestones.map((_, idx) => {
-            // Threshold for each milestone based on its index
             const milestoneThreshold = (idx + 0.35) / totalMilestones;
             return progress >= milestoneThreshold;
           });
 
-          setActiveIndices((current) =>
-            current.some((isActive, idx) => isActive !== newActives[idx]) ? newActives : current
+          // Only schedule an update if something changed
+          const changed = newActives.some(
+            (isActive, idx) => isActive !== (pendingActiveRef.current ?? [])[idx]
           );
+          if (changed) {
+            pendingActiveRef.current = newActives;
+            if (!rafActiveRef.current) {
+              rafActiveRef.current = requestAnimationFrame(() => {
+                rafActiveRef.current = 0;
+                if (pendingActiveRef.current) {
+                  setActiveIndices((current) =>
+                    current.some((isActive, idx) => isActive !== pendingActiveRef.current![idx])
+                      ? pendingActiveRef.current!
+                      : current
+                  );
+                }
+              });
+            }
+          }
         },
       });
 
@@ -160,6 +191,11 @@ export const StoryTimeline: React.FC = () => {
 
     return () => {
       clearTimeout(refreshTimer);
+      // Cancel any pending RAF to prevent stale state updates after unmount
+      if (rafActiveRef.current) {
+        cancelAnimationFrame(rafActiveRef.current);
+        rafActiveRef.current = 0;
+      }
       ctx.revert();
     };
   }, [lineHeight, storyTimeline.milestones]);

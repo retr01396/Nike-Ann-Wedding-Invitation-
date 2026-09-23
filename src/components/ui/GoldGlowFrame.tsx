@@ -141,8 +141,9 @@ export const GoldGlowFrame: React.FC<GoldGlowFrameProps> = ({
             backdrop-filter: blur(12px) saturate(1.08) brightness(0.98);
             -webkit-backdrop-filter: blur(12px) saturate(1.08) brightness(0.98);
           }
-          .gold-glow-bloom { filter: blur(10px); }
-          .gold-glow-reflection { filter: blur(12px); }
+          /* Remove expensive decorative blurs on mobile, use opacity tint instead */
+          .gold-glow-bloom { filter: none; opacity: 0.6; }
+          .gold-glow-reflection { filter: none; opacity: 0.7; }
         }
         @keyframes liquidGlassSheen {
           0%   { transform: translate3d(0, 0, 0); opacity: 0.55; }
