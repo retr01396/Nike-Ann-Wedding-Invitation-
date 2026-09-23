@@ -62,13 +62,13 @@ export const WaxSeal = forwardRef<HTMLButtonElement, WaxSealProps>(
           />
 
           {/* N (upper-left) — real text, rendered at native size, never scaled up.
-              Positioned close to the slash so N + slash + A read as one
-              compact, intentional monogram. */}
+              Inset pulled in from the corner so N + slash + A read as one
+              compact monogram (larger inset = closer to the slash). */}
           <span
             className="absolute font-cinzel select-none pointer-events-none"
             style={{
-              top: "14%",
-              left: "14%",
+              top: "20%",
+              left: "20%",
               fontSize: "1.55em",
               lineHeight: 1,
               background:
@@ -85,8 +85,8 @@ export const WaxSeal = forwardRef<HTMLButtonElement, WaxSealProps>(
           <span
             className="absolute font-cinzel select-none pointer-events-none"
             style={{
-              bottom: "14%",
-              right: "14%",
+              bottom: "20%",
+              right: "20%",
               fontSize: "1.55em",
               lineHeight: 1,
               background:

@@ -108,7 +108,10 @@ export const MonogramIntro: React.FC<MonogramIntroProps> = ({ onComplete }) => {
     <div
       ref={containerRef}
       onClick={handleDismiss}
-      className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#0d0104]/95 cursor-pointer select-none px-6"
+      // Fully opaque backdrop: the EnvelopeScene (and its bright vector wax
+      // seal) is already mounted underneath, and a translucent backdrop let
+      // it ghost through as a duplicate N/A behind the intro monogram.
+      className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#0d0104] cursor-pointer select-none px-6"
       role="button"
       aria-label="Skip opening monogram"
       tabIndex={0}
@@ -174,14 +177,15 @@ export const MonogramIntro: React.FC<MonogramIntroProps> = ({ onComplete }) => {
               <div className="w-[1.5px] h-14 sm:h-18 bg-gradient-to-b from-[#fdf4d8] via-[#d4af37] to-[#997528] transform rotate-45 opacity-85 shadow-[0_0_8px_rgba(212,175,55,0.4)]" />
             </div>
 
-            {/* Upper-left 'N' — positioned closer to the slash so the two
-                initials read as one compact monogram (matches the wax seal) */}
-            <span className="absolute top-[16%] left-[16%] font-cinzel text-3xl sm:text-4xl tracking-normal text-transparent bg-clip-text bg-gradient-to-b from-[#fff6de] via-[#d4af37] to-[#997528] drop-shadow-[0_2px_10px_rgba(212,175,55,0.45)] select-none">
+            {/* Upper-left 'N' — inset pulled in from the corner (larger inset
+                = closer to the slash) so the initials read as one compact
+                monogram, tuned independently from the small wax seal. */}
+            <span className="absolute top-[26%] left-[26%] font-cinzel text-3xl sm:text-4xl tracking-normal text-transparent bg-clip-text bg-gradient-to-b from-[#fff6de] via-[#d4af37] to-[#997528] drop-shadow-[0_2px_10px_rgba(212,175,55,0.45)] select-none">
               {weddingConfig.couple.groom.charAt(0)}
             </span>
 
             {/* Lower-right 'A' — mirrored toward the slash */}
-            <span className="absolute bottom-[16%] right-[16%] font-cinzel text-3xl sm:text-4xl tracking-normal text-transparent bg-clip-text bg-gradient-to-b from-[#fff6de] via-[#d4af37] to-[#997528] drop-shadow-[0_2px_10px_rgba(212,175,55,0.45)] select-none">
+            <span className="absolute bottom-[26%] right-[26%] font-cinzel text-3xl sm:text-4xl tracking-normal text-transparent bg-clip-text bg-gradient-to-b from-[#fff6de] via-[#d4af37] to-[#997528] drop-shadow-[0_2px_10px_rgba(212,175,55,0.45)] select-none">
               {weddingConfig.couple.bride.charAt(0)}
             </span>
           </div>
