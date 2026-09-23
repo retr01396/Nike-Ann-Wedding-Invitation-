@@ -51,7 +51,7 @@ export const GoldenEmbers: React.FC = () => {
           key={p.id}
           // hide-on-mobile class removes the particle on narrow viewports
           // (first 8 particles: visible on all screens; rest: hidden on mobile)
-          className={`absolute rounded-full pointer-events-none${p.id >= 14 ? " hidden sm:block" : ""}`}
+          className={`absolute rounded-full pointer-events-none${p.id >= 8 ? " hidden sm:block" : ""}`}
           style={{
             left: `${p.x}%`,
             top: `${p.y}%`,

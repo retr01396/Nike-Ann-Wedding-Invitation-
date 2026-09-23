@@ -137,3 +137,44 @@ body {
     scroll-behavior: auto !important;
   }
 }
+
+/* ── FADE-IN UTILITY ──────────────────────────────────────────────────
+   Used across countdown, modals, confirmations, and event panels.
+   Defined here so every component gets the same consistent transition
+   without each needing an embedded <style> block.                       */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeInUp 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* Also support the kebab-case variant used in TravelSection */
+.animate-fade-in {
+  animation: fadeInUp 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* ── MOBILE SCROLL SMOOTHNESS ─────────────────────────────────────────
+   Momentum scrolling on iOS and prevent overscroll rubberbanding.       */
+html {
+  scroll-behavior: smooth;
+  /* Prevent horizontal overflow flash during mobile scroll */
+  overflow-x: hidden;
+}
+
+body {
+  /* Enable native momentum scrolling on iOS */
+  -webkit-overflow-scrolling: touch;
+  /* Allow vertical scroll, prevent horizontal swipe conflict */
+  touch-action: pan-y;
+  /* Prevent double-tap zoom on interactive elements */
+  touch-action: manipulation;
+}

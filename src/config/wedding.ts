@@ -183,7 +183,7 @@ export const weddingConfig: WeddingDataConfig = {
     programmeSchedule: [
       { time: "02:00 PM", label: "Groom's House" },
       { time: "03:00 PM", label: "St. Joseph's Church, Kaveed" },
-      { time: "06:00 PM – 10:00 PM", label: "Reception · New Pond Eventscape" },
+      { time: "06:00 PM", label: "Reception · New Pond Eventscape" },
     ],
     closingNote: ["WE CAN'T WAIT", "TO CELEBRATE WITH YOU"],
     events: [
