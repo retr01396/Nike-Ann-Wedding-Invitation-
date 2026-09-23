@@ -22,11 +22,18 @@ export const InvitationCard = forwardRef<HTMLDivElement, InvitationCardProps>(
         style={{
           boxShadow:
             "0 30px 70px -10px rgba(0, 0, 0, 0.98), 0 0 40px rgba(0, 0, 0, 0.9)",
+          // Keep Android text/glyphs crisp while the card is transformed:
+          // browsers rasterize composited text at the layer's pre-transform
+          // resolution, so fractional GPU scaling blurred the typography.
+          transform: "translateZ(0)",
         }}
       >
-        {/* Subtle velvet/cardstock tactile texture overlay */}
+        {/* Subtle velvet/cardstock tactile texture overlay.
+            mix-blend-mode removed: it forced an offscreen blending pass over
+            the whole card surface on Android — a hidden repaint source while
+            the card moves. At 4% opacity the blend mode is imperceptible. */}
         <div
-          className="absolute inset-0 opacity-[0.04] pointer-events-none mix-blend-overlay"
+          className="absolute inset-0 opacity-[0.04] pointer-events-none"
           style={{
             backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
           }}
@@ -45,7 +52,16 @@ export const InvitationCard = forwardRef<HTMLDivElement, InvitationCardProps>(
             alt=""
             width={176}
             height={176}
-            className="object-contain object-top-right filter brightness-105"
+            className="object-contain object-top-right"
+            style={{
+              filter: "brightness(1.05)",
+              // Crisp on 3× phones: the source is 150×150 and the largest
+              // displayed size is 176 CSS px (~528 device px); at the
+              // previous quality tier Android upscaled from a 128px variant.
+              imageRendering: "auto",
+            }}
+            sizes="176px"
+            quality={100}
             priority
           />
         </div>
@@ -63,7 +79,13 @@ export const InvitationCard = forwardRef<HTMLDivElement, InvitationCardProps>(
             alt=""
             width={176}
             height={176}
-            className="object-contain object-top-right filter brightness-105"
+            className="object-contain object-top-right"
+            style={{
+              filter: "brightness(1.05)",
+              imageRendering: "auto",
+            }}
+            sizes="176px"
+            quality={100}
             priority
           />
         </div>
@@ -82,7 +104,7 @@ export const InvitationCard = forwardRef<HTMLDivElement, InvitationCardProps>(
 
           {/* Couple Names Section (Refined Luxury Serif + Cursive & with Gold Breathing Glow) */}
           <div ref={namesRef} className="my-0 sm:my-1 flex flex-col items-center">
-            <h1 className="font-cinzel text-[20px] sm:text-3xl md:text-4xl lg:text-[46px] tracking-[0.32em] text-[#fbf6ea] font-normal leading-tight pl-1.5 animate-gold-glow">
+            <h1 className="font-cinzel text-[20px] sm:text-3xl md:text-4xl lg:text-[46px] tracking-[0.32em] text-[#fbf6ea] font-normal leading-tight pl-1.5 animate-gold-glow static-glow-during-animation">
               {weddingConfig.couple.groom}
             </h1>
 
@@ -90,7 +112,7 @@ export const InvitationCard = forwardRef<HTMLDivElement, InvitationCardProps>(
               &amp;
             </div>
 
-            <h1 className="font-cinzel text-[20px] sm:text-3xl md:text-4xl lg:text-[46px] tracking-[0.32em] text-[#fbf6ea] font-normal leading-tight pl-1.5 animate-gold-glow">
+            <h1 className="font-cinzel text-[20px] sm:text-3xl md:text-4xl lg:text-[46px] tracking-[0.32em] text-[#fbf6ea] font-normal leading-tight pl-1.5 animate-gold-glow static-glow-during-animation">
               {weddingConfig.couple.bride}
             </h1>
           </div>

@@ -126,6 +126,7 @@ export const EnvelopeScene: React.FC = () => {
         zIndex: 20,
         rotateX: 0,
       });
+      cardRef.current.style.willChange = "transform";
     }
 
     // Keep typography elements ready at full opacity
@@ -182,6 +183,10 @@ export const EnvelopeScene: React.FC = () => {
         isBusyRef.current = false;
         if (cardRef.current) {
           cardRef.current.style.zIndex = "40";
+          // Release the compositor promotion once the card is at rest so the
+          // browser re-rasterizes it crisply at the final scale and frees the
+          // GPU layer — this is what removes the lingering softness on Android.
+          cardRef.current.style.willChange = "auto";
         }
         if (teaserCtaRef.current) {
           gsap.to(teaserCtaRef.current, { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" });
@@ -481,6 +486,16 @@ export const EnvelopeScene: React.FC = () => {
           )}
         </div>
       </div>
+
+      {/* During the OPENING → CARD_EXPANDING window the breathing text-shadow
+          animation on the card names is paused (it repaints every frame and
+          competes with the emergence animation); it resumes once OPENED. */}
+      <style>{`
+        ${state !== "CLOSED" && state !== "OPENED"
+          ? `.static-glow-during-animation { animation-play-state: paused !important; }
+             .static-glow-during-animation { text-shadow: 0 0 12px rgba(212, 175, 55, 0.45), 0 0 24px rgba(212, 175, 55, 0.2); }`
+          : ""}
+      `}</style>
 
       {/* Bottom Scroll Indicator: SCROLL TO BEGIN (matching reference) */}
       <div className="absolute bottom-3 sm:bottom-4 left-0 right-0 flex flex-col items-center justify-center z-20 pointer-events-none opacity-80">

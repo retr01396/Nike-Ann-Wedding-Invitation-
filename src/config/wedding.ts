@@ -96,15 +96,18 @@ export const weddingConfig: WeddingDataConfig = {
       "And now, here we are — ready to turn a beautiful beginning into a lifetime of togetherness."
     ],
     polaroids: {
+      // Photos swapped per client request: polaroid02 now occupies the top
+      // ("First steps") polaroid and polaroid01 the bottom one. Captions,
+      // frames, and styling are unchanged.
       top: {
-        image: weddingImages.story.editorial.polaroid01,
+        image: weddingImages.story.editorial.polaroid02,
         caption: "First steps",
-        alt: "Nike and Ann with the illuminated tree sculpture"
+        alt: "Nike and Ann in festive traditional wear surrounded by warm lights"
       },
       bottom: {
-        image: weddingImages.story.editorial.polaroid02,
+        image: weddingImages.story.editorial.polaroid01,
         caption: "Forever feels right",
-        alt: "Nike and Ann in festive traditional wear surrounded by warm lights"
+        alt: "Nike and Ann with the illuminated tree sculpture"
       }
     }
   },
