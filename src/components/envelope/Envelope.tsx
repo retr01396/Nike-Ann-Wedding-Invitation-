@@ -91,7 +91,9 @@ export const Envelope = forwardRef<HTMLDivElement, EnvelopeProps>(
           style={{
             bottom: "5px",
             pointerEvents: isClosed ? "none" : "auto",
-            willChange: "transform, z-index, box-shadow",
+            // transform only: box-shadow/z-index in will-change forced an
+            // oversized always-on Android compositor layer on the card.
+            willChange: "transform",
           }}
         >
           <InvitationCard
@@ -110,9 +112,6 @@ export const Envelope = forwardRef<HTMLDivElement, EnvelopeProps>(
            ========================================================================= */}
         <div
           className="absolute inset-0 z-30 pointer-events-none rounded-b-sm overflow-hidden"
-          style={{
-            filter: "drop-shadow(0 -4px 10px rgba(0,0,0,0.85))",
-          }}
         >
           <svg
             viewBox="0 0 460 310"

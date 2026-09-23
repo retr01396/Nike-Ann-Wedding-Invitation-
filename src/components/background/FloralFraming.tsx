@@ -33,8 +33,13 @@ export const FloralFraming: React.FC = () => {
           backgroundSize: "cover",
           backgroundPosition: "center",
           opacity: heroLoaded ? 0 : 1,
+          // Releasing the filter (not just fading opacity) is what actually
+          // frees the full-screen GPU blur layer on Android once the real
+          // artwork has loaded.
+          filter: heroLoaded ? "none" : "blur(20px) saturate(1.2) brightness(1.05)",
           transition: "opacity 0.8s ease",
           pointerEvents: "none",
+          visibility: heroLoaded ? "hidden" : "visible",
         }}
       />
 
@@ -48,9 +53,15 @@ export const FloralFraming: React.FC = () => {
           left: "-0.75%",
           right: "-0.75%",
           height: "100vh",
-          filter: "brightness(0.92) saturate(1.02)",
         }}
       >
+        {/* brightness(0.92) equivalent: a flat 8% black source-over tint.
+            Identical result without a full-screen filter compositor layer,
+            which destabilises Android compositing during the hero animation. */}
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{ backgroundColor: "rgba(5, 0, 2, 0.08)" }}
+        />
         <Image
           src={hero.backgroundDesktop}
           alt=""
@@ -69,6 +80,7 @@ export const FloralFraming: React.FC = () => {
           quality={90}
           className="object-cover md:hidden"
           priority
+          onLoad={() => setHeroLoaded(true)}
           style={{
             objectPosition: "center 32%",
             // Zoom past the artwork's dark top strip so the fold opens on
@@ -194,12 +206,7 @@ export const FloralFraming: React.FC = () => {
         }}
       />
 
-      <style>{`
-        .hero-lqip { filter: blur(20px) saturate(1.2) brightness(1.05); }
-        @media (max-width: 767px) {
-          .hero-lqip { filter: blur(20px) saturate(1.15) brightness(1.03); }
-        }
-      `}</style>
+
     </div>
   );
 };

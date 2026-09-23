@@ -22,7 +22,9 @@ export const WaxSeal = forwardRef<HTMLButtonElement, WaxSealProps>(
         aria-label="Open wedding invitation envelope"
         className="group relative w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 rounded-full cursor-pointer focus:outline-none transition-transform active:scale-95 select-none hover:scale-105"
         style={{
-          filter: "drop-shadow(0 8px 18px rgba(0,0,0,0.95)) drop-shadow(0 0 12px rgba(202,162,77,0.3))",
+          // Single drop-shadow: the second gold one forced an extra
+          // filter pass + compositor layer on Android during the opening.
+          filter: "drop-shadow(0 8px 18px rgba(0,0,0,0.95))",
         }}
       >
         {/* Crisp photographic wax seal directly extracted from reference */}

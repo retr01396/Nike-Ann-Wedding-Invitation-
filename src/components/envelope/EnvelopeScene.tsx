@@ -125,7 +125,6 @@ export const EnvelopeScene: React.FC = () => {
         scale: 1,
         zIndex: 20,
         rotateX: 0,
-        boxShadow: "0 10px 30px rgba(0,0,0,0.8)",
       });
     }
 
@@ -162,7 +161,6 @@ export const EnvelopeScene: React.FC = () => {
           y: 0,
           scale: targetScale,
           zIndex: 40,
-          boxShadow: "0 30px 80px -10px rgba(0,0,0,0.98), 0 0 35px rgba(212,175,55,0.18)",
         });
       }
       setCountdownOffset(getCountdownOffset(cardRef.current));
@@ -191,9 +189,6 @@ export const EnvelopeScene: React.FC = () => {
       },
     });
     timelineRef.current = tl;
-    if (typeof window !== "undefined") {
-      (window as any).__envelopeTl = tl;
-    }
 
     // 1. Teaser CTA button dissolves & seal reacts subtly
     tl.to(teaserCtaRef.current, {
@@ -208,7 +203,6 @@ export const EnvelopeScene: React.FC = () => {
           scale: 1.08,
           duration: animationConfig.timings.sealReaction,
           ease: "power2.out",
-          boxShadow: "0 0 25px rgba(212,175,55,0.7)",
         },
         "<"
       )
@@ -284,29 +278,17 @@ export const EnvelopeScene: React.FC = () => {
       )
 
       // 6. CARD SETTLES TOWARD THE VIEWER (Resting gracefully in front of pocket)
+      // Static shadow is baked into InvitationCard; animating box-shadow here
+      // forces a full paint every frame on Android — removed.
       .call(() => setState("CARD_SETTLING"))
       .to(cardRef.current, {
         yPercent: typeof window !== "undefined" && window.innerWidth < 640 ? -23 : -15,
         scale: 1.0,
         duration: animationConfig.timings.cardSettling,
         ease: animationConfig.easings.cardSettle,
-        boxShadow:
-          "0 30px 80px -10px rgba(0, 0, 0, 0.98), 0 0 35px rgba(212, 175, 55, 0.18)",
       })
 
-      // 7. Subtle luminescence on golden names as it settles
-      .fromTo(
-        cardNamesRef.current,
-        { filter: "brightness(1.2)" },
-        {
-          filter: "brightness(1)",
-          duration: 0.5,
-          ease: "power2.out",
-        },
-        "-=0.2"
-      )
-
-      // 8. CARD EXPANDING: Post-emergence graceful enlargement into the focal presentation card
+      // 7. CARD_EXPANDING: Post-emergence graceful enlargement into the focal presentation card
       // Smoothly scales the card and all its typography/artwork coherently up to the target presentation size
       .call(() => setState("CARD_EXPANDING"))
       .to(cardRef.current, {
@@ -317,23 +299,32 @@ export const EnvelopeScene: React.FC = () => {
       });
   }, [state, reducedMotion]);
 
-  // Keep presentation scale responsive if window resizes while in OPENED state
+  // Keep presentation scale responsive if window resizes while in OPENED state.
+  // Debounced: Android fires resize on every URL-bar collapse, and an un-debounced
+  // gsap.to here caused visible card jumps/re-rasterization during scroll.
   useEffect(() => {
+    let debounceTimer: ReturnType<typeof setTimeout> | null = null;
     const handleResize = () => {
-      if (state === "OPENED" && cardRef.current && !isBusyRef.current) {
-        const { scale: targetScale, yPercent: targetYP } = getPresentationTarget(cardRef.current);
-        setCountdownOffset(getCountdownOffset(cardRef.current));
-        gsap.to(cardRef.current, {
-          scale: targetScale,
-          yPercent: targetYP,
-          duration: 0.35,
-          ease: "power2.out",
-        });
-      }
+      if (debounceTimer) clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(() => {
+        if (state === "OPENED" && cardRef.current && !isBusyRef.current) {
+          const { scale: targetScale, yPercent: targetYP } = getPresentationTarget(cardRef.current);
+          setCountdownOffset(getCountdownOffset(cardRef.current));
+          gsap.to(cardRef.current, {
+            scale: targetScale,
+            yPercent: targetYP,
+            duration: 0.35,
+            ease: "power2.out",
+          });
+        }
+      }, 200);
     };
 
     window.addEventListener("resize", handleResize, { passive: true });
-    return () => window.removeEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+      if (debounceTimer) clearTimeout(debounceTimer);
+    };
   }, [state]);
 
   const handleEnterWedding = useCallback(() => {

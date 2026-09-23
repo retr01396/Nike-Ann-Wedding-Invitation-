@@ -404,7 +404,6 @@ export const FluidSilkBackground: React.FC<FluidSilkBackgroundProps> = ({ classN
       // proportions everywhere on the page and the GPU cost stays constant
       className={`fixed inset-0 w-full h-full pointer-events-none select-none object-cover ${className}`}
       style={{
-        willChange: "transform",
         // Blend the liquid-silk shader over the photographic backdrop as
         // flowing light: dark shader regions vanish, crests glow through.
         mixBlendMode: "screen",

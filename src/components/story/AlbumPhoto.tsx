@@ -54,6 +54,9 @@ export const AlbumPhoto: React.FC<AlbumPhotoProps> = ({
           fill
           sizes="(max-width: 640px) 90vw, (max-width: 1024px) 45vw, 420px"
           className="object-cover transition-transform duration-1000 ease-out group-hover:scale-105"
+          // Async decode off the main thread prevents the Android
+          // half-decoded image flash when entering the Story section.
+          decoding="async"
           priority={false}
         />
 
