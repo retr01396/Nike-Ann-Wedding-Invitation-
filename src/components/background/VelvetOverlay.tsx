@@ -2,6 +2,7 @@
 
 import React from "react";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
+import { useHeroAnimationActive } from "@/components/hero/HeroAnimationContext";
 
 /**
  * VelvetOverlay — atmospheric colour grading and micro-grain.
@@ -13,6 +14,8 @@ import { useReducedMotion } from "@/hooks/useReducedMotion";
  */
 export const VelvetOverlay: React.FC = () => {
   const reducedMotion = useReducedMotion();
+  // Hold the ambient breath while the envelope animation runs.
+  const heroActive = useHeroAnimationActive();
 
   return (
     <div className="absolute inset-0 pointer-events-none overflow-hidden select-none z-[3]">
@@ -27,6 +30,7 @@ export const VelvetOverlay: React.FC = () => {
           style={{
             background:
               "radial-gradient(ellipse at center, rgba(48, 9, 16, 0.28) 0%, rgba(24, 4, 9, 0.14) 50%, rgba(6, 1, 3, 0) 75%)",
+            animationPlayState: heroActive ? "paused" : "running",
           }}
         />
       )}

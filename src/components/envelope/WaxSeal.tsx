@@ -61,12 +61,14 @@ export const WaxSeal = forwardRef<HTMLButtonElement, WaxSealProps>(
             }}
           />
 
-          {/* N (upper-left) — real text, rendered at native size, never scaled up */}
+          {/* N (upper-left) — real text, rendered at native size, never scaled up.
+              Positioned close to the slash so N + slash + A read as one
+              compact, intentional monogram. */}
           <span
             className="absolute font-cinzel select-none pointer-events-none"
             style={{
-              top: "17%",
-              left: "17%",
+              top: "14%",
+              left: "14%",
               fontSize: "1.55em",
               lineHeight: 1,
               background:
@@ -79,12 +81,12 @@ export const WaxSeal = forwardRef<HTMLButtonElement, WaxSealProps>(
             {weddingConfig.couple.groom.charAt(0)}
           </span>
 
-          {/* A (lower-right) */}
+          {/* A (lower-right) — mirrored toward the slash */}
           <span
             className="absolute font-cinzel select-none pointer-events-none"
             style={{
-              bottom: "17%",
-              right: "17%",
+              bottom: "14%",
+              right: "14%",
               fontSize: "1.55em",
               lineHeight: 1,
               background:

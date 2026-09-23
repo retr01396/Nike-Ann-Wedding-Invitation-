@@ -174,13 +174,14 @@ export const MonogramIntro: React.FC<MonogramIntroProps> = ({ onComplete }) => {
               <div className="w-[1.5px] h-14 sm:h-18 bg-gradient-to-b from-[#fdf4d8] via-[#d4af37] to-[#997528] transform rotate-45 opacity-85 shadow-[0_0_8px_rgba(212,175,55,0.4)]" />
             </div>
 
-            {/* Upper-left 'N' */}
-            <span className="absolute top-[22%] left-[22%] font-cinzel text-3xl sm:text-4xl tracking-normal text-transparent bg-clip-text bg-gradient-to-b from-[#fff6de] via-[#d4af37] to-[#997528] drop-shadow-[0_2px_10px_rgba(212,175,55,0.45)] select-none">
+            {/* Upper-left 'N' — positioned closer to the slash so the two
+                initials read as one compact monogram (matches the wax seal) */}
+            <span className="absolute top-[16%] left-[16%] font-cinzel text-3xl sm:text-4xl tracking-normal text-transparent bg-clip-text bg-gradient-to-b from-[#fff6de] via-[#d4af37] to-[#997528] drop-shadow-[0_2px_10px_rgba(212,175,55,0.45)] select-none">
               {weddingConfig.couple.groom.charAt(0)}
             </span>
 
-            {/* Lower-right 'A' */}
-            <span className="absolute bottom-[22%] right-[22%] font-cinzel text-3xl sm:text-4xl tracking-normal text-transparent bg-clip-text bg-gradient-to-b from-[#fff6de] via-[#d4af37] to-[#997528] drop-shadow-[0_2px_10px_rgba(212,175,55,0.45)] select-none">
+            {/* Lower-right 'A' — mirrored toward the slash */}
+            <span className="absolute bottom-[16%] right-[16%] font-cinzel text-3xl sm:text-4xl tracking-normal text-transparent bg-clip-text bg-gradient-to-b from-[#fff6de] via-[#d4af37] to-[#997528] drop-shadow-[0_2px_10px_rgba(212,175,55,0.45)] select-none">
               {weddingConfig.couple.bride.charAt(0)}
             </span>
           </div>

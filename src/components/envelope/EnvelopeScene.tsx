@@ -10,6 +10,7 @@ import { Envelope } from "./Envelope";
 import { TapToOpenPrompt } from "./TapToOpenPrompt";
 import { WeddingCountdown } from "@/components/countdown/WeddingCountdown";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
+import { HeroAnimationProvider } from "@/components/hero/HeroAnimationContext";
 import { RotateCcw, Lock } from "lucide-react";
 
 /**
@@ -272,8 +273,11 @@ export const EnvelopeScene: React.FC = () => {
               // Lower body stays masked behind pocket (z-20) until it clears the pocket apex (at -50%)
               if (currentYP <= -50) {
                 cardRef.current.style.zIndex = "40";
+                // React setState only once at the transition point (the guard
+                // keeps repeated frames free of re-renders during emergence).
                 setState((prev) => (prev !== "CARD_CLEARING" ? "CARD_CLEARING" : prev));
-              } else {
+                this._yp = -100; // sentinel: z-flip already handled
+              } else if ((this as unknown as { _yp?: number })._yp !== -100) {
                 cardRef.current.style.zIndex = "20";
               }
             }
@@ -339,7 +343,13 @@ export const EnvelopeScene: React.FC = () => {
     }
   }, []);
 
+  // True during the physically expensive part of the opening (OPENING through
+  // CARD_EXPANDING). Decorative background layers read this to pause their
+  // animations so they never compete with the card emergence for frame budget.
+  const heroAnimationActive = state !== "CLOSED" && state !== "OPENED";
+
   return (
+    <HeroAnimationProvider value={heroAnimationActive}>
     <main
       ref={sceneContainerRef}
       className="relative min-h-[100svh] w-full flex flex-col items-center justify-center px-4 py-6 sm:py-8 safe-area-top safe-area-bottom z-10 overflow-hidden select-none bg-transparent"
@@ -505,7 +515,9 @@ export const EnvelopeScene: React.FC = () => {
         <span className="font-cinzel text-[7.5px] sm:text-[8.5px] tracking-[0.35em] text-[#caa24d]/85 uppercase font-light">
           SCROLL TO BEGIN
         </span>
-      </div>
-    </main>
+      </div>    </main>
+    </HeroAnimationProvider>
   );
+
+
 };

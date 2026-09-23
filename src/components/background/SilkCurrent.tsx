@@ -2,6 +2,7 @@
 
 import React from "react";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
+import { useHeroAnimationActive } from "@/components/hero/HeroAnimationContext";
 
 /**
  * SilkCurrent — flowing light currents over the floral scene.
@@ -14,6 +15,9 @@ import { useReducedMotion } from "@/hooks/useReducedMotion";
  */
 export const SilkCurrent: React.FC = () => {
   const reducedMotion = useReducedMotion();
+  // Pause the four oversized transform-animated layers while the envelope
+  // animation runs — compositing them mid-opening steals frame budget.
+  const heroActive = useHeroAnimationActive();
 
   if (reducedMotion) return null;
 
@@ -39,6 +43,7 @@ export const SilkCurrent: React.FC = () => {
               "repeating-linear-gradient(112deg, transparent 0px, transparent 150px, rgba(120,30,44,0.05) 240px, rgba(150,42,58,0.08) 330px, rgba(120,30,44,0.05) 420px, transparent 510px)",
             mixBlendMode: "screen",
             animation: "silkWaveRoll 22s linear infinite",
+            animationPlayState: heroActive ? "paused" : "running",
           }}
         />
 
@@ -55,6 +60,7 @@ export const SilkCurrent: React.FC = () => {
             mixBlendMode: "screen",
             opacity: 0.25,
             animation: "silkCausticDrift 38s linear infinite",
+            animationPlayState: heroActive ? "paused" : "running",
           }}
         />
 
@@ -71,6 +77,7 @@ export const SilkCurrent: React.FC = () => {
               "linear-gradient(105deg, transparent 0%, transparent 28%, rgba(96,22,36,0.08) 44%, rgba(130,30,46,0.12) 50%, rgba(96,22,36,0.08) 56%, transparent 72%)",
             mixBlendMode: "screen",
             animation: "silkCurrent1 24s ease-in-out infinite alternate",
+            animationPlayState: heroActive ? "paused" : "running",
           }}
         />
 
@@ -87,6 +94,7 @@ export const SilkCurrent: React.FC = () => {
               "linear-gradient(80deg, transparent 0%, transparent 34%, rgba(90,20,32,0.06) 48%, rgba(120,26,40,0.10) 54%, transparent 70%)",
             mixBlendMode: "screen",
             animation: "silkCurrent2 32s ease-in-out infinite alternate",
+            animationPlayState: heroActive ? "paused" : "running",
           }}
         />
 

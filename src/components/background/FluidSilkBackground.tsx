@@ -2,6 +2,7 @@
 
 import React, { useEffect, useRef } from "react";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
+import { useHeroAnimationActive } from "@/components/hero/HeroAnimationContext";
 
 const VERTEX_SHADER_SOURCE = `
 attribute vec2 a_position;
@@ -160,12 +161,19 @@ interface FluidSilkBackgroundProps {
 export const FluidSilkBackground: React.FC<FluidSilkBackgroundProps> = ({ className = "" }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const reducedMotion = useReducedMotion();
+  // Read via ref inside the render loop: throttling the canvas to ~30fps
+  // while the envelope animation runs must not re-run this effect or trigger
+  // any per-frame React work.
+  const heroActiveRef = useRef(false);
+  const heroActive = useHeroAnimationActive();
+  heroActiveRef.current = heroActive;
 
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
     let animationFrameId: number | null = null;
+    let lastDrawTime = 0;
     let startTime = performance.now();
 
     // 1. Initialize WebGL Context
@@ -355,11 +363,22 @@ export const FluidSilkBackground: React.FC<FluidSilkBackgroundProps> = ({ classN
     // 6. Master Render Loop
     const render = () => {
       animationFrameId = null;
-      if (document.visibilityState === "visible" && gl) {
+      const now = performance.now();
+      // While the envelope opening runs, halve the shader draw rate (~30fps):
+      // the silk is soft-focus ambience and the frame budget belongs to the
+      // card. The RAF chain keeps ticking so the loop stays alive and resumes
+      // full rate the moment the flag clears.
+      const minFrameInterval = heroActiveRef.current ? 33 : 0;
+      const shouldDraw =
+        document.visibilityState === "visible" &&
+        (minFrameInterval === 0 || now - lastDrawTime >= minFrameInterval);
+
+      if (shouldDraw && gl) {
         // Drive time from performance.now(), NOT the rAF timestamp: some
         // compositing environments deliver frozen rAF timestamps, which
         // would freeze the water. performance.now() is monotonic everywhere.
-        const elapsedSeconds = (performance.now() - startTime) * 0.001;
+        lastDrawTime = now;
+        const elapsedSeconds = (now - startTime) * 0.001;
         gl.uniform1f(uTimeLoc, elapsedSeconds);
         gl.drawArrays(gl.TRIANGLES, 0, 6);
       }

@@ -2,6 +2,7 @@
 
 import React, { useMemo } from "react";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
+import { useHeroAnimationActive } from "@/components/hero/HeroAnimationContext";
 
 interface Particle {
   id: number;
@@ -22,6 +23,9 @@ interface Particle {
  */
 export const GoldenEmbers: React.FC = () => {
   const reducedMotion = useReducedMotion();
+  // Freeze every particle while the envelope/card animation runs — they are
+  // the cheapest thing to sacrifice and free the compositor for the card.
+  const heroActive = useHeroAnimationActive();
 
   const particles = useMemo<Particle[]>(() => {
     const list: Particle[] = [];
@@ -61,6 +65,9 @@ export const GoldenEmbers: React.FC = () => {
             opacity: p.opacity,
             animation: `floatParticle ${p.duration}s cubic-bezier(0.4, 0, 0.2, 1) infinite`,
             animationDelay: `${p.delay}s`,
+            // animation-play-state (not opacity 0) so freezing is paint-free:
+            // the existing frame just holds on the compositor.
+            animationPlayState: heroActive ? "paused" : "running",
             transform: "translate3d(0, 0, 0)",
           }}
         />
